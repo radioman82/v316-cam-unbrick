@@ -1,7 +1,23 @@
 # Vordertaste = Auslöser — Stand und offene Punkte
 
-**Status: UNFERTIG.** Zuletzt bearbeitet 2026-10-25 (Session 6.5).
+**Status: UNFERTIG.** Zuletzt bearbeitet 2026-10-25 (Session 6.5/6.6).
 Deployt ist `sdvcam_menu_v14`. Die Vordertaste löst **noch nicht** aus.
+
+> **Korrektur am Abend (18:06):** Die Vordertaste hat **vier**, nicht drei
+> Hauptfunktionen. Der User: *„die Rollen von OK-Taste und Vordertaste sind
+> unklar. Insbesondere die Vordertaste hat nur 4 Hauptfunktionen, die müssen
+> wir erstmal herstellen. Das hat Priorität."*
+>
+> | # | Funktion | Wann |
+> |---|---|---|
+> | 1 | **Einschalten** | aus → 1× drücken |
+> | 2 | **Auslösen** | läuft, im Vorschaubild |
+> | 3 | **Zurück ins Obermenü** | in Untermenüs |
+> | 4 | **Ausschalten** | läuft + lang drücken |
+>
+> Damit ist die Vordertaste **kontextabhängig**: im Untermenü = Navigation,
+> im Vorschaubild = Auslöser. Das deckt sich mit der Stock-Rolle (132 =
+> Close/Zurück), ergänzt um den Auslöser in der obersten Ebene.
 
 ---
 
@@ -13,10 +29,15 @@ Deployt ist `sdvcam_menu_v14`. Die Vordertaste löst **noch nicht** aus.
 > drücken = auswählen, 2mal kurz zurück ins obermenü. die seitentasten
 > navigieren durch die menüs. ganz einfach"*
 
+**Am Abend korrigiert auf 4 Funktionen** — siehe Hinweis oben am Dokusanfang.
+Die kontextabhängige Deutung (Untermenü → zurück, Vorschau → Auslöser) ist die
+Arbeitsgrundlage für morgen.
+
 | Taste | Zustand | Aktion |
 |---|---|---|
 | Vorder (132) | aus | 1× → einschalten |
-| Vorder (132) | läuft | kurz → **Auslöser (Foto)** |
+| Vorder (132) | läuft, Vorschau | kurz → **Auslöser (Foto)** |
+| Vorder (132) | läuft, Untermenü | kurz → **zurück ins Obermenü** |
 | Vorder (132) | läuft | lang → **ausschalten** |
 | OK (130) | Menü | 1× → auswählen |
 | OK (130) | Menü | 2× schnell → zurück ins Obermenü |

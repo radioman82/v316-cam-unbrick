@@ -132,6 +132,16 @@ Aufnahme funktioniert also — nur die **Foto-Aufnahme** hängt. Das passt zum
 Verdacht: Video nutzt vorab reservierte Puffer, das Foto braucht offenbar eine
 frische 7,6-MB-Allokation.
 
+### 5.4 Der Modus ist korrekt — es liegt nicht an der Moduswahl
+
+Zum Zeitpunkt der Sicherung zeigte der Framebuffer Hash
+`882dcd6d841c073d1be2f56d27c132b4` = **Foto-Vorschau mit Bottom-Bar „Foto“**
+(dokumentierter Referenzhash). Die Kamera stand also echt im Fotomodus mit
+sichtbarem Vorschaubild, als die Vordertaste gedrückt wurde.
+
+→ Der Fehler liegt **nicht** in der Moduswahl, sondern in der Ausführung der
+Aufnahme.
+
 ---
 
 ## 6 Nächste Schritte (priorisiert)

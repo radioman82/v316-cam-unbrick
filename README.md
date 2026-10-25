@@ -29,18 +29,39 @@ v316-cam-unbrick/
 │   └── kernel_rodata_exact.uImage          # Working uImage with Fudan ID patch
 ├── tools/
 │   ├── patch_flash_kernel.py               # Automated kernel patch & pack tool
-│   └── logger.py                           # Serial UART logger tool
+│   ├── logger.py                           # Serial UART logger tool
+│   ├── patch_autostart.py                  # Applies the boot-autostart hooks
+│   ├── fbgrab.py                           # Framebuffer → ASCII (quick screen check)
+│   ├── fbshot.py                           # Framebuffer → PNG (pixel-exact screenshot)
+│   └── set_screensaver.py                  # Disables the auto screen blanking
+├── pictures/
+│   ├── new-menue.jpg                       # The finished 4-tile menu on the device
+│   ├── welcome.jpg                         # Boot / welcome screen
+│   ├── usb.jpg                             # USB mass-storage popup
+│   ├── wires.jpg                           # UART wiring on the breadboard
+│   └── allwinner.jpg                       # Allwinner V316 SoC close-up
 ├── hardware/
 │   ├── Platine1.jpg                        # PCB front overview & components
 │   ├── Platine2.jpg                        # PCB rear & test pads
 │   └── V316-main-PCB.jpg                   # Mainboard layout & pin assignments
+├── custom_ui/                              # Custom tiles & German labels (SD card)
 ├── docs/
+│   ├── AUTOSTART.md                        # How the menu opens itself at boot
+│   ├── STATUS_AND_NAVIGATION.md            # Button findings & menu analysis
 │   ├── allwinner-V316-firmware-structure.txt # Flash partition offsets & MTD map
 │   └── live_uart.log                       # Proof-of-boot serial log (Linux 4.9)
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
+
+### The 4-tile menu
+
+![4-tile menu](pictures/new-menue.jpg)
+
+Four tiles in a 2×2 grid: **1. FOTO**, **2. VIDEO**, **3. STREAM** (WiFi camera),
+**4. SETUP**. The menu opens by itself ~1 s after boot — see
+[docs/AUTOSTART.md](docs/AUTOSTART.md).
 
 ---
 

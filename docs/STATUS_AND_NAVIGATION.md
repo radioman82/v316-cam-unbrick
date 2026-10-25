@@ -1,13 +1,25 @@
 # Allwinner V316 Cam / Allwinner V316 - Statusbericht & Analyse der Tasten & Menüs
 
+> **LETZTER STAND (2026-10-25):** [VORDERTASTE_STATUS.md](VORDERTASTE_STATUS.md)
+> Deployt ist `sdvcam_menu_v14`. Vordertaste erreicht den Auslöse-Handler, macht
+> aber noch kein Foto — Hauptverdacht: fehlgeschlagene 7,6-MB-ion-Allokation.
+> Dieser Bericht unten ist ein älterer Zwischenstand; die Button-Tabelle in
+> §1.1 wurde nach der Hardware-Reparatur korrigiert.
+
 ## 1. Hardware-Status der Tasten (Messungen & Fakten)
 
-1. **Vordere Taste (Einschalten / Modus / Zurück):**
-   - **Befund:** Hardware-Defekt (physisch defekt / kein Kontakt).
-   - **Überprüfung:** 
-     - Direkter Bit-Scan der physikalischen Allwinner-GPIO-Register (PA, PB, PC, PD, PE, PF, PG, PH, PL via `/sbin/devmem`): 0 Bitänderungen bei Tastendruck.
-     - Überwachung aller 4 Linux-Input-Devices (`/dev/input/event0` bis `event3`): 0 Bytes, 0 Interrupts.
-     - **Ergebnis:** Die vordere Taste kann für die Bedienung definitiv nicht verwendet werden. Alle Funktionen müssen über die 3 verbliebenen Tasten abgebildet werden.
+1. **Vordere Taste (Auslöser / Zurück):**
+   - **Befund (2026-10-25, korrigiert):** **funktionsfähig.** Die Taste war
+     zuvor nur mechanisch defekt — ein Kabel im Inneren hatte sich gelöst.
+     Nach dem Wiederanschluss erscheint sie regulär im App-Log.
+   - **Zuordnung:** `/dev/input/event2`-Familie (gpiokey), Linux-Keycode
+     `139`, in MiniGUI **Keycode `132`**. Kurzer Druck loggt
+     `inLongPress = 0`.
+   - **Historie:** Am 25.10. vor der Reparatur lieferte ein 50-s-Rohcapture von
+     `event2` 74 Events, ausschließlich `code=0x8b` — die Vordertaste gab
+     gar nichts aus. Vorherige „Hardware-Defekt"-Diagnose beruhte darauf.
+   - **Stock-Rolle:** `tbb`-Tabelle @ `0x69850`: **132 = Close/Zurück**
+     (`0x6987a`) — die Vordertaste war im Original **nie** der Auslöser.
 
 2. **Funktionsfähige Tasten:**
    - **Obere OK-Taste:** `/dev/input/event2`, Linux Keycode `139` (`KEY_RECORD`/`KEY_SELECT`, in MiniGUI Code `130`).
@@ -25,11 +37,12 @@
    - 8 Modusauswahl-Kacheln (80x90) mit sauberer Typografie & Silbentrennung (z. B. **ZEIT-RAFFER**, **SERIEN-BILD**).
 3. **Menüaufruf ohne Fronttaste:**
    - Tastendruck auf **Seite UP** im Livebild öffnet zuverlässig die 4 Hauptkacheln.
-4. **Autostart des 4-Kachel-Menüs (neu, 2026-10-25):**
+4. **Autostart des 4-Kachel-Menüs (2026-10-25):**
    - Die 4 Hauptkacheln erscheinen jetzt **automatisch beim Booten**, ohne Tastendruck.
    - Nach ~1 s Vorschaubild klappt das Menü auf.
-   - Build `sdvcam_4tiles_autostart_v6`, MD5 `7b08a865e4ae7c5dc107e5a4f684e363`.
+   - Aktueller Build: `sdvcam_menu_v14`, MD5 `7222f8d7f74767911747e92f019fa537`.
    - Details, Stub, Adressen und verworfene Ansätze: **[AUTOSTART.md](AUTOSTART.md)**
+   - Auslöser-Umbelegung und offener Foto-Fehler: **[VORDERTASTE_STATUS.md](VORDERTASTE_STATUS.md)**
 
 ---
 

@@ -1,0 +1,140 @@
+
+d:\v316cm\Firmware\firm\versuch6\_full_img_verbose.fex.extracted\squashfs-root\usr\bin\sdvcam:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+0005bba0 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa0fc>:
+   5bba0:	f240 2251 	movw	r2, #593	@ 0x251
+   5bba4:	9300      	str	r3, [sp, #0]
+   5bba6:	2301      	movs	r3, #1
+   5bba8:	e77a      	b.n	5baa0 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x9ffc>
+   5bbaa:	2d3b      	cmp	r5, #59	@ 0x3b
+   5bbac:	d115      	bne.n	5bbda <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa136>
+   5bbae:	4b9e      	ldr	r3, [pc, #632]	@ (5be28 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa384>)
+   5bbb0:	f44f 72f3 	mov.w	r2, #486	@ 0x1e6
+   5bbb4:	4996      	ldr	r1, [pc, #600]	@ (5be10 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa36c>)
+   5bbb6:	9300      	str	r3, [sp, #0]
+   5bbb8:	2301      	movs	r3, #1
+   5bbba:	4896      	ldr	r0, [pc, #600]	@ (5be14 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa370>)
+   5bbbc:	f7c0 ebc8 	blx	1c350 <log_printf@plt+0x4>
+   5bbc0:	4620      	mov	r0, r4
+   5bbc2:	f7fe fd49 	bl	5a658 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x8bb4>
+   5bbc6:	2806      	cmp	r0, #6
+   5bbc8:	f000 8144 	beq.w	5be54 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa3b0>
+   5bbcc:	4620      	mov	r0, r4
+   5bbce:	f7fe fd43 	bl	5a658 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x8bb4>
+   5bbd2:	2800      	cmp	r0, #0
+   5bbd4:	f040 81cf 	bne.w	5bf76 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa4d2>
+   5bbd8:	e13c      	b.n	5be54 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa3b0>
+   5bbda:	4b94      	ldr	r3, [pc, #592]	@ (5be2c <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa388>)
+   5bbdc:	f240 2256 	movw	r2, #598	@ 0x256
+   5bbe0:	9501      	str	r5, [sp, #4]
+   5bbe2:	9300      	str	r3, [sp, #0]
+   5bbe4:	2300      	movs	r3, #0
+   5bbe6:	498a      	ldr	r1, [pc, #552]	@ (5be10 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa36c>)
+   5bbe8:	488a      	ldr	r0, [pc, #552]	@ (5be14 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa370>)
+   5bbea:	f7c0 ebb2 	blx	1c350 <log_printf@plt+0x4>
+   5bbee:	e266      	b.n	5c0be <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa61a>
+   5bbf0:	b9ae      	cbnz	r6, 5bc1e <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa17a>
+   5bbf2:	4b8f      	ldr	r3, [pc, #572]	@ (5be30 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa38c>)
+   5bbf4:	f44f 72d3 	mov.w	r2, #422	@ 0x1a6
+   5bbf8:	9300      	str	r3, [sp, #0]
+   5bbfa:	4633      	mov	r3, r6
+   5bbfc:	4984      	ldr	r1, [pc, #528]	@ (5be10 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa36c>)
+   5bbfe:	4885      	ldr	r0, [pc, #532]	@ (5be14 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa370>)
+   5bc00:	f7c0 eba6 	blx	1c350 <log_printf@plt+0x4>
+   5bc04:	f8d4 318c 	ldr.w	r3, [r4, #396]	@ 0x18c
+   5bc08:	4620      	mov	r0, r4
+   5bc0a:	2255      	movs	r2, #85	@ 0x55
+   5bc0c:	4621      	mov	r1, r4
+   5bc0e:	f7fe fefb 	bl	5aa08 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x8f64>
+   5bc12:	4888      	ldr	r0, [pc, #544]	@ (5be34 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa390>)
+   5bc14:	b005      	add	sp, #20
+   5bc16:	e8bd 40f0 	ldmia.w	sp!, {r4, r5, r6, r7, lr}
+   5bc1a:	f7c1 ba3d 	b.w	1d098 <usleep@plt>
+   5bc1e:	4b86      	ldr	r3, [pc, #536]	@ (5be38 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa394>)
+   5bc20:	f240 12af 	movw	r2, #431	@ 0x1af
+   5bc24:	497a      	ldr	r1, [pc, #488]	@ (5be10 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa36c>)
+   5bc26:	9300      	str	r3, [sp, #0]
+   5bc28:	463b      	mov	r3, r7
+   5bc2a:	487a      	ldr	r0, [pc, #488]	@ (5be14 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa370>)
+   5bc2c:	f7c0 eb90 	blx	1c350 <log_printf@plt+0x4>
+   5bc30:	4879      	ldr	r0, [pc, #484]	@ (5be18 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa374>)
+   5bc32:	f7d1 fbcf 	bl	2d3d4 <floor@plt+0xfdc0>
+   5bc36:	b128      	cbz	r0, 5bc44 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa1a0>
+   5bc38:	f8d4 3160 	ldr.w	r3, [r4, #352]	@ 0x160
+   5bc3c:	2b00      	cmp	r3, #0
+   5bc3e:	f000 8146 	beq.w	5bece <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa42a>
+   5bc42:	e153      	b.n	5beec <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa448>
+   5bc44:	4875      	ldr	r0, [pc, #468]	@ (5be1c <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa378>)
+   5bc46:	f7d1 fbc5 	bl	2d3d4 <floor@plt+0xfdc0>
+   5bc4a:	2800      	cmp	r0, #0
+   5bc4c:	d1f4      	bne.n	5bc38 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa194>
+   5bc4e:	e14d      	b.n	5beec <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa448>
+   5bc50:	b92e      	cbnz	r6, 5bc5e <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa1ba>
+   5bc52:	4b7a      	ldr	r3, [pc, #488]	@ (5be3c <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa398>)
+   5bc54:	f44f 72ba 	mov.w	r2, #372	@ 0x174
+   5bc58:	9300      	str	r3, [sp, #0]
+   5bc5a:	4633      	mov	r3, r6
+   5bc5c:	e7ce      	b.n	5bbfc <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa158>
+   5bc5e:	4b78      	ldr	r3, [pc, #480]	@ (5be40 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa39c>)
+   5bc60:	f44f 72be 	mov.w	r2, #380	@ 0x17c
+   5bc64:	496a      	ldr	r1, [pc, #424]	@ (5be10 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa36c>)
+   5bc66:	9300      	str	r3, [sp, #0]
+   5bc68:	463b      	mov	r3, r7
+   5bc6a:	486a      	ldr	r0, [pc, #424]	@ (5be14 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa370>)
+   5bc6c:	f7c0 eb70 	blx	1c350 <log_printf@plt+0x4>
+   5bc70:	4869      	ldr	r0, [pc, #420]	@ (5be18 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa374>)
+   5bc72:	f7d1 fbaf 	bl	2d3d4 <floor@plt+0xfdc0>
+   5bc76:	b128      	cbz	r0, 5bc84 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa1e0>
+   5bc78:	f8d4 3160 	ldr.w	r3, [r4, #352]	@ 0x160
+   5bc7c:	2b00      	cmp	r3, #0
+   5bc7e:	f000 8126 	beq.w	5bece <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa42a>
+   5bc82:	e06f      	b.n	5bd64 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa2c0>
+   5bc84:	4865      	ldr	r0, [pc, #404]	@ (5be1c <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa378>)
+   5bc86:	f7d1 fba5 	bl	2d3d4 <floor@plt+0xfdc0>
+   5bc8a:	2800      	cmp	r0, #0
+   5bc8c:	d1f4      	bne.n	5bc78 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa1d4>
+   5bc8e:	e069      	b.n	5bd64 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa2c0>
+   5bc90:	4b6c      	ldr	r3, [pc, #432]	@ (5be44 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa3a0>)
+   5bc92:	f240 1221 	movw	r2, #289	@ 0x121
+   5bc96:	495e      	ldr	r1, [pc, #376]	@ (5be10 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa36c>)
+   5bc98:	9300      	str	r3, [sp, #0]
+   5bc9a:	463b      	mov	r3, r7
+   5bc9c:	485d      	ldr	r0, [pc, #372]	@ (5be14 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa370>)
+   5bc9e:	f7c0 eb58 	blx	1c350 <log_printf@plt+0x4>
+   5bca2:	4620      	mov	r0, r4
+   5bca4:	f7fe fcd8 	bl	5a658 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x8bb4>
+   5bca8:	2806      	cmp	r0, #6
+   5bcaa:	d012      	beq.n	5bcd2 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa22e>
+   5bcac:	4620      	mov	r0, r4
+   5bcae:	f7fe fcd3 	bl	5a658 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x8bb4>
+   5bcb2:	2804      	cmp	r0, #4
+   5bcb4:	d102      	bne.n	5bcbc <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa218>
+   5bcb6:	4620      	mov	r0, r4
+   5bcb8:	f7ff fc48 	bl	5b54c <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x9aa8>
+   5bcbc:	f8d4 317c 	ldr.w	r3, [r4, #380]	@ 0x17c
+   5bcc0:	2b00      	cmp	r3, #0
+   5bcc2:	f000 81fc 	beq.w	5c0be <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa61a>
+   5bcc6:	4b60      	ldr	r3, [pc, #384]	@ (5be48 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa3a4>)
+   5bcc8:	f240 122b 	movw	r2, #299	@ 0x12b
+   5bccc:	9300      	str	r3, [sp, #0]
+   5bcce:	2301      	movs	r3, #1
+   5bcd0:	e6e6      	b.n	5baa0 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x9ffc>
+   5bcd2:	485e      	ldr	r0, [pc, #376]	@ (5be4c <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa3a8>)
+   5bcd4:	f7fe ff7d 	bl	5abd2 <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0x912e>
+   5bcd8:	2801      	cmp	r0, #1
+   5bcda:	d107      	bne.n	5bcec <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa248>
+   5bcdc:	f7c6 fcd2 	bl	22684 <floor@plt+0x5070>
+   5bce0:	9700      	str	r7, [sp, #0]
+   5bce2:	463b      	mov	r3, r7
+   5bce4:	463a      	mov	r2, r7
+   5bce6:	f640 114b 	movw	r1, #2379	@ 0x94b
+   5bcea:	e068      	b.n	5bdbe <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa31a>
+   5bcec:	f8d4 3164 	ldr.w	r3, [r4, #356]	@ 0x164
+   5bcf0:	b923      	cbnz	r3, 5bcfc <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa258>
+   5bcf2:	f8d4 317c 	ldr.w	r3, [r4, #380]	@ 0x17c
+   5bcf6:	2b00      	cmp	r3, #0
+   5bcf8:	f43f aeff 	beq.w	5bafa <_ZNSt12_Destroy_auxILb0EE9__destroyIPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvT_S9_@@Base+0xa056>
+   5bcfc:	f8d4 3144 	ldr.w	r3, [r4, #324]	@ 0x144

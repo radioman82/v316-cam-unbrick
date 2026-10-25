@@ -25,6 +25,11 @@
    - 8 Modusauswahl-Kacheln (80x90) mit sauberer Typografie & Silbentrennung (z. B. **ZEIT-RAFFER**, **SERIEN-BILD**).
 3. **Menüaufruf ohne Fronttaste:**
    - Tastendruck auf **Seite UP** im Livebild öffnet zuverlässig die 4 Hauptkacheln.
+4. **Autostart des 4-Kachel-Menüs (neu, 2026-10-25):**
+   - Die 4 Hauptkacheln erscheinen jetzt **automatisch beim Booten**, ohne Tastendruck.
+   - Nach ~1 s Vorschaubild klappt das Menü auf.
+   - Build `sdvcam_4tiles_autostart_v6`, MD5 `7b08a865e4ae7c5dc107e5a4f684e363`.
+   - Details, Stub, Adressen und verworfene Ansätze: **[AUTOSTART.md](AUTOSTART.md)**
 
 ---
 

@@ -303,3 +303,55 @@ Prompt-Zustand — bei `sunxi#` sofort abbrechen statt blind zu schreiben.
 `FAT-fs (mmcblk0): Volume was not properly unmounted` — Folge der harten
 `reboot`-Aufrufe. Unkritisch, aber vor einem Feldeinsatz `fsck` laufen lassen.
 
+---
+
+## 13. „Kamera geht nach kurzer Zeit aus" = Bildschirmschoner
+
+**Symptom:** Nach dem Boot erscheint das Menü, kurze Zeit später wird das
+Display schwarz. Die Kamera wirkt ausgeschaltet.
+
+**Es ist kein Power-Off.** Nachweis über `/proc/uptime`: die Laufzeit steigt
+weiter, der Prozess `sdvcam` lebt, das Log wächst nicht mehr. Es wird nur das
+**Panel** abgeschaltet.
+
+**Ursache:** `ml_camera_autoscreensaver = 3`. Die Optionsliste
+(`zh-DE.xml`, `string-array ml_camera_autoscreensaver`):
+
+| Wert | Bedeutung |
+|------|-----------|
+| 0 | Ausschalten (aus) |
+| 1 | 30 S |
+| 2 | 1 Min |
+| 3 | 2 Min |
+
+Der Log bestätigt es exakt: `power_manager.cpp:790 <AutoScreenSaveTimerProc>
+allow screen save` bei **+120,0 s** nach App-Start.
+
+Auto-Shutdown ist **nicht** die Ursache:
+* `device_setting.cpp:98 <InitAutoShutDown>the function of auto shut down is close`
+* `ml_camera_timedshutdown = 0`, `ml_device_standby = 0`
+
+**Wo der Wert liegt:**
+* `/data/setting.lua` — persistent (Overlay auf jffs2)
+* `/tmp/data/setting.lua` — Arbeitskopie (tmpfs)
+* `/usr/share/app/sdv/setting.lua` — Default, dort steht bereits `0`
+
+**Abschalten:** `python set_screensaver.py 0` (sichert vorher nach
+`/mnt/extsd/setting.lua.bak` und schreibt beide Dateien).
+
+**Verifikation:** Nach dem Neustart darf im Log **kein** `ScreenSave`-Eintrag
+mehr auftauchen. Getestet bis +145 s: 0 Treffer, Menü unverändert sichtbar.
+
+> Ohne Fronttaste ist ein aktivierter Screensaver besonders ärgerlich: es gibt
+> keine Möglichkeit, das Display wieder zu wecken.
+
+---
+
+## 14. Nebenbefund: Selbsttest der App schlägt fehl
+
+`utils.cpp:157 <verify_bin_md5>md5 check failed` — die App vergleicht sich mit
+`/data/app_md5` (dort `f9271ddd…`, unser Build `7b08a865…`). Das ist nur eine
+Warnung, der Start läuft normal weiter. Bei Bedarf kann `/data/app_md5` auf die
+eigene MD5 gesetzt werden, damit das Log sauber bleibt.
+
+

@@ -77,7 +77,7 @@ What runs on the camera instead:
 | Feature | State |
 |---|---|
 | Pre-menu after boot (SettingWindow: Mode / Device / Back) | works |
-| Side key returns to the pre-menu from the preview | works (`menu6`), but crashes on one key — root cause found, fix built (`menu9`) |
+| Side key opens the **mode selection** from the preview | works (`menu9`) — crash fixed and verified on device |
 | Charging / mass-storage popup suppressed | works |
 | Shutter, video recording, front-key Video↔Photo toggle | untouched, works |
 | Deployment without touching flash | `/etc/init.d/S00zsdvcam` + bind mount from SD card |

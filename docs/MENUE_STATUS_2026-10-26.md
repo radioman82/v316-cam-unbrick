@@ -14,16 +14,15 @@ Vermutung gekennzeichnet.
 | Akkubetrieb | **erledigt**, Kamera läuft ohne USB |
 | Vorabmenü nach dem Start | **funktioniert** — Einstellungsfenster mit Modus / Gerät / Zurück |
 | Seitentaste holt Menü aus der Vorschau | **funktioniert** (Variante 6) — aber nur eine der beiden Tasten sauber |
-| Lade-/Massenspeicher-Dialog weg | **funktioniert** (Variante 6) |
+| Modus-Auswahl auf der Seitentaste | **funktioniert** (Variante 9) — kein Absturz mehr |
+| Lade-/Massenspeicher-Dialog weg | **funktioniert** (Variante 6 + 9) |
 | 4-Kachel-Menü (Foto/Video/Stream/Setup) | **endgültig nicht reanimierbar** — toter Code, wirft eine C++-Ausnahme |
-| Absturz bei Seitentaste im Vorschaubild | **Ursache gefunden**, Fix gebaut (Variante 9), **noch nicht aufgespielt** |
+| Absturz bei Seitentaste im Vorschaubild | **behoben und auf dem Gerät verifiziert** |
 
-**Aktuell auf der Kamera:** `menu6` (MD5 `a3cf2aac60512d3d6d2089535b8d11a3`).
-Damit startet die Kamera im Einstellungsmenü; nach dem Verlassen in die Vorschau
-führt ein Druck auf die Seitentaste zum Absturz (`SIGILL`).
+**Aktuell auf der Kamera:** `menu9` (MD5 `34d80376efd31fed7faa7dbcb842b6db`).
 
-**Fertig zum Aufspielen:** `menu9` (MD5 `34d80376efd31fed7faa7dbcb842b6db`).
-Sie behebt genau diesen Absturz und öffnet stattdessen die Modus-Auswahl.
+Damit startet die Kamera im Einstellungsmenü, und ein Druck auf die Seitentaste im
+Vorschaubild öffnet die Modus-Auswahl, statt die App zu beenden.
 
 ---
 
@@ -320,6 +319,17 @@ Warum das sauber ist:
 das Originalziel `0x5aa08` exakt die Werksbytes `fe f7 fb fe` — die Rechnung ist
 damit gegen echten Code geprüft, nicht nur gegen sich selbst.
 
+**Verifikation am Gerät (26.10.2026):** Nach dem Aufspielen von `menu9` und
+Drücken der Seitentaste im Vorschaubild steht im App-Log:
+
+```
+preview_window.cpp:147 <keyProc> ------>keyCode = 135 , inLongPress = 0
+preview_window.cpp:1586 <ShowModeSelect>show mode select window
+```
+
+Keine `SIG`-Zeile, der Prozess läuft weiter, die Modus-Auswahl erscheint auf dem
+Display. Der Absturz ist damit behoben.
+
 ---
 
 ## 10. Alle Patchstellen im Überblick
@@ -361,9 +371,10 @@ sich aus `sdvcam_v8` nicht byte-identisch nachbauen lässt.
    OTA-Zweig), ist **ungeklärt**. Variante 9 ersetzt den Aufruf — sollte sich
    zeigen, dass 85 in einem Modus wichtig ist, muss man stattdessen den
    85-Handler patchen.
-3. **Ob die Modus-Auswahl aus der Taste heraus korrekt *anzeigt*.** Der Aufruf ist
-   jetzt technisch richtig, aber **nicht am Gerät erprobt** — der Upload von
-   Variante 9 lief in einen Timeout, danach war die serielle Verbindung weg.
+3. **Ob die Modus-Auswahl aus der Taste heraus korrekt *anzeigt*.** Inzwischen
+   **belegt** (siehe Abschnitt 9): Die Auswahl erscheint, kein Absturz. Offen ist
+   nur noch der komplette Durchlauf — Modus wählen, mit der Vordertaste
+   bestätigen, zurück in die Vorschau, auslösen.
 4. **Ob die zweite Seitentaste in allen Modi als 136 ankommt.** In der Vorschau
    ja (Log belegt), im Einstellungsmenü navigieren beide Tasten — die genaue
    Zuordnung dort habe ich nicht gemessen.
@@ -384,22 +395,38 @@ sich aus `sdvcam_v8` nicht byte-identisch nachbauen lässt.
 
 ## 12. Nächste Schritte
 
-1. **Variante 9 aufspielen** (Upload über die serielle Konsole, ~4 min):
+`menu9` ist aufgespielt und verifiziert (Seitentaste öffnet die Modus-Auswahl,
+kein Absturz). Offen ist nur noch:
+
+1. **Kompletter Durchlauf am Gerät:** Modus mit den Seitentasten wählen, mit der
+   Vordertaste bestätigen, zurück in die Vorschau, Foto **und** Video auslösen.
+2. **Neustart-Test:** Nach einem Kaltstart muss das Menü wieder erscheinen und die
+   Seitentaste wieder die Modus-Auswahl öffnen — das prüft, ob `S00zsdvcam` den
+   Bind-Mount nach dem Boot korrekt setzt.
+3. Falls etwas klemmt: Rückweg auf den vorherigen Stand mit
    ```sh
-   killall -9 sdvcam
-   cat /mnt/extsd/dbg/sdvcam_menu9.bin > /mnt/extsd/.sdvcam_patched
-   md5sum /usr/bin/sdvcam          # muss 34d80376… zeigen
-   /etc/init.d/S01app start
+   cat /mnt/extsd/dbg/sdvcam_menu6.bin > /mnt/extsd/.sdvcam_patched
    ```
-2. **Test:** Start → Menü; Vordertaste → Vorschau; Seitentaste → Modus-Auswahl
-   (darf **nicht** abstürzen). Danach Auslösen prüfen (Foto/Video müssen
-   weiterhin funktionieren).
-3. Falls die Modus-Auswahl erscheint: `menu9` dauerhaft setzen und `menu6`
-   archivieren.
-4. Falls sie nicht erscheint oder stört: `menu6` behalten, aber die Patchstelle
-   310286 auf die Werksbytes zurücksetzen — dann bleibt das Menü beim Start und
-   die Seitentaste macht in der Vorschau wieder das Original (nichts), aber
-   **ohne Absturz**.
+   Werkszustand: `.sdvcam_patched` löschen (oder `S00zsdvcam` entfernen) und neu
+   starten — dann läuft wieder das Binary aus dem squashfs.
+
+### Warum der Upload über die serielle Konsole so mühsam war
+
+Für künftige Änderungen: **die SD-Karte am PC beschreiben ist der richtige Weg.**
+Ein 3,4-MB-Transfer über die 115200-Baud-Konsole ist nicht praktikabel:
+
+- Rohbytes über ein tty in canonical mode enthalten `0x03` (^C → `SIGINT`),
+  `0x04` (^D → EOF) und `0x13`/`0x11` (^S/^Q → Flow-Control). Der Transfer
+  bricht ab oder die Shell bleibt in der Heredoc hängen.
+- `tools/push_uu.py` löst das mit uuencode (nur Zeichen `0x20..0x5F`) und
+  blockweiser Übertragung an Zeilengrenzen. Der **Transport** funktioniert
+  damit nachweislich (Größe exakt, Struktur korrekt), aber das `uudecode` auf
+  dem Gerät bricht bei echten Binärdaten mit `short file` ab. Nicht
+  weiterverfolgt — die Karte ist der schnellere Weg.
+- Beim Kopieren am PC: Datei **nicht** direkt als `.sdvcam_patched` ablegen.
+  Erst als `sdvcam_menu9.bin` kopieren, MD5 auf dem Gerät prüfen, dann
+  `cat … > .sdvcam_patched`. Eine halb kopierte Datei an dieser Stelle bedeutet
+  einen schwarzen Bildschirm.
 
 ---
 

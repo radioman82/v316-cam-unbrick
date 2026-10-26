@@ -1,0 +1,27 @@
+#!/bin/sh
+# Allwinner V316 Cam: gepatchte sdvcam von der SD-Karte einhaengen.
+# Startet im Einstellungs-/Vorabmenue, Seitentaste oeffnet es aus der Vorschau.
+# Fehlt die SD oder die Datei, laeuft alles unveraendert mit dem Original.
+
+P=/mnt/extsd/.sdvcam_patched
+L=/tmp/sdvcam_patch.log
+
+: > $L
+
+if [ ! -f "$P" ]; then
+    [ -d /mnt/extsd ] || mkdir -p /mnt/extsd
+    if [ -z "$(grep ' /mnt/extsd ' /proc/mounts)" ]; then
+        mount -t vfat -o errors=continue /dev/mmcblk0 /mnt/extsd 2>>$L
+        echo "sd-mount rc=$?" >> $L
+    fi
+fi
+
+if [ -f "$P" ]; then
+    mount --bind "$P" /usr/bin/sdvcam 2>>$L
+    echo "bind rc=$?" >> $L
+    md5sum /usr/bin/sdvcam >> $L
+else
+    echo "keine $P - Original wird benutzt" >> $L
+fi
+
+exit 0

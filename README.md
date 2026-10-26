@@ -48,6 +48,7 @@ v316-cam-unbrick/
 ├── docs/
 │   ├── AUTOSTART.md                        # How the menu opens itself at boot
 │   ├── STATUS_AND_NAVIGATION.md            # Button findings & menu analysis
+│   ├── MENUE_STATUS_2026-10-26.md          # Full status report (German): pre-menu, keys, crash root cause
 │   ├── allwinner-V316-firmware-structure.txt # Flash partition offsets & MTD map
 │   └── live_uart.log                       # Proof-of-boot serial log (Linux 4.9)
 ├── .gitignore
@@ -62,6 +63,24 @@ v316-cam-unbrick/
 Four tiles in a 2×2 grid: **1. FOTO**, **2. VIDEO**, **3. STREAM** (WiFi camera),
 **4. SETUP**. The menu opens by itself ~1 s after boot — see
 [docs/AUTOSTART.md](docs/AUTOSTART.md).
+
+### ⚠️ Current state (2026-10-26)
+
+This 4-tile window turned out to be **dead code in the stock binary** — its only
+call site is unreachable, and forcing it throws an uncaught C++ exception
+(`SIGABRT`). It is **not** coming back; see
+[docs/MENUE_STATUS_2026-10-26.md](docs/MENUE_STATUS_2026-10-26.md) (German) for
+the full evidence.
+
+What runs on the camera instead:
+
+| Feature | State |
+|---|---|
+| Pre-menu after boot (SettingWindow: Mode / Device / Back) | works |
+| Side key returns to the pre-menu from the preview | works (`menu6`), but crashes on one key — root cause found, fix built (`menu9`) |
+| Charging / mass-storage popup suppressed | works |
+| Shutter, video recording, front-key Video↔Photo toggle | untouched, works |
+| Deployment without touching flash | `/etc/init.d/S00zsdvcam` + bind mount from SD card |
 
 ---
 

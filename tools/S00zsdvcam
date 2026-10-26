@@ -24,4 +24,9 @@ else
     echo "keine $P - Original wird benutzt" >> $L
 fi
 
+if [ -d /mnt/extsd/custom_ui ]; then
+    mount --bind /mnt/extsd/custom_ui /usr/share/minigui/res/images 2>>$L
+    echo "custom_ui rc=$?" >> $L
+fi
+
 exit 0

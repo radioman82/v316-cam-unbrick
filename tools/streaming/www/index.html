@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Allwinner V316 Cam Livevideo</title>
+<style>
+  :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #10151c; color: #eef3fa; }
+  main { width: min(96vw, 1500px); padding: 24px 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  h1 { font-size: 1.35rem; margin: 0; grid-column: 1 / -1; }
+  .player { background: #000; border: 1px solid #344151; border-radius: 12px; overflow: hidden; align-self: start; }
+  img { display: block; width: 100%; aspect-ratio: 4 / 3; max-height: 68vh; object-fit: contain; }
+  img:fullscreen { height: 100vh; background: #000; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 14px; background: #1c2531; }
+  button, a, select { color: inherit; font: inherit; background: #28374a; border: 1px solid #4b607b; padding: 7px 12px; border-radius: 6px; text-decoration: none; cursor: pointer; }
+  #status { flex: 1 1 180px; font-size: .9rem; }
+  p { color: #abb9ca; font-size: .9rem; line-height: 1.5; }
+  .stream-settings { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; padding: 16px; background: #1c2531; border: 1px solid #344151; border-radius: 12px; }
+  .stream-settings h2 { flex-basis: 100%; font-size: 1rem; margin: 0; }
+  label { display: grid; gap: 6px; font-size: .9rem; }
+  select { min-height: 40px; }
+  main > p { margin: 0; }
+  #settingsHint { flex-basis: 100%; margin: 0; }
+</style>
+<main>
+  <h1>Allwinner V316 Cam · Livevideo</h1>
+  <div class="player">
+    <img id="video" alt="Livebild der Kamera">
+    <div class="controls">
+      <span id="status" role="status">Verbinde …</span>
+      <button id="pause" type="button">Pause</button>
+      <button id="full" type="button">Vollbild</button>
+      <button id="reconnect" type="button">Neu verbinden</button>
+    </div>
+  </div>
+  <section class="stream-settings" aria-label="Streaming-Einstellungen">
+    <h2>Streaming-Einstellungen</h2>
+    <label for="fps">Bildrate · Obergrenze
+      <select id="fps">
+        <option value="5">5 Bilder/s · sparsam</option>
+        <option value="10">10 Bilder/s</option>
+        <option value="15" selected>15 Bilder/s · maximal</option>
+      </select>
+    </label>
+    <label for="quality">JPEG-Bildqualität
+      <select id="quality">
+        <option value="40">Sparsam · 40 %</option>
+        <option value="65" selected>Standard · 65 %</option>
+        <option value="85">Hoch · 85 %</option>
+      </select>
+    </label>
+    <p id="settingsHint" role="status">Änderungen gelten sofort für diesen Browser. Die tatsächliche Bildrate hängt von Kamera und WLAN ab.</p>
+  </section>
+  <p>MJPEG über eine dauerhafte Verbindung. Das Bild zeigt die Kamera-Vorschau einschließlich Display-Einblendungen. Die Bildrate hängt von Kamera und WLAN ab.</p>
+</main>
+<script>
+  const video = document.getElementById('video');
+  const status = document.getElementById('status');
+  const pause = document.getElementById('pause');
+  const fps = document.getElementById('fps');
+  const quality = document.getElementById('quality');
+  const settingsHint = document.getElementById('settingsHint');
+  try {
+    const saved = JSON.parse(localStorage.getItem('v316cm-stream') || '{}');
+    for (const field of [fps, quality]) {
+      if ([...field.options].some(option => option.value === saved[field.id])) field.value = saved[field.id];
+    }
+  } catch { /* Defaults also work when browser storage is unavailable. */ }
+  let paused = false, retry;
+  function connect() {
+    clearTimeout(retry);
+    if (paused || document.hidden) return;
+    status.textContent = 'MJPEG · bis ' + fps.value + ' Bilder/s · Qualität ' + quality.value + ' %';
+    video.src = '/cgi-bin/stream?' + new URLSearchParams({ fps: fps.value, quality: quality.value, t: Date.now() });
+  }
+  function disconnect() {
+    clearTimeout(retry);
+    video.removeAttribute('src');
+  }
+  video.onerror = () => {
+    if (paused || document.hidden) return;
+    status.textContent = 'Verbindung unterbrochen · neuer Versuch …';
+    retry = setTimeout(connect, 1500);
+  };
+  pause.onclick = () => {
+    paused = !paused;
+    pause.textContent = paused ? 'Start' : 'Pause';
+    if (paused) { disconnect(); status.textContent = 'Pausiert'; }
+    else connect();
+  };
+  document.getElementById('full').onclick = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await video.requestFullscreen();
+    } catch { status.textContent = 'Vollbild wird von diesem Browser nicht unterstützt'; }
+  };
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { disconnect(); status.textContent = 'Pausiert · Tab im Hintergrund'; }
+    else connect();
+  });
+  for (const field of [fps, quality]) field.addEventListener('change', () => {
+    try { localStorage.setItem('v316cm-stream', JSON.stringify({ fps: fps.value, quality: quality.value })); } catch {}
+    settingsHint.textContent = paused ? 'Gespeichert · wird beim Start des Streams angewendet.' : 'Angewendet · Stream mit den neuen Einstellungen verbunden.';
+    disconnect();
+    connect();
+  });
+  document.getElementById('reconnect').onclick = () => {
+    paused = false;
+    pause.textContent = 'Pause';
+    disconnect();
+    connect();
+  };
+  connect();
+</script>
+</html>

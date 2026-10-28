@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>icon_time0.png</file>
+        <file>icon_time1.png</file>
+        <file>icon_time2.png</file>
+        <file>icon_time3.png</file>
+        <file>icon_time4.png</file>
+        <file>icon_time5.png</file>
+        <file>icon_time6.png</file>
+        <file>icon_time7.png</file>
+        <file>icon_time8.png</file>
+        <file>icon_time9.png</file>
+        <file>icon_timebg.png</file>
+        <file>shutdown.bmp</file>
+        <file>black.png</file>
+        <file>anima_loop_cycle.gif</file>
+    </qresource>
+</RCC>

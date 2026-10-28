@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="record_normal_setting_keys">
+    <item>ml_record_resolution</item>
+    <item>ml_camera_distortioncalibration</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_video_quality</item>
+    <item>ml_camera_iso</item>
+    <item>ml_camera_timewatermark</item>
+    <item>ml_record_audio</item>
+  </string-array>
+
+  <string-array name="record_slow_setting_keys">
+    <item>ml_record_slowmotion</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_video_quality</item>
+  </string-array>
+
+  <string-array name="record_loop_setting_keys">
+    <item>ml_record_resolution</item>
+    <item>ml_record_length</item>
+    <item>ml_camera_distortioncalibration</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_video_quality</item>
+    <item>ml_camera_iso</item>
+    <item>ml_camera_timewatermark</item>
+    <item>ml_record_audio</item>
+  </string-array>
+
+  <string-array name="record_timelapse_setting_keys">
+    <item>ml_timelapse_resolution</item>
+    <item>ml_record_interval</item>
+    <item>ml_camera_distortioncalibration</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_video_length</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_video_quality</item>
+    <item>ml_camera_iso</item>
+  </string-array>
+
+  <string-array name="photo_normal_setting_keys">
+    <item>ml_photo_resolution</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_photo_shutter</item>
+    <item>ml_camera_iso</item>
+    <item>ml_camera_timewatermark</item>
+  </string-array>
+
+  <string-array name="photo_time_setting_keys">
+    <item>ml_photo_resolution</item>
+    <item>ml_photo_countdown</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_camera_iso</item>
+    <item>ml_camera_timewatermark</item>
+  </string-array>
+
+  <string-array name="photo_auto_setting_keys">
+    <item>ml_photo_resolution</item>
+    <item>ml_photo_interval</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_camera_iso</item>
+    <item>ml_camera_timewatermark</item>
+  </string-array>
+
+  <string-array name="photo_burst_setting_keys">
+    <item>ml_photo_resolution</item>
+    <item>ml_photo_freq</item>
+    <item>ml_camera_whitebalance</item>
+    <item>ml_camera_exposure</item>
+    <item>ml_camera_metering</item>
+    <item>ml_camera_sharpness</item>
+    <item>ml_camera_iso</item>
+    <item>ml_camera_timewatermark</item>
+  </string-array>
+
+  <string-array name="system_setting_keys">
+    <item>ml_camera_imagerotation</item>
+    <item>ml_device_wireless_reset</item>
+    <item>ml_camera_lightsourcefrequency</item>
+    <item>ml_camera_ledindicator</item>
+    <item>ml_camera_autoscreensaver</item>
+    <item>ml_camera_timedshutdown</item>
+    <item>ml_device_beep</item>
+    <item>ml_device_language</item>
+    <item>ml_device_datetime_format</item>
+    <item>ml_device_time_config</item>
+    <item>ml_device_format</item>
+    <item>ml_device_resetfactory</item>
+  </string-array>
+
+</resources>

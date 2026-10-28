@@ -1,0 +1,6 @@
+tools/streaming/www/cgi-bin/* text eol=lf
+tools/streaming/*.c text eol=lf
+tools/streaming/vendor/*.h text eol=lf
+tools/streaming/*.sh text eol=lf
+tools/ui_theme/original/** -text whitespace=-blank-at-eol,-blank-at-eof
+firmware/ui_theme/layout/** -text whitespace=-blank-at-eol,-blank-at-eof

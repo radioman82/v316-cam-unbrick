@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>SettingtestWindow</class>
+ <widget class="QDialog" name="SettingtestWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <widget class="QGraphicsView" name="mode_gview">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>7</y>
+     <width>100</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="device_gview">
+   <property name="geometry">
+    <rect>
+     <x>111</x>
+     <y>7</y>
+     <width>100</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="return_gview">
+   <property name="geometry">
+    <rect>
+     <x>214</x>
+     <y>7</y>
+     <width>98</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTableView" name="listtable">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>48</y>
+     <width>304</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="0" margin="0" />
+ <resources />
+ <connections />
+</ui>

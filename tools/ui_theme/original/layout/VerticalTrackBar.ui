@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VerticalTrackBar</class>
+ <widget class="QDialog" name="VerticalTrackBar">
+  <property name="geometry">
+   <rect>
+    <x>248</x>
+    <y>38</y>
+    <width>66</width>
+    <height>156</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGraphicsView" name="bar">
+   <property name="geometry">
+    <rect>
+     <x>53</x>
+     <y>0</y>
+     <width>2</width>
+     <height>156</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="track">
+   <property name="geometry">
+    <rect>
+     <x>42</x>
+     <y>0</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="value">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>66</y>
+     <width>40</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="icon">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>0</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

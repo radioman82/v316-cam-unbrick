@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlaybackBottomBarWindow</class>
+ <widget class="QDialog" name="PlaybackBottomBarWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>200</y>
+    <width>320</width>
+    <height>40</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGraphicsView" name="delete_button">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>0</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="playback_return_button">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="media_size_info_label">
+   <property name="geometry">
+    <rect>
+     <x>105</x>
+     <y>0</y>
+     <width>120</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

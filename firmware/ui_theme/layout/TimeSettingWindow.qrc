@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>bg.png</file>
+        <file>bg_transparent.png</file>
+        <file>button_time_setting_return.png</file>
+        <file>submenu_unselect.png</file>
+        <file>submenu_select.png</file>
+        <file>datetime_arrow_up.png</file>
+        <file>datetime_arrow_up_hi.png</file>
+        <file>datetime_arrow_down.png</file>
+        <file>datetime_arrow_down_hi.png</file>      
+    </qresource>
+</RCC>

@@ -1,6 +1,10 @@
 # Allwinner V316 Action Camera Unbrick & SPI Flash Recovery (`v316-cam-unbrick`)
 
+> Aktueller Kamerastand (28.10.2026): [Menü v23, Streaming und Modus-Trennung](docs/AKTUELLER_STAND_2026-10-28.md).
+
 Recovery guide, firmware images, patch tools, and hardware documentation for **Allwinner V316 (sun8iw16)** based action cameras (such as Allwinner V316 Cam, Sunchip DV002).
+
+**Allwinner V316 Cam menu update, 28.10.2026:** [Unified setup menus and dialogs (v23)](tools/ui_theme/README.md), including German text fixes, SD deployment, verification and rollback.
 
 ---
 
@@ -65,6 +69,17 @@ Four tiles in a 2×2 grid: **1. FOTO**, **2. VIDEO**, **3. STREAM** (WiFi camera
 [docs/AUTOSTART.md](docs/AUTOSTART.md).
 
 ### ⚠️ Current state (2026-10-26)
+
+**Streaming update (2026-10-27):** The camera now serves real MJPEG live video
+at [http://192.168.178.199:8080/](http://192.168.178.199:8080/).
+Direct display capture and JPEG compression achieved about 12 FPS at 320×240
+on the device. Build, deployment, measurements and rollback are documented in
+[tools/streaming/README.md](tools/streaming/README.md).
+**Current interface (2026-10-28):** The website contains streaming settings
+only. Menu v23 separates offline PHOTO/VIDEO from STREAM and preserves menu
+confirmation while blocking recording in STREAM. See the
+[current state and installation notes](docs/AKTUELLER_STAND_2026-10-28.md).
+The menu notes below describe the older repository state, before v22.
 
 This 4-tile window turned out to be **dead code in the stock binary** — its only
 call site is unreachable, and forcing it throws an uncaught C++ exception

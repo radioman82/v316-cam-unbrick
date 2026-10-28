@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>mass_storage.png</file>
+        <file>shutdown.bmp</file>
+        <file>black.png</file>
+    </qresource>
+</RCC>

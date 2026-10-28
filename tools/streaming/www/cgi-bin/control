@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /mnt/extsd/bin/v316cm-control

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>button_mode_return.png</file>
+        <file>mode_auto_pic.png</file>
+        <file>mode_continue_pic.png</file>
+        <file>mode_loop_rec.png</file>
+        <file>mode_normal_pic.png</file>
+        <file>mode_normal_rec.png</file>
+        <file>mode_slowly_rec.png</file>
+        <file>mode_timelapse_rec.png</file>
+        <file>mode_timing_pic.png</file>
+        <file>mode_track_rec.png</file>
+    </qresource>
+</RCC>

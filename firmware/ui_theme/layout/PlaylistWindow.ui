@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>PlaylistWindow</class>
+ <widget class="QDialog" name="PlaylistWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableView" name="list_view">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>49</y>
+     <width>304</width>
+     <height>146</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="tl_playlist">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>7</y>
+     <width>300</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="confirm">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>202</y>
+     <width>146</width>
+     <height>32</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="cancel">
+   <property name="geometry">
+    <rect>
+     <x>164</x>
+     <y>202</y>
+     <width>146</width>
+     <height>32</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources />
+ <connections />
+</ui>

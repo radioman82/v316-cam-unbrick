@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>button_playback_return.png</file>
+        <file>button_playback_return_hi.png</file>
+        <file>button_trash.png</file>
+        <file>button_trash_hi.png</file>
+    </qresource>
+</RCC>

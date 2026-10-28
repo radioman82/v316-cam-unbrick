@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>orna_line2.png</file>
+        <file>icon_trash.png</file>
+    </qresource>
+</RCC>

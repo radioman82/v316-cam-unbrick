@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PreviewWindow</class>
+ <widget class="QDialog" name="PreviewWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="debug_info">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>320</width>
+     <height>190</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>调试信息</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="shutdown">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QAnimaView" name="anima_loop_cycle" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>320</width>
+     <height>170</height>
+    </rect>
+   </property>
+   <property name="text" stdset="0">
+    <string>长曝光倒计时背景</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="capture_time_bg">
+   <property name="geometry">
+    <rect>
+     <x>134</x>
+     <y>84</y>
+     <width>52</width>
+     <height>52</height>
+    </rect>
+   </property>
+   <property name="text" stdset="0">
+    <string>拍照倒计时背景</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="capture_time_unit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>100</y>
+     <width>12</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text" stdset="0">
+    <string>拍照倒计时个位</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="capture_time_decade">
+   <property name="geometry">
+    <rect>
+     <x>148</x>
+     <y>100</y>
+     <width>12</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text" stdset="0">
+    <string>拍照倒计时十位</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QAnimaView</class>
+   <extends>QWidget</extends>
+   <header>qanimaview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>icon_submenu.png</file>
+        <file>icon_switch_on.png</file>
+        <file>icon_switch_off.png</file>
+        <file>icon_unsupport_mode.png</file>
+        <file>button_normal_setting.png</file>
+        <file>button_normal_setting_hi.png</file>
+        <file>button_setting_return.png</file>
+        <file>button_setting_return_hi.png</file>
+        <file>button_rec_setting.png</file>
+        <file>button_rec_setting_hi.png</file>
+        <file>button_timelapse_rec_setting.png</file>
+        <file>button_timelapse_rec_setting_hi.png</file>
+        <file>button_track_rec_setting.png</file>
+        <file>button_track_rec_setting_hi.png</file>
+        <file>button_delay_rec_setting.png</file>
+        <file>button_delay_rec_setting_hi.png</file>
+        <file>button_loop_rec_setting.png</file>
+        <file>button_loop_rec_setting_hi.png</file>
+        <file>button_pic_setting.png</file>
+        <file>button_pic_setting_hi.png</file>
+        <file>button_time_pic_setting.png</file>
+        <file>button_time_pic_setting_hi.png</file>
+        <file>button_auto_pic_setting.png</file>
+        <file>button_auto_pic_setting_hi.png</file>
+        <file>button_continue_pic_setting.png</file>
+        <file>button_continue_pic_setting_hi.png</file>
+        <file>null.png</file>
+    </qresource>
+</RCC>

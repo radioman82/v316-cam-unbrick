@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>icon_battery1.png</file>
+        <file>icon_battery2.png</file>
+        <file>icon_battery3.png</file>
+        <file>icon_battery4.png</file>
+        <file>icon_auto_pic.png</file>
+        <file>icon_auto_pic_hi.png</file>
+        <file>icon_continue_pic.png</file>
+        <file>icon_continue_pic_hi.png</file>
+        <file>icon_timing_pic.png</file>
+        <file>icon_timing_pic_hi.png</file>
+        <file>icon_normal_pic.png</file>
+        <file>icon_normal_pic_hi.png</file>
+        <file>icon_loop_rec.png</file>
+        <file>icon_loop_rec_hi.png</file>
+        <file>icon_slowly_rec.png</file>
+        <file>icon_slowly_rec_hi.png</file>
+        <file>icon_timelapse_rec.png</file>
+        <file>icon_timelapse_rec_hi.png</file>
+        <file>icon_track_rec.png</file>
+        <file>icon_track_rec_hi.png</file>
+        <file>icon_normal_rec.png</file>
+        <file>icon_normal_rec_hi.png</file>
+        <file>icon_voice.png</file>
+        <file>icon_wifi.png</file>
+        <file>icon_rec_hint.png</file>
+        <file>icon_tf_in.png</file>
+        <file>icon_tf_out.png</file>
+        <file>anti_shake.png</file>
+        <file>voice_ctrl.png</file>
+    </qresource>
+</RCC>

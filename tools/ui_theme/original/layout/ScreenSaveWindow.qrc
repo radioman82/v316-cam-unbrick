@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>arrow_mask.png</file>
+        <file>screen_lock_hi.png</file>
+        <file>screen_lock.png</file>
+    </qresource>
+</RCC>

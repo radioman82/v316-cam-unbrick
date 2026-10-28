@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>button_dot.png</file>
+        <file>orna_line3.png</file>
+    </qresource>
+</RCC>

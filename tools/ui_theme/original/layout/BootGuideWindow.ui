@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BootGuideWindow</class>
+ <widget class="QDialog" name="BootGuideWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGraphicsView" name="boot_guide_icon1">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon4">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon6">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+     <widget class="QGraphicsView" name="boot_guide_icon7">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon8">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="boot_guide_icon9">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

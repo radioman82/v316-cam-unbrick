@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>TipDialog</class>
+ <widget class="QDialog" name="TipDialog">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>12</x>
+    <y>35</y>
+    <width>296</width>
+    <height>160</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TipDialog</string>
+  </property>
+  <widget class="QGraphicsView" name="title">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>7</y>
+     <width>304</width>
+     <height>36</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="info">
+   <property name="geometry">
+    <rect>
+     <x>14</x>
+     <y>54</y>
+     <width>292</width>
+     <height>164</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="splite">
+   <property name="geometry">
+    <rect>
+     <x>14</x>
+     <y>45</y>
+     <width>292</width>
+     <height>1</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources />
+ <connections />
+</ui>

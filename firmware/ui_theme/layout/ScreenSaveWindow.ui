@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScreenSaveWindow</class>
+ <widget class="QDialog" name="ScreenSaveWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGraphicsView" name="button_key_icon">
+   <property name="geometry">
+    <rect>
+     <x>1</x>
+     <y>78</y>
+     <width>84</width>
+     <height>84</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="arrow_icon1">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>94</y>
+     <width>30</width>
+     <height>54</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="arrow_icon2">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>94</y>
+     <width>30</width>
+     <height>54</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="arrow_icon3">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>94</y>
+     <width>30</width>
+     <height>54</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="arrow_icon4">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>94</y>
+     <width>30</width>
+     <height>54</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="button_lock_icon">
+   <property name="geometry">
+    <rect>
+     <x>235</x>
+     <y>78</y>
+     <width>84</width>
+     <height>84</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

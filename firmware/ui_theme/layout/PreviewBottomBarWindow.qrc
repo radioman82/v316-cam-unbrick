@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>button_media.png</file>
+        <file>button_media_hi.png</file>
+        <file>button_setting.png</file>
+        <file>button_setting_hi.png</file>
+        <file>icon_triangle.png</file>
+    </qresource>
+</RCC>

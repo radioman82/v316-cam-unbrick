@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PreviewBottomBarWindow</class>
+ <widget class="QDialog" name="PreviewBottomBarWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>200</y>
+    <width>320</width>
+    <height>40</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGraphicsView" name="setting_button">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>0</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="media_button">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="mode_label">
+   <property name="geometry">
+    <rect>
+     <x>105</x>
+     <y>0</y>
+     <width>110</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="little_triangle">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>6</y>
+     <width>10</width>
+     <height>10</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="zoom_label">
+   <property name="geometry">
+    <rect>
+     <x>235</x>
+     <y>10</y>
+     <width>40</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

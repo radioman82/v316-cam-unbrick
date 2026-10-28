@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/usr/share/minigui/res/images">
+        <file>boot_guide_1.png</file>
+        <file>boot_guide_2.png</file>
+        <file>boot_guide_3.png</file>
+        <file>boot_guide_4.png</file>
+        <file>boot_guide_5.png</file>
+        <file>boot_guide_6.png</file>
+        <file>boot_guide_7.png</file>
+        <file>boot_guide_8.png</file>
+        <file>boot_guide_9.png</file>
+    </qresource>
+</RCC>

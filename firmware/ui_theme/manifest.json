@@ -1,0 +1,113 @@
+{
+  "baseline": "ece022b21206d5bc28058b24cf3790d7",
+  "md5": "211d51fe21a397c73ea6a3ce8f6a0e13",
+  "patches": [
+    [
+      2033040,
+      4
+    ],
+    [
+      2037188,
+      4
+    ],
+    [
+      2035752,
+      4
+    ],
+    [
+      2035636,
+      4
+    ],
+    [
+      281144,
+      4
+    ],
+    [
+      291204,
+      6
+    ],
+    [
+      264222,
+      4
+    ],
+    [
+      2338208,
+      4
+    ],
+    [
+      2338296,
+      4
+    ],
+    [
+      305672,
+      4
+    ],
+    [
+      244,
+      32
+    ],
+    [
+      3407872,
+      37332
+    ]
+  ],
+  "symbols": {
+    "__aeabi_idiv": 4201632,
+    "__aeabi_uidiv": 4201636,
+    "box": 4195816,
+    "box.part.0": 4195756,
+    "card": 4196092,
+    "cell.constprop.0": 4196264,
+    "confirm_caption": 4196204,
+    "eq": 4195450,
+    "eq.part.0": 4195424,
+    "font_runs": 4207272,
+    "glyph": 4194484,
+    "glyphs": 4202544,
+    "len": 4194792,
+    "menu_window": 4194540,
+    "original_preview_key": 4201604,
+    "original_preview_post": 4201592,
+    "original_window_proc": 4201616,
+    "pixel": 4194332,
+    "recording": 4195460,
+    "roundbox": 4195844,
+    "streaming": 4194304,
+    "text": 4194872,
+    "theme_button_message": 4199300,
+    "theme_dispatch": 4200300,
+    "theme_graph_message": 4198320,
+    "theme_list_message": 4196336,
+    "theme_menu_draw": 4197284,
+    "theme_preview_key": 4199964,
+    "theme_preview_post": 4199904,
+    "theme_text_message": 4197720,
+    "theme_tile_dispatch": 4200092,
+    "theme_window_proc": 4199588,
+    "utf8": 4194376,
+    "widget_menu": 4194644,
+    "widget_name": 4194664,
+    "width": 4194812,
+    "window": 4194744,
+    "wrapped": 4195156
+  },
+  "layouts": [
+    "SettingWindow.ui",
+    "Sublist.ui",
+    "Submenu.ui",
+    "Dialog.ui",
+    "Prompt.ui",
+    "SettingHandlerWindow.ui",
+    "VoiceCtrlListWindow.ui",
+    "PlaylistWindow.ui",
+    "USBModeWindow.ui",
+    "MediaWindow.ui",
+    "OKDialog.ui",
+    "InfoDialog.ui",
+    "TipDialog.ui",
+    "WifiDialog.ui",
+    "OKDialogSmall.ui",
+    "TimeSettingWindow.ui"
+  ],
+  "payload_bytes": 37332
+}

@@ -1,5 +1,12 @@
 # Allwinner V316 Cam – aktueller Stand am 28.10.2026
 
+Die Repository-Bezeichnung wurde vereinheitlicht. Technische Dateinamen und
+Laufzeitpfade verwenden das Kürzel `Allwinner V316 Cam`. Das entsprechend neu gebaute
+Menü-Image hat MD5 `641fb6b783ca1f8e86dd2af902a83ff3`. Diese Umbenennung
+wurde im Repository vorgenommen; die laufende Kamera wurde dabei nicht neu
+bespielt. Die folgenden Geräteprüfungen beschreiben den zuvor installierten
+Funktionsstand.
+
 Installiert und auf der Kamera geprüft: Menü v23, MD5
 `211d51fe21a397c73ea6a3ce8f6a0e13`.
 

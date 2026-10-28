@@ -165,8 +165,8 @@ python tools/patch_flash_kernel.py
 
 ## ⚖️ Legal Disclaimer & Trademark Notice
 
-- **Fair Use:** "Allwinner", "Allwinner V316 Cam", and "Allwinner" are trademarks of their respective owners. Their use in this repository is strictly for identification, interoperability, educational, and device repair / unbricking purposes under Nominative Fair Use principles.
-- This repository is an independent open-source hardware unbricking documentation project and is not affiliated with, sponsored by, or endorsed by Allwinner or Allwinner Technology.
+- **Fair Use:** Allwinner is a trademark of its respective owner. The project name "Allwinner V316 Cam" identifies the hardware platform for interoperability, documentation and repair.
+- This repository is an independent open-source hardware unbricking documentation project and is not affiliated with, sponsored by, or endorsed by Allwinner Technology.
 - **Licenses:**
   - Tools, scripts, and documentation: [MIT License](LICENSE).
   - Linux Kernel modifications: GNU GPL v2.

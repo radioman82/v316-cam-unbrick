@@ -3,6 +3,30 @@
 Stand: 28.10.2026. Umsetzung des freigegebenen Entwurfs für das
 320 × 240-Display. Die Streaming-Website bleibt unverändert.
 
+## Startansicht und SD-Abgleich vom 29.10.2026
+
+Aktuelle App: MD5 `4614a61766519e17a778c914956c8ff9`. Das Vier-Kachelmenü
+öffnet beim Booten automatisch, ohne Tastendruck oder simuliertes Eingabeereignis.
+Der Hook wartet auf den zweiten `OnWindowLoaded`-Aufruf, nachdem die
+Kachelressourcen geladen sind, und ruft das vorhandene Menüfenster direkt auf.
+App-Neustart und vollständiger Neustart wurden am Gerät geprüft: Die App läuft,
+das Menü ist sichtbar und der Framebuffer bleibt statisch. Vor dem Menü ist
+noch kurz die Videovorschau zu sehen. Das Überspringen des ersten nativen
+Fensteraufrufs und ein schwarzer Überzug verhinderten auch die sichtbare
+Menüanzeige; beide Versuche wurden zurückgenommen.
+
+```powershell
+python tools/ui_theme/build.py
+python tools/ui_theme/deploy_startup.py
+```
+
+Der schlanke Installer setzt den vorherigen v23-Stand mit MD5
+`211d51fe21a397c73ea6a3ce8f6a0e13` voraus, sichert die SD-App und
+überträgt nur geänderte Binärbereiche. Die installierten SD-Skripte für
+STREAM wurden zusätzlich auf die von der App verwendeten
+`/tmp/v316cm-*`-Marker abgeglichen. Ein älteres SD-Backup mit den bisherigen
+Marker-Namen würde WLAN beim STREAM-Wechsel sofort wieder beenden.
+
 ## Umfang und Bestandsaufnahme
 
 Alle 33 vorhandenen `.ui`-Vorlagen und die zugehörigen Ressourcen wurden
@@ -64,7 +88,7 @@ xradio-Module. STREAM stellt die Verbindung wieder her und liefert 12
 unterschiedliche JPEGs bei etwa 12 FPS. Der direkte Aufruf der gesperrten
 Auslösepfade startet keine Aufnahme; der Medienbestand bleibt gleich.
 Die Einstellungsdatei bleibt beim vollständigen Video/Foto/Stream-Wechsel
-bytegleich. Das installierte Image hat MD5
+bytegleich. Das vor dem Startpatch installierte Image hatte MD5
 `211d51fe21a397c73ea6a3ce8f6a0e13`; Sicherung des vorherigen Stands:
 `/mnt/extsd/.ui-theme-backup-20261028-115215`.
 

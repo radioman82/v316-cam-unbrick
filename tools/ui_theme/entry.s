@@ -29,3 +29,10 @@ __aeabi_idiv:
 .thumb_func
 __aeabi_uidiv:
     ldr pc, =0x1cef4
+.section .text.startup_menu,"ax",%progbits
+.global startup_menu_entry
+.thumb_func
+startup_menu_entry:
+    mov r0, r4
+    bl theme_startup_window_loaded
+    b.w 0x6c0fe

@@ -5,6 +5,7 @@ import hashlib
 import io
 import json
 from pathlib import Path
+import re
 import sys
 import tarfile
 import time
@@ -55,7 +56,8 @@ def main():
     c.run(f'/mnt/extsd/bin/busybox tar -xzf {stage}/resources.tgz -C {stage}; chmod 755 {stage}/sdvcam; sync')
     boot=base64.b64decode(c.run('/mnt/extsd/bin/busybox base64 /etc/init.d/S00zsdvcam')).decode()
     marker='# Allwinner V316 Cam UI theme resources'
-    if marker in boot:boot=boot[:boot.index(marker)]+'exit 0\n'
+    previous=re.search(r'^# .* UI theme resources\s*$',boot,re.MULTILINE)
+    if previous:boot=boot[:previous.start()]+'exit 0\n'
     assert 'exit 0' in boot
     extra=f'''{marker}
 if [ -f {CURRENT}/enabled ] && [ -f /mnt/extsd/.sdvcam_patched ] && [ "$(cat {CURRENT}/enabled)" = "$(md5sum /mnt/extsd/.sdvcam_patched | cut -d' ' -f1)" ]; then

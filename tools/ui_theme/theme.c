@@ -337,6 +337,31 @@ static O window(int id) {
     }return 0;
 }
 
+/* OnWindowLoaded runs twice during boot. The first call precedes tile resource
+ * loading; the second follows it. Complete the native preview initialization,
+ * then open the existing tile window in the same GUI call. A per-process marker
+ * avoids adding writable globals to this renderer's RX-only ELF segment. */
+void theme_startup_window_loaded(O presenter) {
+    O manager=GET(presenter,0x90);
+    if(manager)FN(GET(GET(manager,0),0x78),void(*)(O,int,int))(manager,11,0);
+    int pid=FN(0x1bfa8,int(*)(void))();
+    char first[64],done[64];
+    FN(0x1c73c,int(*)(char*,unsigned,const char*,...))(first,sizeof first,"/tmp/v316cm-tiles-first-%d",pid);
+    FN(0x1c73c,int(*)(char*,unsigned,const char*,...))(done,sizeof done,"/tmp/v316cm-tiles-done-%d",pid);
+    if(!FN(0x1cc3c,int(*)(const char*,int))(done,0))return;
+    if(FN(0x1cc3c,int(*)(const char*,int))(first,0)){
+        void*f=FN(0x1c7d0,void*(*)(const char*,const char*))(first,"w");
+        if(f)FN(0x1d0c8,int(*)(void*))(f);
+        return;
+    }
+    O preview=window(2),tiles=preview?GET(preview,0x114):0;
+    if(!tiles||!GET(tiles,0xec))return;
+    void*f=FN(0x1c7d0,void*(*)(const char*,const char*))(done,"w");
+    if(!f)return;
+    FN(0x1d0c8,int(*)(void*))(f);
+    FN(GET(GET(tiles,0),0x6c),void(*)(O))(tiles);
+}
+
 /* Refuse a mode transition while the recorder owns a writable media file.
  * readdir64 uses the target's ARM32 glibc dirent64 layout (name offset 19). */
 static int recording(void) {

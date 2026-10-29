@@ -6,6 +6,8 @@ Recovery guide, firmware images, patch tools, and hardware documentation for **A
 
 **Allwinner V316 Cam menu update, 28.10.2026:** [Unified setup menus and dialogs (v23)](tools/ui_theme/README.md), including German text fixes, SD deployment, verification and rollback.
 
+**Recovery and startup, 29.10.2026:** [Working device state and local rescue package](docs/RETTUNGSSTAND_2026-10-29.md). The four-tile menu now opens automatically after boot.
+
 ---
 
 ## 🔍 The Problem & Root Cause

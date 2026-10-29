@@ -1,6 +1,6 @@
 {
   "baseline": "ece022b21206d5bc28058b24cf3790d7",
-  "md5": "641fb6b783ca1f8e86dd2af902a83ff3",
+  "md5": "4614a61766519e17a778c914956c8ff9",
   "patches": [
     [
       2033040,
@@ -43,17 +43,22 @@
       4
     ],
     [
+      377064,
+      4
+    ],
+    [
       244,
       32
     ],
     [
       3407872,
-      37332
+      37568
     ]
   ],
   "symbols": {
-    "__aeabi_idiv": 4201632,
-    "__aeabi_uidiv": 4201636,
+    "*ABS*0x6c0fe": 442622,
+    "__aeabi_idiv": 4201804,
+    "__aeabi_uidiv": 4201808,
     "box": 4195816,
     "box.part.0": 4195756,
     "card": 4196092,
@@ -61,28 +66,30 @@
     "confirm_caption": 4196204,
     "eq": 4195450,
     "eq.part.0": 4195424,
-    "font_runs": 4207272,
+    "font_runs": 4207508,
     "glyph": 4194484,
-    "glyphs": 4202544,
+    "glyphs": 4202780,
     "len": 4194792,
     "menu_window": 4194540,
-    "original_preview_key": 4201604,
-    "original_preview_post": 4201592,
-    "original_window_proc": 4201616,
+    "original_preview_key": 4201776,
+    "original_preview_post": 4201764,
+    "original_window_proc": 4201788,
     "pixel": 4194332,
     "recording": 4195460,
     "roundbox": 4195844,
+    "startup_menu_entry": 4201820,
     "streaming": 4194304,
     "text": 4194872,
     "theme_button_message": 4199300,
-    "theme_dispatch": 4200300,
+    "theme_dispatch": 4200472,
     "theme_graph_message": 4198320,
     "theme_list_message": 4196336,
     "theme_menu_draw": 4197284,
-    "theme_preview_key": 4199964,
-    "theme_preview_post": 4199904,
+    "theme_preview_key": 4200136,
+    "theme_preview_post": 4200076,
+    "theme_startup_window_loaded": 4199904,
     "theme_text_message": 4197720,
-    "theme_tile_dispatch": 4200092,
+    "theme_tile_dispatch": 4200264,
     "theme_window_proc": 4199588,
     "utf8": 4194376,
     "widget_menu": 4194644,
@@ -109,5 +116,5 @@
     "OKDialogSmall.ui",
     "TimeSettingWindow.ui"
   ],
-  "payload_bytes": 37332
+  "payload_bytes": 37568
 }

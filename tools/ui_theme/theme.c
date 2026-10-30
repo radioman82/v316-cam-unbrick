@@ -29,6 +29,17 @@ typedef struct { int l,t,r,b; } Rect;
 static O window(int id);
 static int streaming(void) { return !FN(0x1cc3c,int(*)(const char*,int))("/tmp/v316cm-stream-mode",0); }
 
+/* Mode artwork already contains its caption. Hide only the additional native
+ * IconView caption, keeping the translated names used by preview and setup.
+ * ModelSelectWindow builds eight 20-byte items: id, bitmap, caption, two flags.
+ * Its existing filter still owns the photo/video split and selection indices. */
+void theme_mode_captions(O unused,O items) {
+    (void)unused;
+    O first=GET(items,0),end=GET(items,4);
+    if(!first||end-first!=8*20)return;
+    for(O item=first;item<end;item+=20)GET(item,8)=(O)"";
+}
+
 static int len(const char*s) { int n=0; if(s)while(s[n])++n;return n; }
 static int eq(const char*a,const char*b) { if(!a||!b)return 0;while(*a&&*a==*b){a++;b++;}return *a==*b; }
 static int min(int a,int b){return a<b?a:b;}

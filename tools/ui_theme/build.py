@@ -170,6 +170,7 @@ def build():
     patch(0x54a38,bytes.fromhex('2de9f04f'),enc_bw(0x54a38,symbols['theme_menu_draw']))
     patch(0x57184,bytes.fromhex('61292de9f043'),enc_bw(0x57184,symbols['theme_window_proc'])+bytes.fromhex('00bf'))
     from thumb import enc_bl
+    patch(0x675e4,enc_bl(0x675e4,0x24ae28),enc_bl(0x675e4,symbols['theme_mode_items']))
     patch(0x5081e,bytes.fromhex('ccf77eea'),enc_bl(0x5081e,symbols['theme_dispatch']))
     patch(0x24ada0,bytes.fromhex('70b50446'),enc_bw(0x24ada0,symbols['theme_tile_dispatch']))
     patch(0x24adf8,bytes.fromhex('3c2906d0'),enc_bw(0x24adf8,symbols['theme_preview_key']))

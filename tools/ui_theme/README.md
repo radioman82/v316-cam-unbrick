@@ -3,6 +3,41 @@
 Stand: 28.10.2026. Umsetzung des freigegebenen Entwurfs für das
 320 × 240-Display. Die Streaming-Website bleibt unverändert.
 
+## Korrektur der Aufnahmeart-Kacheln vom 30.10.2026
+
+Aktuelle App: MD5 `21e4c410b7ae80a5c338d659bc08262d`.
+Die Kachelbilder der Foto-/Videoauswahl enthalten bereits ihre deutschen
+Beschriftungen. Die native IconView zeichnete darunter zusätzlich ihre
+sprachabhängigen Namen, zum Beispiel `FOTO` und `Photo` oder `SERIE` und
+`Burst`. Ein Hook vor dem vorhandenen v22-Modusfilter ersetzt ausschließlich
+die Beschriftungszeiger der acht temporären IconView-Einträge durch leere
+Zeichenketten. Bilder, Auswahlindizes, Modusfilter und die Namen in anderen
+Ansichten bleiben erhalten.
+
+Der Assembly-Wrapper bewahrt insbesondere `r4`, in dem der vorhandene Filter
+die ModelSelectWindow-Instanz erwartet. Der Builder prüft die ursprüngliche
+Aufrufstelle bei `0x675e4`, bevor er sie ersetzt.
+
+```powershell
+python tools/ui_theme/build.py
+python -u tools/ui_theme/deploy_startup.py --base-md5 4614a61766519e17a778c914956c8ff9
+```
+
+Der Installer kann mit `--base-md5` den erwarteten laufenden v23-Stand
+angeben. App, beide SD-Kopien und Aktivierungsdatei müssen dazu passen;
+bei abweichenden Prüfsummen wird abgebrochen. Die vorherige App wird
+gesichert und bei einem Installationsfehler automatisch wiederhergestellt.
+Es werden nur App und Aktivierungsprüfsumme aktualisiert.
+
+Beide Aufnahmeart-Auswahlen wurden auf der Kamera geöffnet und ihre
+Framebuffer-Bilder geprüft. Alle acht Kacheln haben nur noch eine
+Beschriftung. Foto/Video schalten WLAN weiterhin ab; nach Rückkehr zu
+STREAM kamen zwölf unterschiedliche, dekodierbare 320 × 240-JPEGs an.
+Das Hauptmenü wurde ebenfalls geöffnet und visuell geprüft. Es wurde keine
+Foto-/Videoaufnahme ausgelöst und kein neuer Kaltstart durchgeführt.
+Screenshots, Sicherungspfad und Gerätestand stehen im
+[Prüfbericht vom 30.10.2026](../../docs/AKTUELLER_STAND_2026-10-30.md).
+
 ## Startansicht und SD-Abgleich vom 29.10.2026
 
 Aktuelle App: MD5 `4614a61766519e17a778c914956c8ff9`. Das Vier-Kachelmenü

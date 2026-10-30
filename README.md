@@ -1,12 +1,14 @@
 # Allwinner V316 Action Camera Unbrick & SPI Flash Recovery (`v316-cam-unbrick`)
 
-> Aktueller Kamerastand (28.10.2026): [Menü v23, Streaming und Modus-Trennung](docs/AKTUELLER_STAND_2026-10-28.md).
+> Aktueller Kamerastand (30.10.2026): [Foto-/Video-Kacheln korrigiert, WLAN und Streaming geprüft](docs/AKTUELLER_STAND_2026-10-30.md).
 
 Recovery guide, firmware images, patch tools, and hardware documentation for **Allwinner V316 (sun8iw16)** based action cameras (such as Allwinner V316 Cam, Sunchip DV002).
 
 **Allwinner V316 Cam menu update, 28.10.2026:** [Unified setup menus and dialogs (v23)](tools/ui_theme/README.md), including German text fixes, SD deployment, verification and rollback.
 
 **Recovery and startup, 29.10.2026:** [Working device state and local rescue package](docs/RETTUNGSSTAND_2026-10-29.md). The four-tile menu now opens automatically after boot.
+
+**Mode captions, 30.10.2026:** [Photo/video tile fix and device checks](docs/AKTUELLER_STAND_2026-10-30.md). The mode tiles now show each label once; the extra native captions no longer overlap the text embedded in their artwork.
 
 ---
 

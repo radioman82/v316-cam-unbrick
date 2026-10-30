@@ -1,5 +1,14 @@
 .syntax unified
 .thumb
+.section .text.mode_captions,"ax",%progbits
+.global theme_mode_items
+.thumb_func
+theme_mode_items:
+    /* The v22 mode filter expects ModelSelectWindow in the caller's r4. */
+    push {r0,r1,r4,lr}
+    bl theme_mode_captions
+    pop.w {r0,r1,r4,lr}
+    b.w 0x24ae28
 .section .text.original_preview_post,"ax",%progbits
 .global original_preview_post
 .thumb_func

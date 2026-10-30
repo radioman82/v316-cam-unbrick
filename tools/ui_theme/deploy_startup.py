@@ -1,8 +1,9 @@
-"""Install the direct startup menu on the already verified v23 camera app.
+"""Install an app-only update on the already verified v23 camera app.
 
 Only the changed app regions are transferred. The active app and SD copies are
 backed up before replacement; theme artwork and flash partitions are untouched.
 """
+import argparse
 from datetime import datetime
 import hashlib
 import json
@@ -22,6 +23,10 @@ START = 'FB_SYNC=1 SCREEN_INFO=240x376-32bpp LD_HWCAP_MASK=0x00000000 /usr/bin/s
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--base-md5', default=BASE_MD5,
+                        help='Expected current app checksum (defaults to pre-startup v23)')
+    args = parser.parse_args()
     data = (OUT / 'sdvcam_menu_v23').read_bytes()
     manifest = json.loads((OUT / 'manifest.json').read_text())
     target_md5 = hashlib.md5(data).hexdigest()
@@ -32,9 +37,9 @@ def main():
     if hashes == [target_md5] * 3:
         print('Startup menu already installed:', target_md5)
         return
-    if hashes != [BASE_MD5] * 3:
+    if hashes != [args.base_md5] * 3:
         raise RuntimeError(f'Unexpected installed app hashes: {hashes}')
-    if c.run('cat /mnt/extsd/ui_theme/current/enabled') != BASE_MD5:
+    if c.run('cat /mnt/extsd/ui_theme/current/enabled') != args.base_md5:
         raise RuntimeError('Theme enable hash does not match the active app')
     marker_state = c.run('if grep -q /tmp/v316cm-stream-mode /mnt/extsd/network_mode.sh && grep -q /tmp/v316cm-stream-mode /mnt/extsd/start_streaming.sh && grep -q /tmp/v316cm-stream-ready /mnt/extsd/stop_streaming.sh; then echo OK; else echo OLD; fi')
     if marker_state != 'OK':

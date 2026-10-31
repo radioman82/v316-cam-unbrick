@@ -1,15 +1,14 @@
 # Allwinner V316 Cam: Recovery und eigenständige Firmware
 
-| Vier-Kachel-Menü | Livebild im Streaming-Modus |
+| Vier-Kachel-Menü | Foto-Setup |
 | --- | --- |
-| ![Hauptmenü mit FOTO, VIDEO, STREAM und SETUP](pictures/four-tile-menu.png) | ![Echtes Kamerabild mit LIVE- und Streaming-Kennzeichnung](pictures/streaming-preview.png) |
-| **Foto-Setup** | **Untermenü mit aktivem Wert** |
-| ![Fotoeinstellungen mit einheitlichen Karten und goldener Auswahl](pictures/setup-photo.png) | ![Untermenü Automatisch aus mit markiertem aktivem Wert](pictures/setup-submenu.png) |
-| **Welcome-Bild** | **Abschaltbild** |
-| ![Neues Welcome-Startbild](pictures/welcome-screen.png) | ![Neues Abschaltbild mit Landschaftsmotiv](pictures/byebye-screen.png) |
+| ![Hauptmenü mit FOTO, VIDEO, STREAM und SETUP](pictures/four-tile-menu.png) | ![Fotoeinstellungen mit einheitlichen Karten und goldener Auswahl](pictures/setup-photo.png) |
+| **Untermenü mit aktivem Wert** | **Welcome-Bild** |
+| ![Untermenü Automatisch aus mit markiertem aktivem Wert](pictures/setup-submenu.png) | ![Neues Welcome-Startbild](pictures/welcome-screen.png) |
+| **Abschaltbild** | |
+| ![Neues Abschaltbild mit Landschaftsmotiv](pictures/byebye-screen.png) | |
 
-Das Hauptmenü wurde am 31.10.2026 direkt von der Kamera aufgenommen;
-das Livebild stammt aus dem erfolgreichen Streaming-Test desselben Tages.
+Das Hauptmenü wurde am 31.10.2026 direkt von der Kamera aufgenommen.
 Die Setup-/Untermenü-Screenshots dokumentieren die Menüüberarbeitung vom
 28.10.2026. Start- und Abschaltbild sind PNG-Vorschauen der installierten BMPs.
 

@@ -34,6 +34,16 @@ Image und Rücklesung haben dieselbe SHA-256:
 Dies ist die Kennung des **privaten gerätespezifischen** Images, nicht der
 älteren öffentlichen Rettungsbasis.
 
+Das Abschaltbild wurde anschließend durch die korrigierte Version mit
+„Bye Bye“-Schriftzug ersetzt. Die aktive Datei wurde auf der Kamera per MD5
+`09b50077c5cef909c0c982f91958b155` bestätigt und liegt dauerhaft im internen
+Overlay. Die README-Vorschau und die Build-Eingabe sind ebenfalls aktualisiert.
+Das private Komplettimage wurde damit neu gebaut und auf Dateiintegrität
+geprüft (SHA-256 `2c6bee406178b24a542211772e9713bd650369dfce2ceed822229a88d2f8c942`);
+dieser Neubau wurde nicht erneut komplett geflasht. Der vorherige, auf dem
+Gerät geprüfte Image-Stand bleibt lokal gesichert. Eine Sichtprüfung des
+Bildes während des tatsächlichen Ausschaltens steht noch aus.
+
 - Kaltstart ohne SD, keine SD-Geräte oder SD-Bind-Mounts.
 - Geräte-Setup zeigt Deutsch und „Flimmerreduzierung“ korrekt.
 - WLAN, HTTP und zehn unterschiedliche, vollständig dekodierte

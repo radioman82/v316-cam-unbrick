@@ -71,7 +71,7 @@ def main():
         c.run(f': > {remote}')
         for i in range(0,len(data),1536):
             chunk=base64.b64encode(data[i:i+1536]).decode()
-            c.run(f'printf %s {chunk} | /mnt/extsd/bin/busybox base64 -d >> {remote}')
+            c.run(f'printf %s {chunk} | {c.busybox} base64 -d >> {remote}')
         assert c.run(f'md5sum {remote}').split()[0]==hashlib.md5(data).hexdigest()
         c.run('mkdir -p /tmp/v316-xz-mount')
         c.run(f'mount -t squashfs -o loop,ro {remote} /tmp/v316-xz-mount')

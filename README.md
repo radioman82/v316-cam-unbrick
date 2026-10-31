@@ -15,6 +15,15 @@ Kameraoberfläche. Eine passende Originalfirmware war für uns nicht mehr
 verfügbar. Ein Image einer ähnlichen Kamera diente deshalb als Ausgangspunkt
 für die Rekonstruktion eines auf diesem Board funktionierenden Images.
 
+Ein konkreter Stolperstein war der **offenbar umgelabelte Flashchip**:
+Auf dem Gehäuse steht Winbond, elektronisch meldet er jedoch die
+Fudan-Kennung `a1 40 18`. Der Kernel des Ersatzimages erwartete die
+Winbond-Kennung `ef 40 18` und musste deshalb an den tatsächlich erkannten
+Flash angepasst werden. Anschließend wurden der Kernel neu gepackt und
+die uImage-Prüfsummen neu berechnet. „Umgelabelt“ beschreibt hier den
+Widerspruch zwischen Aufdruck und ausgelesener Kennung; eine weitergehende
+Untersuchung zur Herkunft des Chips wurde nicht durchgeführt.
+
 Ein ähnliches Gehäuse oder derselbe SoC reicht dafür nicht aus: Bootloader,
 Flash-Erkennung, Kernel, Sensor-/Displayansteuerung und Konfiguration müssen
 zum konkreten Board passen. Die Arbeit bestand deshalb zuerst aus Zugang,

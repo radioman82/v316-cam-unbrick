@@ -7,6 +7,75 @@ Die Kamera startet vollständig aus dem internen Flash. Die SD-Karte ist
 ausschließlich Medienlaufwerk; App, Menüs, Übersetzungen, Bilder, WLAN und
 Streaming benötigen keine Systemdateien auf SD.
 
+## Ausgangspunkt: Kamera bleibt bei „Welcome“ stehen
+
+Das Hauptproblem war zunächst, überhaupt wieder Zugriff auf die Kamera zu
+bekommen. Sie zeigte nur das Welcome-Bild und erreichte keine bedienbare
+Kameraoberfläche. Eine passende Originalfirmware war für uns nicht mehr
+verfügbar. Ein Image einer ähnlichen Kamera diente deshalb als Ausgangspunkt
+für die Rekonstruktion eines auf diesem Board funktionierenden Images.
+
+Ein ähnliches Gehäuse oder derselbe SoC reicht dafür nicht aus: Bootloader,
+Flash-Erkennung, Kernel, Sensor-/Displayansteuerung und Konfiguration müssen
+zum konkreten Board passen. Die Arbeit bestand deshalb zuerst aus Zugang,
+Sicherung, Analyse und Anpassung – erst anschließend aus neuen Menüs und
+zusätzlichen Funktionen. Ein sichtbares Welcome-Bild allein belegt noch
+keinen erfolgreich gestarteten Linux-Unterbau oder eine laufende Kamera-App.
+
+## Unsere Zugangs- und Flash-Werkzeuge
+
+| Hilfsmittel | Verbindung | Wofür wir es verwenden |
+| --- | --- | --- |
+| **FEL-Modus** | BootROM der Kamera über deren USB-Datenanschluss | Rettungszugang unabhängig vom normalen Linux-/App-Start; Eintritt über den identifizierten FEL-Kontakt |
+| **sunxi-fel** aus sunxi-tools | PC ↔ Kamera im FEL-Modus | SoC/Flash erkennen, vollständige SPI-Sicherungen lesen, passendes Image schreiben und vollständig zurücklesen |
+| **USB-UART-Modul** | Serielle Boardanschlüsse GND, TX und RX; am PC COM11 | Bootmeldungen beobachten und bei laufendem Linux mit der Root-Shell arbeiten; 115200 Baud, 8N1, kein Flow Control |
+| **PuTTY** | PC-Terminal auf dem COM-Port des UART-Moduls | Bootprotokoll mitlesen und Shellbefehle eingeben; PuTTY selbst ist kein SPI-Flashprogramm |
+| **Python-/UART-Werkzeuge im Repository** | Derselbe serielle Zugang | Wiederholbare Diagnose, Dateiabgleich und Wartung statt manueller Terminaleingaben |
+
+Es sind **zwei getrennte Verbindungen**: Das UART-Modul verschafft uns die
+serielle Konsole; das USB-Datenkabel direkt an der Kamera ermöglicht FEL.
+Ein erkannter COM-Port bedeutet nicht, dass die Kamera im FEL-Modus ist.
+Umgekehrt braucht sunxi-fel keine funktionierende Linux-Shell.
+
+Unser Ablauf: zuerst Zugang und Sicherung herstellen, im FEL-Modus zweimal
+vollständig lesen und vergleichen, das geprüfte Image schreiben und danach
+den gesamten Flash zurücklesen. Erst nach identischer Prüfsumme folgt der
+normale Start mit Kontrolle über UART/PuTTY. Details und Anschlussfotos:
+[Recovery-Anleitung](docs/RECOVERY.md). Hintergrund zum Werkzeug:
+[sunxi-fel-Handbuch](https://github.com/linux-sunxi/sunxi-tools/blob/master/sunxi-fel.1).
+
+### Hätte eine besser abgesicherte Kamera das falsche Image verhindert?
+
+Ein regulärer Updateweg kann mit Modell-/Versionsprüfungen und
+kryptografischen Signaturen ungeeignete oder nicht autorisierte Firmware
+abweisen. Eine entsprechend abgesicherte Bootkette kann außerdem das
+Starten nicht vertrauenswürdiger Images verhindern; siehe
+[U-Boot Verified Boot](https://docs.u-boot.org/en/stable/usage/fit/verified-boot.html).
+
+Unser FEL-/SPI-Weg ist jedoch ein tiefer Rettungszugang und kein gewöhnliches
+Kamera-Menüupdate. Beim getesteten Board konnten wir darüber ein komplettes
+Image schreiben. Daraus folgt weder, dass jede teurere Kamera solche Zugriffe
+blockiert, noch dass ein offener Rettungszugang allein ein Qualitätsmangel
+ist – er hat diese Reparatur erst ermöglicht. Für dieses Projekt waren vor
+allem die fehlende passende Originalfirmware und die Unterschiede zwischen
+scheinbar ähnlichen Kameras das Problem. Ein pauschales Urteil über alle
+Hersteller oder Preisklassen lässt sich daraus nicht ableiten.
+
+## Heute: neue Menüs und Hauptfunktionen
+
+Die Kamera öffnet nach dem Start das neue Vier-Kachel-Menü. **FOTO** und
+**VIDEO** führen zu den jeweiligen Aufnahmearten und lokalen Einstellungen;
+beim Wechsel dorthin wird WLAN abgeschaltet. **STREAM** aktiviert WLAN und
+den Browser-Livestream; die Aufnahmeauslösung ist in diesem Zustand gesperrt.
+**SETUP** öffnet die überarbeiteten Kamera-/Geräteeinstellungen mit deutschen
+Texten, einheitlichen Listen, Dialogen und klarer Auswahlmarkierung.
+
+App, Menübilder, Übersetzungen, Start-/Abschaltbilder und Streaming liegen
+jetzt im internen Image. Die Kamera kann ohne SD ins Menü starten und streamen.
+Eine leere SD wird erst für Fotos und Videos gebraucht; ein Kopieren von
+Systemdateien auf die Karte ist nicht mehr nötig. Die folgende Liste nennt
+den tatsächlich geprüften Umfang, nicht nur geplante Funktionen.
+
 ## Geprüfter Funktionsstand
 
 - Vier Kacheln: **FOTO · VIDEO · STREAM · SETUP**, automatischer Menüstart.

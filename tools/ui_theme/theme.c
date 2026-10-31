@@ -431,7 +431,11 @@ void theme_tile_dispatch(O self,O unused,int tile) {
     FN(0x67747,void(*)(O))(model);
     FN(0x5ab55,void(*)(O,int,int))(self,0,family);
     if(tile!=2)FN(0x5a6f5,void(*)(O))(self);
+#ifdef V316_INTERNAL_FIRMWARE
+    FN(0x1c94c,int(*)(const char*))( "sh /opt/cam/network_mode.sh >/tmp/network-mode.log 2>&1 </dev/null &");
+#else
     FN(0x1c94c,int(*)(const char*))( "sh /mnt/extsd/network_mode.sh >/tmp/network-mode.log 2>&1 </dev/null &");
+#endif
     O status=window(4);if(status)INV(GET(status,0x2c),0,1);
     INV(GET(self,0x2c),0,1);
 }

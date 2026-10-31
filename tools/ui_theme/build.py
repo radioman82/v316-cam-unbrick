@@ -1,5 +1,6 @@
 """Build v23's central UI renderer and SD resource overrides from verified v22."""
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import struct
@@ -138,7 +139,7 @@ def resources():
     return changed
 
 
-def build():
+def build(internal=False):
     OUT.mkdir(parents=True,exist_ok=True)
     generate(HERE/'font.h')
     data=bytearray((ROOT/'firmware/sdvcam/sdvcam_menu_v22').read_bytes())
@@ -146,7 +147,7 @@ def build():
     with tempfile.TemporaryDirectory() as temp:
         t=Path(temp)
         cc=GNU/'arm-none-eabi-gcc.exe';ld=GNU/'arm-none-eabi-ld.exe'
-        subprocess.run([str(cc),'-mcpu=cortex-a7','-mthumb','-mfloat-abi=soft','-Os','-ffreestanding','-fno-builtin','-fno-stack-protector','-fno-unwind-tables','-fno-asynchronous-unwind-tables','-ffunction-sections','-fdata-sections','-Wall','-Wextra','-Wno-misleading-indentation','-c',str(HERE/'theme.c'),'-o',str(t/'theme.o')],check=True)
+        subprocess.run([str(cc)]+(['-DV316_INTERNAL_FIRMWARE'] if internal else [])+['-mcpu=cortex-a7','-mthumb','-mfloat-abi=soft','-Os','-ffreestanding','-fno-builtin','-fno-stack-protector','-fno-unwind-tables','-fno-asynchronous-unwind-tables','-ffunction-sections','-fdata-sections','-Wall','-Wextra','-Wno-misleading-indentation','-c',str(HERE/'theme.c'),'-o',str(t/'theme.o')],check=True)
         subprocess.run([str(cc),'-mcpu=cortex-a7','-mthumb','-c',str(HERE/'entry.s'),'-o',str(t/'entry.o')],check=True)
         (t/'link.ld').write_text('SECTIONS { . = 0x400000; .text : { *(.text*) } .rodata : { *(.rodata*) } .data : { *(.data*) } .bss : { *(.bss*) *(COMMON) } }\n')
         subprocess.run([str(ld),'-T',str(t/'link.ld'),str(t/'theme.o'),str(t/'entry.o'),'-o',str(t/'theme.elf')],check=True)
@@ -178,6 +179,16 @@ def build():
     patch(0x6c0e8,bytes.fromhex('d4f89000'),enc_bw(0x6c0e8,symbols['startup_menu_entry']))
     offset=(len(data)+4095)&~4095
     data.extend(bytes(offset-len(data)));data.extend(payload)
+    if internal:
+        replacements={b'/mnt/extsd/start_streaming.sh &':b'/opt/cam/start_streaming.sh &',
+                      b'/mnt/extsd/.sdvcam':b'/tmp/no-sd-update',
+                      b'/mnt/extsd/.data/':b'/tmp/v316-data/',
+                      b'/mnt/extsd/thumb_%ux%u.yuv':b'/tmp/thumb_%ux%u.yuv',
+                      b'rm -r /mnt/extsd/log_bak':b'rm -r /tmp/cam-log-bak'}
+        for old,new in replacements.items():
+            assert len(new)<=len(old) and data.count(old+b'\0')==1,old
+            pos=data.index(old+b'\0')
+            data[pos:pos+len(old)]=new.ljust(len(old),b'\0')
     # The unused NOTE program header becomes one RX load; existing LOADs, unwind
     # table, dynamic loader and all original addresses remain unchanged.
     note=52+6*32
@@ -191,4 +202,9 @@ def build():
     print(binary,len(data),'MD5',manifest['md5'],'renderer',len(payload))
 
 
-if __name__=='__main__':build()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--internal',action='store_true')
+    args=parser.parse_args()
+    if args.internal:OUT=ROOT/'firmware/ui_internal'
+    build(internal=args.internal)

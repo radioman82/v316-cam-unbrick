@@ -14,7 +14,7 @@
   "ml_camera_iso": "ISO-Empfindlichkeit",
   "ml_photo_dramashot": "Bewegungsserie",
   "ml_camera_exposure": "Belichtungskorrektur",
-  "ml_camera_lightsourcefrequency": "Netzfrequenz",
+  "ml_camera_lightsourcefrequency": "Flimmerreduzierung",
   "ml_camera_ledindicator": "Status-LED",
   "ml_camera_autoscreensaver": "Bildschirm aus",
   "ml_camera_timedshutdown": "Automatisch aus",

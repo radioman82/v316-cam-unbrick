@@ -18,3 +18,12 @@ ehthumbs.db
 *.tmp
 *.bak
 *.swp
+
+# Private camera data and generated diagnostics
+/pictures/welcome images/
+/firmware/splash/backup-*/
+/firmware/ui_internal/
+**/wlan.conf
+**/*-16MiB.bin
+**/*STANDALONE*16MB.bin
+**/*.original

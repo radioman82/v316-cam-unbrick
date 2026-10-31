@@ -239,7 +239,7 @@
     <item>Aus</item>
     <item>Ein</item>
   </string-array>
-  <string name="ml_camera_lightsourcefrequency">Netzfrequenz</string>
+  <string name="ml_camera_lightsourcefrequency">Flimmerreduzierung</string>
   <string-array name="ml_camera_lightsourcefrequency">
     <item>Auto</item>
     <item>50Hz</item>

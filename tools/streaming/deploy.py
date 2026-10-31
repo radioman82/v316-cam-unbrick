@@ -12,8 +12,9 @@ HERE = Path(__file__).resolve().parent
 
 
 class Camera:
-    def __init__(self, base):
+    def __init__(self, base, busybox='/mnt/extsd/bin/busybox'):
         self.base = base.rstrip("/")
+        self.busybox = busybox
 
     def run(self, command):
         if "\n" in command:
@@ -33,7 +34,7 @@ class Camera:
         self.run(f": > {path}")
         for start in range(0, len(data), 4096):
             chunk = base64.b64encode(data[start:start + 4096]).decode()
-            self.run(f"printf %s {shlex.quote(chunk)} | /mnt/extsd/bin/busybox base64 -d >> {path}")
+            self.run(f"printf %s {shlex.quote(chunk)} | {shlex.quote(self.busybox)} base64 -d >> {path}")
         expected = hashlib.md5(data).hexdigest()
         actual = self.run(f"md5sum {path}").split()[0]
         if actual != expected:

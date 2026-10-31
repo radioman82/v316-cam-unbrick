@@ -4,6 +4,10 @@ Das getestete Komplettimage enthält private WLAN-Daten und bleibt lokal.
 Die öffentliche 16-MiB-Datei ist die ältere Rettungsbasis. Für einen eigenen
 Build wird eine eigene gesicherte Laufzeitinstallation benötigt.
 
+Der aktuelle Builder nimmt auch den **experimentellen SD-Updater** auf.
+Dessen echter Flash-Test ist noch offen; [Teststand und Grenzen](SD_UPDATE.md)
+vor dem Einsatz beachten. Die laufende Kamera wurde damit noch nicht neu geflasht.
+
 ## Voraussetzungen
 
 - Windows, Python 3, Pillow und pyserial: `python -m pip install Pillow pyserial`.
@@ -12,6 +16,7 @@ Build wird eine eigene gesicherte Laufzeitinstallation benötigt.
 - Windows-/Cygwin-SquashFS-Tools mit XZ, Symlinks und Pseudo-Gerätedateien;
   getestet mit Version 4.3.
 - Passende Referenzfirmware für dieses Board.
+- Zig 0.14.1 und Consolas für den statischen SD-Updater und seine Displaytexte.
 
 Die zwei App-Basen `sdvcam_v8` und `sdvcam_menu_v22` bleiben nötig:
 `build_menu_v22.py` erzeugt v22 aus v8; der Renderer baut darauf auf.
@@ -28,8 +33,9 @@ herstellerspezifischen Kamera-App.
 3. `python tools/ui_theme/build.py --internal`.
 4. `firmware/splash/welcome.bmp` und `byebye.bmp` vorbereiten:
    320 × 240 Pixel, RGB 24 Bit, unkomprimiert.
-5. Image bauen:
+5. SD-Updater und Image bauen:
 
+    python tools/sd_update/build.py --zig D:/path/to/zig.exe --output ../internal-image-build/sd-update/updater
     python tools/build_internal_image.py --assemble --squashfs-tools D:/path/to/squashfs_tools
 
 `--work-dir` ändert den privaten Arbeitsordner; der Runtime-Export muss dann
@@ -50,6 +56,7 @@ Extraktion, Inhalte, Symlink-Ziele, ELF-Bibliotheksnamen und interne
 Startpfade. Ein kleiner XZ-Mount auf der erreichbaren Kamera prüft die
 Kernel-Unterstützung im RAM, ohne den Flash zu ändern.
 
-Danach FEL-Installation und vollständige Rücklesung, Kaltstart ohne SD,
+Installation weiterhin per FEL und vollständiger Rücklesung. Der eingebaute
+[SD-Updater](SD_UPDATE.md) wird noch erprobt. Anschließend Kaltstart ohne SD,
 Menüs/STREAM sowie Aufnahmeprüfung mit leerer Medienkarte. Zeitstempel
 können die SHA-256 eines Neubaus ändern; sein eigenes Manifest ist maßgeblich.

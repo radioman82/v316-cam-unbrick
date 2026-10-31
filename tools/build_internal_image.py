@@ -80,6 +80,11 @@ def assemble():
     tree(ui/'layout','usr/share/minigui/res/layout')
     put(ui/'zh-DE.xml','usr/share/minigui/res/lang/zh-DE.xml')
     put(ui/'sdvcam_menu_v23','usr/bin/sdvcam')
+    updater=WORK/'sd-update/updater'
+    if not updater.is_file():
+        raise RuntimeError('Build tools/sd_update/build.py into WORK/sd-update/updater first')
+    put(updater,'opt/cam/update/updater')
+    put(ROOT/'tools/sd_update/sd_update.sh','opt/cam/update/sd_update.sh')
     for folder in ('bin','lib','www'):
         tree(runtime/folder,'opt/cam/'+folder)
     for name in ('start_streaming.sh','stop_streaming.sh','network_mode.sh'):
@@ -115,6 +120,7 @@ def assemble():
     head=head.replace('/mnt/extsd/core.%e.%p','/tmp/core.%e.%p')
     body='''    mkdir -p /tmp/v316-data /tmp/event
     /usr/bin/sdvcam >/tmp/sdvcam.log 2>&1 </dev/null &
+    /opt/cam/update/sd_update.sh start
     hwclock --hctosys
 }
 stop() {
@@ -150,7 +156,7 @@ exit 0
     # Newly added runtime tools and scripts must have executable bits.
     for p in (dest/'opt').rglob('*'):
         path=p.relative_to(dest).as_posix()
-        mode='755' if p.is_dir() or '/bin/' in path or '/cgi-bin/' in path or p.suffix=='.sh' else '644'
+        mode='755' if p.is_dir() or '/bin/' in path or '/cgi-bin/' in path or p.suffix=='.sh' or path=='opt/cam/update/updater' else '644'
         pseudo.append(f'{path} m {mode} 0 0')
     if not any(line.startswith('opt m ') for line in pseudo):pseudo.append('opt m 755 0 0')
     pseudo.append('data/wlan.conf m 600 0 0')

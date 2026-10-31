@@ -66,3 +66,17 @@ keine Zusage für beliebige Netzteile oder Spannungsausfälle.
 
 Sicherungen und privates Image bleiben außerhalb von GitHub.
 [Build-Anleitung](BUILD.md) · [Recovery](RECOVERY.md).
+
+## Ergänzung: SD-Updater in Entwicklung
+
+Paket-, Hardware- und Fehlertests sowie der echte Init-/RAM-Wechsel mit
+vollständig ausgehängten Flash-Dateisystemen und Neustart sind bestanden.
+Ein tatsächliches Schreiben von rootfs/Kernel/Bootlogo über SD wurde noch
+nicht begonnen. Die Tastenabfrage und der verzögerte Start müssen nach den
+letzten Korrekturen erneut auf der Kamera geprüft werden; danach folgen
+Flashen, Rücklesen und Funktionstest. Details: [SD_UPDATE.md](SD_UPDATE.md).
+
+Zum Sitzungsende wurden der vorläufige Start-Hook und die Testprogramme aus
+dem Overlay entfernt. Auf SD liegen wieder ausschließlich die Medienstruktur
+und das Windows-Verzeichnis. Die bisherige Systemfirmware bleibt installiert;
+es gibt keinen aktiven automatischen SD-Update-Start.

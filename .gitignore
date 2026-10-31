@@ -27,3 +27,6 @@ ehthumbs.db
 **/*-16MiB.bin
 **/*STANDALONE*16MB.bin
 **/*.original
+**/firmware-update*.bin
+**/firmware-update*.installing
+**/firmware-update*.done

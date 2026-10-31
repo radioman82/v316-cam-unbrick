@@ -161,6 +161,7 @@ Neue Hardwarefotos: [UART-/FEL-Anschlüsse](pictures/zus%C3%A4tzliche-anschl%C3%
 | `tools/ui_theme/` | Aktueller Renderer, Übersetzungen, Ressourcen-Builder |
 | `tools/streaming/` | Streaming-/Webquellen; Legacy-SD-Installer |
 | `tools/build_internal_image.py` | Internes 16-MiB-Image bauen |
+| `tools/sd_update/` | Experimenteller SD-Updater; RAM-Neustart getestet, echter Flash-Test noch offen: [Stand und Anleitung](docs/SD_UPDATE.md) |
 | `tools/verify_internal_image.py` | Dateisystem, Bibliotheken und XZ prüfen |
 | `tools/camera_uart.py`, `tools/sh.py`, `tools/logger.py` | UART-Zugang |
 | `tools/capture_runtime.py`, `tools/backup_internal.py` | Private Sicherungen |

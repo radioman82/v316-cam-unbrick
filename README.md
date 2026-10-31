@@ -9,6 +9,21 @@ Die Kamera startet vollständig aus dem internen Flash. Die SD-Karte ist
 ausschließlich Medienlaufwerk; App, Menüs, Übersetzungen, Bilder, WLAN und
 Streaming benötigen keine Systemdateien auf SD.
 
+## Bilder der Oberfläche
+
+| Vier-Kachel-Menü | Livebild im Streaming-Modus |
+| --- | --- |
+| ![Hauptmenü mit FOTO, VIDEO, STREAM und SETUP](pictures/four-tile-menu.png) | ![Echtes Kamerabild mit LIVE- und Streaming-Kennzeichnung](pictures/streaming-preview.png) |
+| **Foto-Setup** | **Untermenü mit aktivem Wert** |
+| ![Fotoeinstellungen mit einheitlichen Karten und goldener Auswahl](pictures/setup-photo.png) | ![Untermenü Automatisch aus mit markiertem aktivem Wert](pictures/setup-submenu.png) |
+| **Welcome-Bild** | **Abschaltbild** |
+| ![Neues Welcome-Startbild](pictures/welcome-screen.png) | ![Neues Abschaltbild mit Landschaftsmotiv](pictures/byebye-screen.png) |
+
+Das Hauptmenü wurde am 31.10.2026 direkt von der Kamera aufgenommen;
+das Livebild stammt aus dem erfolgreichen Streaming-Test desselben Tages.
+Die Setup-/Untermenü-Screenshots dokumentieren die Menüüberarbeitung vom
+28.10.2026. Start- und Abschaltbild sind PNG-Vorschauen der installierten BMPs.
+
 ## Ausgangspunkt: Kamera bleibt bei „Welcome“ stehen
 
 Das Hauptproblem war zunächst, überhaupt wieder Zugriff auf die Kamera zu
@@ -33,6 +48,17 @@ Sicherung, Analyse und Anpassung – erst anschließend aus neuen Menüs und
 zusätzlichen Funktionen. Ein sichtbares Welcome-Bild allein belegt noch
 keinen erfolgreich gestarteten Linux-Unterbau oder eine laufende Kamera-App.
 
+## Zerlegen und Zusammenbauen
+
+Das Auseinanderbauen ging bei dieser Kamera noch einigermaßen gut. Der
+Zusammenbau war dagegen eher „Horror“: Hauptproblem waren immer wieder die
+verwendeten **Folientaster**. Sie sind empfindlich und gehen schnell kaputt.
+Die Druckknöpfe des Gehäuses müssen exakt über den jeweiligen Tastern sitzen;
+schon eine ungünstige Ausrichtung macht die Bedienung unzuverlässig.
+Das war eine praktische Schwierigkeit dieser Reparatur, unabhängig davon,
+ob die Firmware bereits wieder funktionierte. Beim Zusammenbau deshalb
+die Position und Funktion der Knöpfe vor dem endgültigen Schließen prüfen.
+
 ## Unsere Zugangs- und Flash-Werkzeuge
 
 | Hilfsmittel | Verbindung | Wofür wir es verwenden |
@@ -54,6 +80,27 @@ den gesamten Flash zurücklesen. Erst nach identischer Prüfsumme folgt der
 normale Start mit Kontrolle über UART/PuTTY. Details und Anschlussfotos:
 [Recovery-Anleitung](docs/RECOVERY.md). Hintergrund zum Werkzeug:
 [sunxi-fel-Handbuch](https://github.com/linux-sunxi/sunxi-tools/blob/master/sunxi-fel.1).
+
+### Voraussetzungen am Windows-11-PC
+
+Ein normaler Windows-11-PC genügt; ein separater Spezialrechner ist nicht
+nötig. Für diesen Ablauf wurden weder WSL noch eine virtuelle Maschine
+benötigt. Wichtiger als hohe Rechenleistung sind zuverlässige USB-Verbindungen
+und die passenden Treiber.
+
+| Aufgabe | Benötigt |
+| --- | --- |
+| Wiederherstellung/Flashen | `sunxi-fel` für Windows, passender libusb-kompatibler FEL-USB-Treiber, USB-Datenkabel direkt zur Kamera, eigener Speicherplatz für mehrere 16-MiB-Sicherungen |
+| Bootmeldungen und Shell | USB-UART-Modul mit passenden Logikpegeln, dessen Windows-Treiber, PuTTY oder unsere Python-UART-Werkzeuge; hier COM11 mit 115200 Baud/8N1 |
+| Python-Werkzeuge | Python 3 und die Pakete aus `requirements.txt` (`Pillow`, `pyserial`) |
+| App-/Ressourcen-Build | Arm GNU Toolchain arm-none-eabi 13.3 rel1, Segoe UI und die geprüften Binärbasen |
+| Komplettimage bauen | SquashFS-Tools mit XZ sowie Symlink-/Pseudo-Datei-Unterstützung; getesteter Windows-/Cygwin-Build 4.3 |
+| Streaming-Quellen neu bauen | Zusätzlich Zig 0.14.1; für das bloße Flashen eines fertigen Images nicht erforderlich |
+
+PuTTY und sunxi-fel müssen Zugriff auf ihre jeweilige Verbindung haben;
+ein serieller COM-Port sollte nur von einem Terminal/Werkzeug gleichzeitig
+geöffnet werden. Konkrete Build-Eingaben und Pfade stehen in
+[BUILD.md](docs/BUILD.md), der sichere Flash-Ablauf in [RECOVERY.md](docs/RECOVERY.md).
 
 ### Hätte eine besser abgesicherte Kamera das falsche Image verhindert?
 

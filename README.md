@@ -1,16 +1,5 @@
 # Allwinner V316 Cam: Recovery und eigenständige Firmware
 
-Stand: **31.10.2026**. Dokumentation und Werkzeuge für das reparierte Board
-mit 16-MiB-Fudan-SPI-Flash (`a1 40 18`). Die ausgelesene SoC-Kennung wird
-von **sunxi-fel als Allwinner V536 interpretiert**. Das ist die Zuordnung
-des Werkzeugs und keine Feststellung einer Umlabelung des SoC.
-
-Die Kamera startet vollständig aus dem internen Flash. Die SD-Karte ist
-ausschließlich Medienlaufwerk; App, Menüs, Übersetzungen, Bilder, WLAN und
-Streaming benötigen keine Systemdateien auf SD.
-
-## Bilder der Oberfläche
-
 | Vier-Kachel-Menü | Livebild im Streaming-Modus |
 | --- | --- |
 | ![Hauptmenü mit FOTO, VIDEO, STREAM und SETUP](pictures/four-tile-menu.png) | ![Echtes Kamerabild mit LIVE- und Streaming-Kennzeichnung](pictures/streaming-preview.png) |
@@ -23,6 +12,15 @@ Das Hauptmenü wurde am 31.10.2026 direkt von der Kamera aufgenommen;
 das Livebild stammt aus dem erfolgreichen Streaming-Test desselben Tages.
 Die Setup-/Untermenü-Screenshots dokumentieren die Menüüberarbeitung vom
 28.10.2026. Start- und Abschaltbild sind PNG-Vorschauen der installierten BMPs.
+
+Stand: **31.10.2026**. Dokumentation und Werkzeuge für das reparierte Board
+mit 16-MiB-Fudan-SPI-Flash (`a1 40 18`). Die ausgelesene SoC-Kennung wird
+von **sunxi-fel als Allwinner V536 interpretiert**. Das ist die Zuordnung
+des Werkzeugs und keine Feststellung einer Umlabelung des SoC.
+
+Die Kamera startet vollständig aus dem internen Flash. Die SD-Karte ist
+ausschließlich Medienlaufwerk; App, Menüs, Übersetzungen, Bilder, WLAN und
+Streaming benötigen keine Systemdateien auf SD.
 
 ## Ausgangspunkt: Kamera bleibt bei „Welcome“ stehen
 

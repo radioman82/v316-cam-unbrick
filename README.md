@@ -1,7 +1,9 @@
 # Allwinner V316 Cam: Recovery und eigenständige Firmware
 
 Stand: **31.10.2026**. Dokumentation und Werkzeuge für das reparierte Board
-mit 16-MiB-Fudan-SPI-Flash (`a1 40 18`). FEL meldet es als Allwinner V536.
+mit 16-MiB-Fudan-SPI-Flash (`a1 40 18`). Die ausgelesene SoC-Kennung wird
+von **sunxi-fel als Allwinner V536 interpretiert**. Das ist die Zuordnung
+des Werkzeugs und keine Feststellung einer Umlabelung des SoC.
 
 Die Kamera startet vollständig aus dem internen Flash. Die SD-Karte ist
 ausschließlich Medienlaufwerk; App, Menüs, Übersetzungen, Bilder, WLAN und

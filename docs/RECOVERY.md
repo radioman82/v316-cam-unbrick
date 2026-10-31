@@ -35,7 +35,8 @@ das USB-Datenkabel anschließen.
     sunxi-fel -p spiflash-read 0 16777216 before-read2.bin
     Get-FileHash before-read1.bin,before-read2.bin -Algorithm SHA256
 
-Erwartet: Allwinner V536, Flash 16.777.216 Byte, A1h/40h. Beide vollständigen
+Erwartet: von sunxi-fel als Allwinner V536 interpretierte SoC-Kennung,
+Flash 16.777.216 Byte, A1h/40h. Beide vollständigen
 Lesungen müssen identisch sein. Neue Sicherungsdateien verwenden, alte
 nicht überschreiben. Bei instabilen FEL-Lesungen zuerst die Ursache klären.
 

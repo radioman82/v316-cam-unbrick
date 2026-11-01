@@ -11,15 +11,14 @@
 | <img src="pictures/Upload_SD_Firmware.jpg" width="320" alt="Kameradisplay beim echten SD-Firmwareupdate: Rootfs wird geschrieben, 28 Prozent"> | Paket auf FAT32-SD kopieren, per USB starten und **OK/Auslöser zwei Sekunden halten**. Die Kamera schreibt aus dem RAM, prüft durch vollständiges Rücklesen und startet neu. [Vollständige Anleitung und Testergebnis](docs/SD_UPDATE.md). |
 
 Das Hauptmenü und das Streamingbild wurden am 31.10.2026 direkt von der Kamera
-aufgenommen. Das Livebild zeigt den Lötarbeitsplatz.
+aufgenommen. 
 Das Foto des laufenden SD-Updates stammt vom erfolgreichen Gerätetest am 01.11.2026.
 Die Setup-/Untermenü-Screenshots dokumentieren die Menüüberarbeitung vom
 28.10.2026. Start- und Abschaltbild sind PNG-Vorschauen der installierten BMPs.
 
 Stand: **01.11.2026**. Dokumentation und Werkzeuge für das reparierte Board
 mit 16-MiB-Fudan-SPI-Flash (`a1 40 18`). Die ausgelesene SoC-Kennung wird
-von **sunxi-fel als Allwinner V536 interpretiert**. Das ist die Zuordnung
-des Werkzeugs und keine Feststellung einer Umlabelung des SoC.
+von **sunxi-fel als Allwinner V536 interpretiert**. 
 
 Die Kamera startet vollständig aus dem internen Flash. Die SD-Karte ist
 ausschließlich Medienlaufwerk; App, Menüs, Übersetzungen, Bilder, WLAN und
@@ -29,9 +28,9 @@ Streaming benötigen keine Systemdateien auf SD.
 
 Das Hauptproblem war zunächst, überhaupt wieder Zugriff auf die Kamera zu
 bekommen. Sie zeigte nur das Welcome-Bild und erreichte keine bedienbare
-Kameraoberfläche. Eine passende Originalfirmware war für uns nicht mehr
+Kameraoberfläche. Eine passende Originalfirmware war für die Kamera nicht mehr
 verfügbar. Ein Image einer ähnlichen Kamera diente deshalb als Ausgangspunkt
-für die Rekonstruktion eines auf diesem Board funktionierenden Images.
+für die Rekonstruktion einer auf diesem Board funktionierenden Firmware.
 
 Ein konkreter Stolperstein war der **offenbar umgelabelte Flashchip**:
 Auf dem Gehäuse steht Winbond, elektronisch meldet er jedoch die
@@ -39,8 +38,7 @@ Fudan-Kennung `a1 40 18`. Der Kernel des Ersatzimages erwartete die
 Winbond-Kennung `ef 40 18` und musste deshalb an den tatsächlich erkannten
 Flash angepasst werden. Anschließend wurden der Kernel neu gepackt und
 die uImage-Prüfsummen neu berechnet. „Umgelabelt“ beschreibt hier den
-Widerspruch zwischen Aufdruck und ausgelesener Kennung; eine weitergehende
-Untersuchung zur Herkunft des Chips wurde nicht durchgeführt.
+Widerspruch zwischen Aufdruck und ausgelesener Kennung.
 
 Ein ähnliches Gehäuse oder derselbe SoC reicht dafür nicht aus: Bootloader,
 Flash-Erkennung, Kernel, Sensor-/Displayansteuerung und Konfiguration müssen
@@ -49,13 +47,18 @@ Sicherung, Analyse und Anpassung – erst anschließend aus neuen Menüs und
 zusätzlichen Funktionen. Ein sichtbares Welcome-Bild allein belegt noch
 keinen erfolgreich gestarteten Linux-Unterbau oder eine laufende Kamera-App.
 
+Anmerkung: Die hier beschriebene Demontage und der Zusammenbau sowie die softwaretechnischen
+Versuche können die Kamera unwiederbringlich zerstören, so dass sie nicht 
+mehr verwendet werden kann. Der hier beschriebene Weg, die Kamera zu retten 
+und die Firmware zu verändern dient ausschließlich Entwicklungs- und Schulungszwecken.
+
 ## Zerlegen und Zusammenbauen
 
 Das Auseinanderbauen ging bei dieser Kamera noch einigermaßen gut. Der
-Zusammenbau war dagegen eher „Horror“: Hauptproblem waren immer wieder die
-verwendeten **Folientaster**. Sie sind empfindlich und gehen schnell kaputt.
-Die Druckknöpfe des Gehäuses müssen exakt über den jeweiligen Tastern sitzen;
-schon eine ungünstige Ausrichtung macht die Bedienung unzuverlässig.
+Zusammenbau war dagegen eher „Horror“: Hauptprobleme bei der kleinen Kamera waren 
+verwendete Folientaster und ihre Plastedrücker. Die müssen exakt wieder so eingebaut werden.
+Die Folientaster sind empfindlich und gehen schnell kaputt.
+Schon eine ungünstige Ausrichtung der Drücker macht die Bedienung unzuverlässig.
 Das war eine praktische Schwierigkeit dieser Reparatur, unabhängig davon,
 ob die Firmware bereits wieder funktionierte. Beim Zusammenbau deshalb
 die Position und Funktion der Knöpfe vor dem endgültigen Schließen prüfen.
@@ -74,13 +77,21 @@ Es sind **zwei getrennte Verbindungen**: Das UART-Modul verschafft uns die
 serielle Konsole; das USB-Datenkabel direkt an der Kamera ermöglicht FEL.
 Ein erkannter COM-Port bedeutet nicht, dass die Kamera im FEL-Modus ist.
 Umgekehrt braucht sunxi-fel keine funktionierende Linux-Shell.
+Um nicht jedes Mal am Flashbaustein ein Kabel für den FEL Zugang zu löten, wurde
+beschlossen in das Gehäuse einen kleine Buchse mit 4 Anschlüssen für einen Mini-Stecker 
+zu einzufügen. Die Anschlüsse sind TX,RX, FEL und GND. Die Anschlüsse wurden mit kleinen Drähten 
+direkt auf dem Board an die entsprechenden Pins gelötet.
+Anmerkung: Während der ganzen Tests kam es teilweise immer wieder dazu,
+dass FEL benötigt wurde um eine vorhandene Firmware wieder aufzuspielen,
+weil irgendwas nicht mehr softwaretechnisch reparierbar war.
 
-Unser Ablauf: zuerst Zugang und Sicherung herstellen, im FEL-Modus zweimal
+Zwar gab es diesen Ablauf: zuerst Zugang und Sicherung herstellen, im FEL-Modus zweimal
 vollständig lesen und vergleichen, das geprüfte Image schreiben und danach
 den gesamten Flash zurücklesen. Erst nach identischer Prüfsumme folgt der
 normale Start mit Kontrolle über UART/PuTTY. Details und Anschlussfotos:
 [Recovery-Anleitung](docs/RECOVERY.md). Hintergrund zum Werkzeug:
 [sunxi-fel-Handbuch](https://github.com/linux-sunxi/sunxi-tools/blob/master/sunxi-fel.1).
+Das hat aber manchmal auch nicht zu 100% funktioniert.
 
 ### Voraussetzungen am Windows-11-PC
 
@@ -111,9 +122,9 @@ abweisen. Eine entsprechend abgesicherte Bootkette kann außerdem das
 Starten nicht vertrauenswürdiger Images verhindern; siehe
 [U-Boot Verified Boot](https://docs.u-boot.org/en/stable/usage/fit/verified-boot.html).
 
-Unser FEL-/SPI-Weg ist jedoch ein tiefer Rettungszugang und kein gewöhnliches
-Kamera-Menüupdate. Beim getesteten Board konnten wir darüber ein komplettes
-Image schreiben. Daraus folgt weder, dass jede teurere Kamera solche Zugriffe
+Der FEL-/SPI-Weg ist jedoch ein tiefer Rettungszugang und kein gewöhnliches
+Kamera-Menüupdate. Beim getesteten Board konnte darüber ein komplettes
+Image geschrieben werden. Daraus folgt weder, dass jede teurere Kamera solche Zugriffe
 blockiert, noch dass ein offener Rettungszugang allein ein Qualitätsmangel
 ist – er hat diese Reparatur erst ermöglicht. Für dieses Projekt waren vor
 allem die fehlende passende Originalfirmware und die Unterschiede zwischen

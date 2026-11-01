@@ -167,6 +167,11 @@ muss angeschlossen sein:** Ohne Display lieferte der getestete Aufnahmeweg
 schwarze Bilder. Native Album-Bedienung, Tonqualität und alle weiteren
 Aufnahme-Untermodi sind nicht separat geprüft.
 
+Die Streaming-Optimierung vom 01.11.2026 erreicht bei JPEG-Qualität 65 etwa
+**16–17 statt zuvor 11–12 Bilder/s**. Im Webplayer dazu die experimentelle
+Obergrenze 25 wählen; 15 bleibt der Standard. Echte 25 Bilder/s werden noch
+nicht erreicht. [Messungen und Aufnahmeprüfung](tools/streaming/README.md).
+
 [Aktueller Stand](docs/INTERNES_IMAGE_2026-10-31.md) ·
 [Bauen](docs/BUILD.md) · [Sichern und Wiederherstellen](docs/RECOVERY.md).
 

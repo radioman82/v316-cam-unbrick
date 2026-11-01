@@ -51,33 +51,74 @@ static int display_open(void) {
     dma_pixels = mmap(NULL, dma_length, PROT_READ | PROT_WRITE, MAP_SHARED, dma_fd, 0);
     return dma_pixels == MAP_FAILED ? -1 : 0;
 }
+/* Guard scanline ends in our own DMA buffer. The opaque ARGB writeback
+ * replaces these impossible marker pixels when the corresponding rows finish.
+ * Poll completion instead of always sleeping 55 ms; retain a bounded retry. */
+static void capture_mark_rows(void) {
+    volatile uint32_t *pixels = (volatile uint32_t *)dma_pixels;
+    for (int y = 0; y < capture_height; ++y) {
+        pixels[y * capture_width] = 0xa5a5a5a5u;
+        pixels[(y + 1) * capture_width - 1] = 0xa5a5a5a5u;
+    }
+}
+static int capture_rows_complete(void) {
+    volatile const uint32_t *pixels = (volatile const uint32_t *)dma_pixels;
+    for (int y = 0; y < capture_height; ++y) {
+        if (pixels[y * capture_width] == 0xa5a5a5a5u ||
+            pixels[(y + 1) * capture_width - 1] == 0xa5a5a5a5u) return 0;
+    }
+    return 1;
+}
+static void capture_wait_rows(void) {
+    struct timespec start, current;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    volatile const uint32_t *pixels = (volatile const uint32_t *)dma_pixels;
+    for (;;) {
+        /* Usually only one uncached read per poll. Check all marked row ends
+         * once the last pixel changed; no assumptions about row ordering. */
+        if (pixels[capture_width * capture_height - 1] != 0xa5a5a5a5u &&
+            capture_rows_complete()) return;
+        clock_gettime(CLOCK_MONOTONIC, &current);
+        int64_t elapsed = (int64_t)(current.tv_sec - start.tv_sec) * 1000000000 +
+                          current.tv_nsec - start.tv_nsec;
+        if (elapsed >= 55000000) return;
+        struct timespec pause = {0, 1000000};
+        while (nanosleep(&pause, &pause) < 0 && errno == EINTR) {}
+    }
+}
 static int display_capture(unsigned char *rgb_out, int capture_lock) {
     unsigned long args[4] = {0};
     if (flock(capture_lock, LOCK_EX) < 0) return -1;
-    int rc = ioctl(display_fd, 0x140, args); /* DISP_CAPTURE_START */
-    if (rc < 0) { flock(capture_lock, LOCK_UN); return -1; }
-    struct cap_info2 info = {0};
-    info.out.format = 0; /* ARGB8888 = B, G, R, A bytes on little-endian ARM */
-    info.out.size[0].width = capture_width;
-    info.out.size[0].height = capture_height;
-    info.out.crop.width = capture_width;
-    info.out.crop.height = capture_height;
-    info.out.fd = dma_fd;
-    args[1] = (unsigned long)&info;
-    rc = ioctl(display_fd, 0x143, args); /* DISP_CAPTURE_COMMIT2, DMA-BUF fd */
-    if (rc >= 0) {
-        /* Commit is queued at vsync; allow three refreshes at the 58 Hz panel. */
-        struct timespec wait = {0, 55000000};
-        while (nanosleep(&wait, &wait) < 0 && errno == EINTR) {}
+    int complete = 0;
+    for (int attempt = 0; attempt < 2; ++attempt) {
+        capture_mark_rows();
+        int rc = ioctl(display_fd, 0x140, args); /* DISP_CAPTURE_START */
+        if (rc < 0) break;
+        struct cap_info2 info = {0};
+        info.out.format = 0; /* ARGB8888, opaque writeback on this board. */
+        info.out.size[0].width = capture_width;
+        info.out.size[0].height = capture_height;
+        info.out.crop.width = capture_width;
+        info.out.crop.height = capture_height;
+        info.out.fd = dma_fd;
+        args[1] = (unsigned long)&info;
+        rc = ioctl(display_fd, 0x143, args); /* DISP_CAPTURE_COMMIT2 */
+        if (rc >= 0) capture_wait_rows();
+        args[1] = 0;
+        int stopped = ioctl(display_fd, 0x141, args); /* Finish DMA before reading. */
+        if (rc < 0 || stopped < 0) break;
+        complete = capture_rows_complete();
+        if (complete) break;
     }
-    args[1] = 0;
-    int stopped = ioctl(display_fd, 0x141, args); /* Finish before reading/freeing DMA. */
     flock(capture_lock, LOCK_UN);
-    if (rc < 0 || stopped < 0) return -1;
+    if (!complete) return -1;
+    /* One aligned 32-bit read per pixel instead of three uncached byte reads. */
+    const uint32_t *pixels = (const uint32_t *)dma_pixels;
     for (int i = 0; i < capture_width * capture_height; ++i) {
-        rgb_out[i * 3] = dma_pixels[i * 4 + 2];
-        rgb_out[i * 3 + 1] = dma_pixels[i * 4 + 1];
-        rgb_out[i * 3 + 2] = dma_pixels[i * 4];
+        uint32_t pixel = pixels[i];
+        rgb_out[i * 3] = (unsigned char)(pixel >> 16);
+        rgb_out[i * 3 + 1] = (unsigned char)(pixel >> 8);
+        rgb_out[i * 3 + 2] = (unsigned char)pixel;
     }
     return 0;
 }

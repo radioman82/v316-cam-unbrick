@@ -182,9 +182,18 @@ Bereichen der Systempartition. Das ist damit kein reiner Linux-Cacheeffekt.
 Wann und wodurch diese Änderungen entstanden, ist noch nicht geklärt;
 der erfolgreiche Ersttest belegt keine dauerhafte Flash-Stabilität.
 
-Unabhängig davon fehlte beim Aufruf des nativen SETUP-Menüwechsels ein
-fünfter Parameter. Der Renderer übergibt nun ausdrücklich den Übergangstyp
-2 und reicht ihn auch durch den Vorschau-Nachrichtenhook weiter.
+Unabhängig davon war der SETUP-Menüwechsel unzuverlässig. Die ursprüngliche
+Annahme eines fehlenden fünften Aufrufparameters war unzutreffend: Die native
+Nachrichtenwarteschlange speichert nur vier Argumente. Zusätzliche Argumente
+am Aufrufer erreichen den eigentlichen Fensterwechsel deshalb nicht.
+Der Builder korrigiert nun am empfangenden WindowManager die beiden Übergänge
+Vorschau → SETUP und SETUP → Vorschau auf Typ 2 (explizite Menüauswahl).
+Dies gilt nur für Nachrichten des jeweils aktiven Fensters; der Einstieg
+während einer laufenden Aufnahme bleibt gesperrt. Andere Übergänge und die
+globale Tastensperre bleiben unverändert. Der Vorschau-Nachrichtenhook verwendet
+wieder seine tatsächliche Signatur mit vier Argumenten. SETUP erhält den
+vorherigen Kamera-/Streamingmodus. Der erste Gerätetest bestätigte den Einstieg;
+beim Nachtest wurde auch die Sperre des Rückwegs erkannt und gezielt ergänzt.
 Die Framerate-Vergleichsmessung bleibt bis zur erneuten Geräteprüfung offen.
 
 Die Reparatur erfolgte anschließend über FEL: Systempartition mit korrigiertem
@@ -194,3 +203,17 @@ Nach normalem Start stimmten App- und Systemprüfsumme; WLAN und HTTP liefen,
 ein 320 × 240-JPEG wurde vollständig dekodiert. Der Nutzer bestätigte, dass
 SETUP mit den Kameratasten wieder öffnet. Im kurzen Nachtest erschienen keine
 neuen Dateisystemfehler; eine Langzeitprüfung steht weiterhin aus.
+
+Beim ergänzenden SETUP-Test wurde auch der Rückweg aus den Einstellungen
+geprüft. Nach der Korrektur beider Übergänge wurde die Systempartition erneut
+über FEL installiert; die vollständige 16-MiB-Rücklesung war bytegleich.
+Die installierte App bestand anschließend die Auswahl der SETUP-Kachel und
+den Rückweg jeweils aus FOTO, VIDEO und STREAM. App- und Systemprüfsumme
+stimmten, WLAN/HTTP lieferten ein vollständig dekodiertes 320 × 240-JPEG.
+Die globale Modustastensperre wurde dabei nicht dauerhaft freigegeben.
+
+Ein dazwischenliegender zweiter SD-Versuch endete mit dunklem Display ohne
+protokollierte Schreibphase. Die anschließende FEL-Sicherung bestätigte
+unveränderte Bootbereiche und die exakte Systemprüfsumme der ersten
+SD-Installation. Ein beschädigter Bootloader wurde dabei nicht festgestellt;
+die Ursache dieses Ausschaltens ist nicht geklärt.

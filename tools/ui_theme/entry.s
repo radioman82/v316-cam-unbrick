@@ -45,3 +45,10 @@ startup_menu_entry:
     mov r0, r4
     bl theme_startup_window_loaded
     b.w 0x6c0fe
+
+.section .text.original_manager_sendmsg,"ax",%progbits
+.global original_manager_sendmsg
+.thumb_func
+original_manager_sendmsg:
+    push.w {r4,r5,r6,r7,r8,r9,lr}
+    ldr pc, =0x627d1

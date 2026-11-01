@@ -395,11 +395,24 @@ static int recording(void) {
     }
     FN(0x1c334,int(*)(void*))(d);return active;
 }
-extern void original_preview_post(O,O,int,int,int);
-void theme_preview_post(O self,O sender,int message,int value,int transition) {
+/* This receiver really has five arguments; the queued Window::sendmsg
+ * caller has only four. Normalize explicit SETUP navigation at its receiver,
+ * retaining the native presenter and window show/hide lifecycle. */
+extern int original_manager_sendmsg(O,O,int,int,int);
+int theme_manager_sendmsg(O self,O sender,int message,int target,int reason) {
+    if(message==0xf00c8){
+        int current=GET(self,0x60);
+        if(sender==window(current)&&
+           ((current==2&&target==1&&!recording())||(current==1&&target==2)))
+            reason=2;
+    }
+    return original_manager_sendmsg(self,sender,message,target,reason);
+}
+extern void original_preview_post(O,O,int,int);
+void theme_preview_post(O self,O sender,int message,int value) {
     /* Native shutter paths: 59 remote, 62 video, 81 still image. */
     if(streaming()&&(message==59||message==62||message==81))return;
-    original_preview_post(self,sender,message,value,transition);
+    original_preview_post(self,sender,message,value);
 }
 extern void original_preview_key(O,int,int);
 void theme_preview_key(O self,int key,int longpress) {
@@ -421,12 +434,11 @@ void theme_tile_dispatch(O self,O unused,int tile) {
     (void)unused;
     if(tile==3){
         if(recording())return;
-        FN(0x1c8c0,int(*)(const char*))("/tmp/v316cm-stream-mode");
         for(int off=0xec;off<=0x118;off+=4){
             if(off!=0xec&&off!=0xf0&&off!=0x114&&off!=0x118)continue;
             O p=GET(self,off);if(p&&BYTE(p,12))FN(GET(GET(p,0),0x1c),void(*)(O))(p);
         }
-        FN(0x5aa09,void(*)(O,O,int,int,int))(self,self,74,1,2);
+        FN(0x5aa09,void(*)(O,O,int,int))(self,self,74,1);
         return;
     }
     if(tile<0||tile>2||recording())return;
@@ -476,9 +488,9 @@ int theme_dispatch(void*msg) {
                 theme_tile_dispatch(preview,0,cmd[5]-'0');
             }else if(eq(cmd,"stream-shutter-check")&&preview&&streaming()){
                 theme_preview_key(preview,130,0);
-                theme_preview_post(preview,preview,59,1,2);
-                theme_preview_post(preview,preview,62,1,2);
-                theme_preview_post(preview,preview,81,1,2);
+                theme_preview_post(preview,preview,59,1);
+                theme_preview_post(preview,preview,62,1);
+                theme_preview_post(preview,preview,81,1);
             }else if(eq(cmd,"setup")&&setting&&preview){
                 for(int off=0xec;off<=0x118;off+=4){
                     if(off!=0xec&&off!=0xf0&&off!=0x114&&off!=0x118)continue;
@@ -486,7 +498,7 @@ int theme_dispatch(void*msg) {
                 }
                 /* The app message also loads the settings presenter/config.
                  * Switching only the visible window would show default values. */
-                FN(0x5aa09,void(*)(O,O,int,int,int))(preview,preview,74,1,2);
+                FN(0x5aa09,void(*)(O,O,int,int))(preview,preview,74,1);
             }else if(eq(cmd,"device")&&setting){
                 FN(0x65a49,void(*)(O,O))(setting,GET(setting,0x1d8));
             }else if(eq(cmd,"mode")&&setting){

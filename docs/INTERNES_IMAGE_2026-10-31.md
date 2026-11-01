@@ -1,5 +1,14 @@
 # Geprüfter Kamerastand vom 31.10.2026
 
+**Ergänzung vom 01.11.2026:** Der SETUP-Wechsel und der Rückweg wurden am
+nativen WindowManager korrigiert. Die installierte Version wurde nach
+vollständiger FEL-Rückleseprüfung aus FOTO, VIDEO und STREAM jeweils mit
+Öffnen und Zurück geprüft; WLAN/HTTP lieferten anschließend gültige Bilder.
+Alte Updatepakete, Protokolle und eine verbliebene Kamera-App wurden nach
+privater Sicherung von SD entfernt. Die Karte enthält wieder nur `DCIM`
+und den Windows-Ordner `System Volume Information`.
+[Details und weiterhin offene Stabilitätsfragen](SD_UPDATE.md#nachfolgende-stabilitätsprüfung).
+
 Die Kamera verwendet ein eigenständiges internes Image. Installation,
 Kaltstart ohne SD, Streaming und Aufnahme auf leerer Medienkarte sind geprüft.
 

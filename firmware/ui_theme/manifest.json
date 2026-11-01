@@ -1,6 +1,6 @@
 {
   "baseline": "ece022b21206d5bc28058b24cf3790d7",
-  "md5": "94964a7b457c6f50349534f5c7c2d9e3",
+  "md5": "96bd5005e330bbdcee99ccb815f1b8ba",
   "patches": [
     [
       2033040,
@@ -47,6 +47,10 @@
       4
     ],
     [
+      337868,
+      4
+    ],
+    [
       377064,
       4
     ],
@@ -56,14 +60,14 @@
     ],
     [
       3407872,
-      37704
+      37780
     ]
   ],
   "symbols": {
     "*ABS*0x24ae28": 2403880,
     "*ABS*0x6c0fe": 442622,
-    "__aeabi_idiv": 4201940,
-    "__aeabi_uidiv": 4201944,
+    "__aeabi_idiv": 4202004,
+    "__aeabi_uidiv": 4202008,
     "box": 4195816,
     "box.part.0": 4195756,
     "card": 4196092,
@@ -71,32 +75,34 @@
     "confirm_caption": 4196204,
     "eq": 4195450,
     "eq.part.0": 4195424,
-    "font_runs": 4207644,
+    "font_runs": 4207720,
     "glyph": 4194484,
-    "glyphs": 4202916,
+    "glyphs": 4202992,
     "len": 4194792,
     "menu_window": 4194540,
-    "original_preview_key": 4201912,
-    "original_preview_post": 4201900,
-    "original_window_proc": 4201924,
+    "original_manager_sendmsg": 4202032,
+    "original_preview_key": 4201976,
+    "original_preview_post": 4201964,
+    "original_window_proc": 4201988,
     "pixel": 4194332,
     "recording": 4195460,
     "roundbox": 4195844,
-    "startup_menu_entry": 4201956,
+    "startup_menu_entry": 4202020,
     "streaming": 4194304,
     "text": 4194872,
     "theme_button_message": 4199332,
-    "theme_dispatch": 4200576,
+    "theme_dispatch": 4200656,
     "theme_graph_message": 4198352,
     "theme_list_message": 4196368,
+    "theme_manager_sendmsg": 4200108,
     "theme_menu_draw": 4197316,
     "theme_mode_captions": 4196336,
-    "theme_mode_items": 4201884,
-    "theme_preview_key": 4200176,
-    "theme_preview_post": 4200108,
+    "theme_mode_items": 4201948,
+    "theme_preview_key": 4200260,
+    "theme_preview_post": 4200200,
     "theme_startup_window_loaded": 4199936,
     "theme_text_message": 4197752,
-    "theme_tile_dispatch": 4200304,
+    "theme_tile_dispatch": 4200388,
     "theme_window_proc": 4199620,
     "utf8": 4194376,
     "widget_menu": 4194644,
@@ -123,5 +129,5 @@
     "OKDialogSmall.ui",
     "TimeSettingWindow.ui"
   ],
-  "payload_bytes": 37704
+  "payload_bytes": 37780
 }

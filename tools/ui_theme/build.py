@@ -176,6 +176,9 @@ def build(internal=False):
     patch(0x24ada0,bytes.fromhex('70b50446'),enc_bw(0x24ada0,symbols['theme_tile_dispatch']))
     patch(0x24adf8,bytes.fromhex('3c2906d0'),enc_bw(0x24adf8,symbols['theme_preview_key']))
     patch(0x5aa08,bytes.fromhex('2de9f743'),enc_bw(0x5aa08,symbols['theme_preview_post']))
+    # SETUP and its return button use native reasons 0/1 while mode keys are
+    # disabled. Normalize only these two explicit transitions at the receiver.
+    patch(0x627cc,bytes.fromhex('2de9f043'),enc_bw(0x627cc,symbols['theme_manager_sendmsg']))
     patch(0x6c0e8,bytes.fromhex('d4f89000'),enc_bw(0x6c0e8,symbols['startup_menu_entry']))
     offset=(len(data)+4095)&~4095
     data.extend(bytes(offset-len(data)));data.extend(payload)

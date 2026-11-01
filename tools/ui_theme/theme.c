@@ -421,11 +421,13 @@ void theme_tile_dispatch(O self,O unused,int tile) {
     (void)unused;
     if(tile==3){
         if(recording())return;
-        /* The native helper tail-calls Window::sendmsg, forwarding its fifth
-         * stack argument to WindowManager::sendmsg. Type 2 is an explicit UI
-         * transition; omitting it makes SETUP look like a forbidden mode key.
-         * Keep the native presenter/configuration initialization intact. */
-        FN(0x5aead,void(*)(O,int,int,int,int))(self,1,0,0,2);return;
+        FN(0x1c8c0,int(*)(const char*))("/tmp/v316cm-stream-mode");
+        for(int off=0xec;off<=0x118;off+=4){
+            if(off!=0xec&&off!=0xf0&&off!=0x114&&off!=0x118)continue;
+            O p=GET(self,off);if(p&&BYTE(p,12))FN(GET(GET(p,0),0x1c),void(*)(O))(p);
+        }
+        FN(0x5aa09,void(*)(O,O,int,int,int))(self,self,74,1,2);
+        return;
     }
     if(tile<0||tile>2||recording())return;
     if(tile==2){

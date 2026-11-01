@@ -33,8 +33,9 @@ herstellerspezifischen Kamera-App.
 3. `python tools/ui_theme/build.py --internal`.
 4. `firmware/splash/welcome.bmp` und `byebye.bmp` vorbereiten:
    320 × 240 Pixel, RGB 24 Bit, unkomprimiert.
-5. SD-Updater und Image bauen:
+5. WLAN-Importer, SD-Updater und Image bauen:
 
+    python tools/wlan_import/build.py --zig D:/path/to/zig.exe --output ../internal-image-build/wlan-import/wlan-import
     python tools/sd_update/build.py --zig D:/path/to/zig.exe --output ../internal-image-build/sd-update/updater
     python tools/build_internal_image.py --assemble --squashfs-tools D:/path/to/squashfs_tools
 
@@ -42,6 +43,11 @@ herstellerspezifischen Kamera-App.
 in dessen Unterordner `runtime/` liegen. Lokale CRC-gültige
 Einstellungssicherungen werden berücksichtigt. Fehlen sie, bleiben Werkswerte
 mit deutscher Startsprache. Verwendete Quelle im Manifest kontrollieren.
+
+Neue Builds enthalten keine persönlichen Router-Zugangsdaten. Vorhandene
+WLAN-Daten müssen im erhaltenen Overlay liegen; der WLAN-Installer migriert
+sie dorthin. Der [einmalige SD-WLAN-Import](WLAN_IMPORT.md) ist noch in Prüfung
+und wird im Builder nur mit `--enable-wlan-import` automatisch gestartet.
 
 Ausgaben: `standalone.squashfs`, `V316CM_STANDALONE_16MiB.bin` und
 `manifest.json` außerhalb des Repositorys. Der Builder prüft Referenz-SHA,

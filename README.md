@@ -175,6 +175,10 @@ nicht erreicht. [Messungen und Aufnahmeprüfung](tools/streaming/README.md).
 [Aktueller Stand](docs/INTERNES_IMAGE_2026-10-31.md) ·
 [Bauen](docs/BUILD.md) · [Sichern und Wiederherstellen](docs/RECOVERY.md).
 
+In Arbeit: [WLAN-Zugangsdaten einmalig von SD übernehmen](docs/WLAN_IMPORT.md).
+Parser und bestehende Verbindung sind geprüft; Bestätigung, DHCP und Rückfall
+benötigen noch Gerätetests. Der automatische Import ist bis dahin deaktiviert.
+
 Neue Hardwarefotos: [UART-/FEL-Anschlüsse](pictures/zus%C3%A4tzliche-anschl%C3%BCsse.jpg),
 [FEL-Nahaufnahme](pictures/FEL.jpg), [Antennenanschluss](pictures/Antennenanschluss.jpg).
 

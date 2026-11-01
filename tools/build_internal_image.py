@@ -61,7 +61,7 @@ def recover_setting(image):
         if off<end:result[off:end]=data[:end-off];covered[off:end]=b'\x01'*(end-off)
     return bytes(result) if all(covered) else None
 
-def assemble():
+def assemble(enable_wlan_import=False):
     dest=WORK/'rootfs'
     runtime=WORK/'runtime'
     assert runtime.is_dir()
@@ -89,13 +89,26 @@ def assemble():
     for folder in ('bin','lib','www'):
         tree(runtime/folder,'opt/cam/'+folder)
     for name in ('start_streaming.sh','stop_streaming.sh','network_mode.sh'):
-        text=(runtime/name).read_text().replace('/mnt/extsd','/opt/cam')
+        source=ROOT/'tools/wlan_import'/name if name!='network_mode.sh' else runtime/name
+        text=source.read_text().replace('/mnt/extsd','/opt/cam')
         text=text.replace('/opt/cam/wlan.conf','/data/wlan.conf')
         text=text.replace('# Read configuration from SD card','# Read persistent internal WLAN configuration')
         (dest/'opt/cam'/name).write_text(text,encoding='utf-8',newline='\n')
     for p in (dest/'opt/cam/www/cgi-bin').iterdir():
         p.write_text(p.read_text().replace('/mnt/extsd','/opt/cam'),encoding='utf-8',newline='\n')
-    put(runtime/'wlan.conf','data/wlan.conf')
+    wlan=WORK/'wlan-import/wlan-import'
+    if not wlan.is_file():
+        raise RuntimeError('Build tools/wlan_import/build.py into WORK/wlan-import/wlan-import first')
+    put(wlan,'opt/cam/wlan/wlan-import')
+    for name in ('connect.sh','dhcp.sh','import.sh'):
+        put(ROOT/'tools/wlan_import'/name,'opt/cam/wlan/'+name)
+    if enable_wlan_import:
+        put(ROOT/'tools/wlan_import/init.sh','etc/init.d/S99wlan')
+    elif (dest/'etc/init.d/S99wlan').exists():
+        (dest/'etc/init.d/S99wlan').unlink()
+    # New images carry no personal router credentials. The installed overlay
+    # keeps its existing configuration; deployment migrates old lower files.
+    put(ROOT/'tools/wlan_import/default.conf','data/wlan.conf')
     # Recover valid settings from the pre-existing rescue snapshot, not corrupt live files.
     rescue_path=ROOT.parent/'recovery-2026-10-29/V316CM_CURRENT_WORKING_20261029_16MB.bin'
     rescue=rescue_path.read_bytes() if rescue_path.exists() else None
@@ -156,11 +169,12 @@ exit 0
     # Newly added runtime tools and scripts must have executable bits.
     for p in (dest/'opt').rglob('*'):
         path=p.relative_to(dest).as_posix()
-        mode='755' if p.is_dir() or '/bin/' in path or '/cgi-bin/' in path or p.suffix=='.sh' or path=='opt/cam/update/updater' else '644'
+        mode='755' if p.is_dir() or '/bin/' in path or '/cgi-bin/' in path or p.suffix=='.sh' or path in ('opt/cam/update/updater','opt/cam/wlan/wlan-import') else '644'
         pseudo.append(f'{path} m {mode} 0 0')
     if not any(line.startswith('opt m ') for line in pseudo):pseudo.append('opt m 755 0 0')
     pseudo.append('data/wlan.conf m 600 0 0')
     pseudo.append('etc/init.d/S99sdupdate m 755 0 0')
+    if enable_wlan_import:pseudo.append('etc/init.d/S99wlan m 755 0 0')
     pf=WORK/'modes.pseudo'
     pf.write_text('\n'.join(pseudo)+'\n')
     sq=WORK/'standalone.squashfs'
@@ -192,11 +206,12 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--assemble',action='store_true')
     parser.add_argument('--sizes',action='store_true')
+    parser.add_argument('--enable-wlan-import',action='store_true',help='Enable experimental boot WLAN import after device tests')
     parser.add_argument('--work-dir',type=Path,default=WORK)
     parser.add_argument('--squashfs-tools',type=Path,default=TOOLS)
     args=parser.parse_args()
     WORK=args.work_dir.resolve()
     TOOLS=args.squashfs_tools.resolve()
     prepare()
-    if args.assemble:assemble()
+    if args.assemble:assemble(args.enable_wlan_import)
     if args.sizes:sizes()

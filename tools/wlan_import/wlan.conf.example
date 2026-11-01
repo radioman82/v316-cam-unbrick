@@ -1,0 +1,5 @@
+# Als wlan.conf im Hauptverzeichnis der SD-Karte speichern (UTF-8).
+# Werte ohne zusaetzliche Anfuehrungszeichen eintragen.
+ssid=Mein WLAN
+password=HierDasEigenePasswort
+ip_mode=dhcp

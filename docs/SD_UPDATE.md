@@ -171,3 +171,18 @@ Das private Paket basiert auf dem 16-MiB-Image
 `8b1aed37c86bb3ed7ed3e62d6b59bb40edff914b9d33fadc1c8de86bc65808b7`.
 Dies ist keine Prüfsumme einer vollständigen neuen Flash-Rücklesung: Der
 SD-Updater erhält bewusst das vorhandene Overlay und die Bootumgebung.
+
+### Nachfolgende Stabilitätsprüfung
+
+Im weiteren Betrieb am selben Tag traten erneut SquashFS-/JFFS2-Fehler auf;
+WLAN ließ sich nicht mehr starten. Nach einem Kaltstart wich die Rootfs-
+Prüfsumme vom oben dokumentierten erfolgreichen Ersttest ab. Zwei identische
+vollständige FEL-Sicherungen bestätigten 219 veränderte Bytes in zwei
+Bereichen der Systempartition. Das ist damit kein reiner Linux-Cacheeffekt.
+Wann und wodurch diese Änderungen entstanden, ist noch nicht geklärt;
+der erfolgreiche Ersttest belegt keine dauerhafte Flash-Stabilität.
+
+Unabhängig davon fehlte beim Aufruf des nativen SETUP-Menüwechsels ein
+fünfter Parameter. Der Renderer übergibt nun ausdrücklich den Übergangstyp
+2 und reicht ihn auch durch den Vorschau-Nachrichtenhook weiter.
+Die Framerate-Vergleichsmessung bleibt bis zur erneuten Geräteprüfung offen.

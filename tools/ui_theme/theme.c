@@ -395,11 +395,11 @@ static int recording(void) {
     }
     FN(0x1c334,int(*)(void*))(d);return active;
 }
-extern void original_preview_post(O,O,int,int);
-void theme_preview_post(O self,O sender,int message,int value) {
+extern void original_preview_post(O,O,int,int,int);
+void theme_preview_post(O self,O sender,int message,int value,int transition) {
     /* Native shutter paths: 59 remote, 62 video, 81 still image. */
     if(streaming()&&(message==59||message==62||message==81))return;
-    original_preview_post(self,sender,message,value);
+    original_preview_post(self,sender,message,value,transition);
 }
 extern void original_preview_key(O,int,int);
 void theme_preview_key(O self,int key,int longpress) {
@@ -419,7 +419,14 @@ void theme_preview_key(O self,int key,int longpress) {
 }
 void theme_tile_dispatch(O self,O unused,int tile) {
     (void)unused;
-    if(tile==3){FN(0x5aead,void(*)(O,int))(self,1);return;}
+    if(tile==3){
+        if(recording())return;
+        /* The native helper tail-calls Window::sendmsg, forwarding its fifth
+         * stack argument to WindowManager::sendmsg. Type 2 is an explicit UI
+         * transition; omitting it makes SETUP look like a forbidden mode key.
+         * Keep the native presenter/configuration initialization intact. */
+        FN(0x5aead,void(*)(O,int,int,int,int))(self,1,0,0,2);return;
+    }
     if(tile<0||tile>2||recording())return;
     if(tile==2){
         void*f=FN(0x1c7d0,void*(*)(const char*,const char*))("/tmp/v316cm-stream-mode","w");
@@ -467,9 +474,9 @@ int theme_dispatch(void*msg) {
                 theme_tile_dispatch(preview,0,cmd[5]-'0');
             }else if(eq(cmd,"stream-shutter-check")&&preview&&streaming()){
                 theme_preview_key(preview,130,0);
-                theme_preview_post(preview,preview,59,1);
-                theme_preview_post(preview,preview,62,1);
-                theme_preview_post(preview,preview,81,1);
+                theme_preview_post(preview,preview,59,1,2);
+                theme_preview_post(preview,preview,62,1,2);
+                theme_preview_post(preview,preview,81,1,2);
             }else if(eq(cmd,"setup")&&setting&&preview){
                 for(int off=0xec;off<=0x118;off+=4){
                     if(off!=0xec&&off!=0xf0&&off!=0x114&&off!=0x118)continue;
@@ -477,7 +484,7 @@ int theme_dispatch(void*msg) {
                 }
                 /* The app message also loads the settings presenter/config.
                  * Switching only the visible window would show default values. */
-                FN(0x5aa09,void(*)(O,O,int,int))(preview,preview,74,1);
+                FN(0x5aa09,void(*)(O,O,int,int,int))(preview,preview,74,1,2);
             }else if(eq(cmd,"device")&&setting){
                 FN(0x65a49,void(*)(O,O))(setting,GET(setting,0x1d8));
             }else if(eq(cmd,"mode")&&setting){

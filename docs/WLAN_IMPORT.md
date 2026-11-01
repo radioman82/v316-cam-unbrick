@@ -8,7 +8,7 @@ und anschließendes Löschen der SD-Datei stehen als Gerätetests noch aus.
 
 ## Vorgesehene Bedienung
 
-1. [Beispieldatei](../tools/wlan_import/wlan.conf.example) mit den eigenen
+1. [Beispieldatei](../tools/wlan_import/network-settings.example) mit den eigenen
    Daten als `wlan.conf` ins Hauptverzeichnis der SD-Karte kopieren.
 2. Kamera starten. Nach der Geräteinitialisierung erscheint die Abfrage;
    ein vorhandenes Firmwareupdate hat Vorrang. Während einer Videoaufnahme

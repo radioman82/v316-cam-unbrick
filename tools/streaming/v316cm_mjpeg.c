@@ -141,7 +141,7 @@ static int stream_options(int *quality, int *fps) {
         }
         unsigned bit;
         if (key == 3 && !memcmp(query, "fps", 3)) {
-            if (value < 1 || value > 15) return -1;
+            if (value < 1 || value > 25) return -1;
             bit = 1; *fps = value;
         } else if (key == 7 && !memcmp(query, "quality", 7)) {
             if (value < 20 || value > 90) return -1;
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
     int quality = 65, fps = 15;
     if (stream_options(&quality, &fps) < 0) {
         fputs("Status: 400 Bad Request\r\nContent-Type: text/plain\r\n"
-              "Cache-Control: no-store\r\n\r\nExpected fps=1..15 and quality=20..90.\n", stdout);
+              "Cache-Control: no-store\r\n\r\nExpected fps=1..25 and quality=20..90.\n", stdout);
         return 1;
     }
     snprintf(capture_path, sizeof(capture_path), "/tmp/v316cm-capture-%ld.bmp", (long)getpid());

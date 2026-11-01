@@ -1,28 +1,53 @@
 # Firmware-Update von SD
 
-**Entwicklungsstand vom 31.10.2026: noch nicht für reguläre Updates freigegeben.**
-Paket-/Hardwareprüfungen, Ablehnung fehlerhafter Pakete und der echte Wechsel
-von Init in die RAM-Umgebung mit ausgehängten Flash-Dateisystemen und Neustart
-sind auf der Kamera geprüft. **Ein tatsächliches SD-Flashen und die anschließende
-Rückleseprüfung sind noch offen.** Die Display-/Tastenabfrage muss nach einer
-Korrektur des `EVIOCGKEY`-Rückgabewerts erneut getestet werden; ebenso der
-verzögerte Start in eigener Session. Der vorläufige Start-Hook wurde zum
-Sitzungsende entfernt, die SD ist wieder eine reine Medienkarte. FEL bleibt
-bis zum abgeschlossenen Gerätetest der vollständig geprüfte Installationsweg.
+**Stand 01.11.2026: echtes SD-Update auf diesem Board erfolgreich geprüft.**
+Die Kamera hat das Paket beim Start erkannt, die Tastenbestätigung ausgewertet,
+das interne System aus dem RAM geschrieben und vollständig zurückgelesen.
+Auch nach dem Neustart stimmt die Systempartition exakt mit dem Image überein.
+Bootloader, Bootumgebung, UDISK, WLAN und alle 128 Einstellungswerte blieben
+erhalten. Der Updater ist jetzt im internen Image installiert. FEL bleibt
+der Rettungsweg, wenn die bisherige Firmware nicht mehr startet.
 
 Der Updater gehört in den internen Flash. Auf einer normalen Medienkarte
 sind weiterhin keine Systemdateien nötig. Nur für ein Update wird ein
 speziell verpacktes Image im Hauptverzeichnis der Karte abgelegt.
 
+<img src="../pictures/Upload_SD_Firmware.jpg" width="480" alt="Tatsächliches Firmwareupdate von SD am Kameradisplay, Rootfs-Schreiben bei 28 Prozent">
+
+Das Foto vom 01.11.2026 zeigt den tatsächlichen Schreibvorgang auf der Kamera
+bei 28 Prozent. Nach diesem Schritt folgten vollständiges Rücklesen,
+Neustart und die unten dokumentierten Funktionsprüfungen.
+
 ## Bedienung
 
-1. Passendes Paket als `firmware-update.bin` auf die FAT32-Karte kopieren.
-   Ein rohes FEL-Image nur umzubenennen genügt nicht.
-2. Kamera mit angeschlossenem Display und stabiler USB-Stromversorgung starten.
-3. Nach der Dateiprüfung erscheint die Updateabfrage. **OK zwei Sekunden
+1. **Passendes Paket vorbereiten.** Das eigenständige Image wie unter
+   „Bauen“ erzeugen und mit `package.py` verpacken. Das getestete Paket hat
+   16 MiB plus 512 Byte. Ein rohes FEL-Image nur umzubenennen genügt nicht.
+   Auf einer älteren, bereits startenden Firmware zuerst einmalig die unten
+   beschriebene UART-Installationsbrücke einrichten. Im neuen Image ist der
+   Updater bereits enthalten.
+2. **Auf SD kopieren.** Das Paket als `firmware-update.bin` ins Hauptverzeichnis
+   der FAT32-Karte kopieren, den Schreibvorgang am PC abschließen und die Karte
+   in die ausgeschaltete Kamera einsetzen. Vorhandene Fotos und Videos können
+   auf der Karte bleiben.
+3. **Normal starten.** Display anschließen und eine stabile USB-Stromversorgung
+   verwenden. Der Gerätetest erfolgte ohne Akku, ausschließlich über USB.
+   Der Updater startet am Ende der Geräteinitialisierung und prüft das Paket.
+4. **Erst bei der Updateabfrage bestätigen.** **OK/Auslöser zwei Sekunden
    halten**, um zu installieren; eine andere Taste oder 30 Sekunden ohne
    Bestätigung überspringen das Update.
-4. Während Schreiben, Rückleseprüfung und Neustart die Versorgung nicht trennen.
+5. **Schreiben abwarten.** Die Kamera beendet die laufenden Anwendungen,
+   wechselt in die RAM-Umgebung und zeigt den Fortschritt auf dem Display.
+   Während Schreiben, Rückleseprüfung und Neustart die Versorgung nicht trennen.
+6. **Ergebnis prüfen.** Nach `GESCHRIEBEN UND VERIFIZIERT` beziehungsweise
+   `BEREITS IDENTISCH` folgt `UPDATE ERFOLGREICH` und ein automatischer Neustart.
+   Danach Menü, eigene Einstellungen und eine Aufnahme beziehungsweise den
+   Stream prüfen. Bei einem Fehler während des Schreibens den dokumentierten
+   [FEL-Rettungsweg](RECOVERY.md) verwenden.
+7. **SD wieder als Medienkarte verwenden.** Nach erfolgreichem Neustart heißt
+   das Paket `firmware-update.done`; `firmware-update.log` enthält das Ergebnis.
+   Diese Dateien bei Bedarf privat sichern und anschließend von SD entfernen.
+   Die Kamera startet danach weiterhin vollständig aus ihrem internen Flash.
 
 Das Programm prüft Paketgröße, Format, Boardkennung, SHA-256, die feste
 Partitionsaufteilung, NOR-Geometrie, den zum Image passenden vorhandenen
@@ -66,7 +91,10 @@ einschließlich dessen WLAN-Daten und wird **nicht in Git oder ein Release gelad
 
 ## Technischer Ablauf und Tests
 
-`S01app` startet die einmalige Prüfung im Hintergrund. Die Kamera-App wird
+`S99sdupdate` startet die einmalige Prüfung nach der Geräteinitialisierung
+im Hintergrund. Ein früher Start neben `S01app` wurde während der nativen
+Initialisierung vorzeitig beendet; der spätere Start ist auf der Kamera geprüft.
+Die Kamera-App wird
 während der unabhängigen Displayabfrage pausiert. Nach Bestätigung ersetzt
 eine nur im RAM eingebundene `inittab` die normale Init-Konfiguration.
 BusyBox `RESTART`/SIGQUIT beendet die anderen Prozesse und führt den statischen
@@ -74,6 +102,13 @@ Updater als PID 1 aus. Er lädt das geprüfte Image in den RAM, wechselt per
 `pivot_root` auf tmpfs und hängt alle Flash-Dateisysteme vollständig aus.
 Erst danach darf der Schreibpfad laufen. Kein `umount -l` und keine Bibliothek
 aus dem alten Root-Dateisystem werden dafür verwendet.
+
+Die native Oberfläche nutzt einen gedrehten Displaypuffer. `display.h` legt
+die Abfrage deshalb auf eine freie Displayebene und stellt beide ursprünglichen
+Framebuffer-Seiten vor der Rückkehr zur Kamera-App wieder her. Ihre Prüfsummen
+vor und nach der Abfrage waren identisch. Die physische OK-/Auslösetaste liefert
+auf diesem Board `KEY_MENU` (139) über `gpiokey`/`event2`; die übrigen Tasten
+dienen zum Abbrechen. Die ARM32-Layouts werden beim Build fest geprüft.
 
 Der vorhandene Herstellerkernel registriert keinen MTD-Character-Treiber;
 die `/dev/mtdN`-Dateien lassen sich trotz vorhandener Nodes nicht öffnen.
@@ -98,7 +133,7 @@ Prüfwerkzeuge:
 
 Die Schreibphase kann nur als PID 1 nach dem Aushängen erreicht werden.
 `bootstrap.sh` ist die einmalige Installationsbrücke für den bisherigen
-Firmwarestand: Updater und Startskript liegen vorübergehend im Overlay.
+Firmwarestand: Updater und `S99sdupdate` liegen vorübergehend im Overlay.
 Nach dem ersten erfolgreichen SD-Update entfernt die Brücke diese Dateien
 direkt aus dem Overlay-Upperdir, damit künftig die Version aus dem neuen
 Image verwendet wird. Benutzereinstellungen werden dabei nicht entfernt.
@@ -113,3 +148,26 @@ python tools/sd_update/deploy.py --updater ../internal-image-build/sd-update/upd
 Der Sicherungsordner muss neu sein und bleibt privat. Paket danach auf SD
 kopieren und normal neu starten. Eine Kamera, die nicht mehr bootet, benötigt
 weiterhin die [FEL-Wiederherstellung](RECOVERY.md).
+
+## Ergebnis des Gerätetests am 01.11.2026
+
+- Rootfs geschrieben, nach Cache-Invalidierung vollständig verglichen und
+  nach dem Neustart erneut per SHA-256 geprüft:
+  `68bbb40c17e839772db1648082825a4e932903bd126df590a7023277f4cfe2b4`.
+- Kernel und Bootlogo waren bereits identisch und wurden übersprungen.
+  Die übrigen geschützten Systempartitionen haben unveränderte Prüfsummen.
+- WLAN-Datei bytegleich; alle 128 Lua-Einstellungswerte identisch. Die App
+  serialisiert Lua-Tabellen beim Start teilweise in anderer Reihenfolge.
+- Normales Vier-Kachel-Menü vom Nutzer bestätigt. Danach ein neues Foto
+  mit 3264 × 2448 Pixeln und fünf unterschiedliche, vollständig dekodierte
+  Stream-Bilder mit 320 × 240 Pixeln geprüft.
+- Paket wurde in `.done` umbenannt; kein erneuter Updateauslöser vorhanden.
+  Die Installationsbrücke wurde automatisch aus dem Overlay entfernt.
+- Testpakete und Protokolle anschließend privat gesichert und von SD entfernt.
+  Ein bereits vorhandenes FAT-Dirty-Bit wurde bereinigt; abschließender
+  Dateisystemcheck ohne weitere Änderungen: Rückgabewert 0.
+
+Das private Paket basiert auf dem 16-MiB-Image
+`8b1aed37c86bb3ed7ed3e62d6b59bb40edff914b9d33fadc1c8de86bc65808b7`.
+Dies ist keine Prüfsumme einer vollständigen neuen Flash-Rücklesung: Der
+SD-Updater erhält bewusst das vorhandene Overlay und die Bootumgebung.

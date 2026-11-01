@@ -40,6 +40,11 @@ static uint32_t *pixels;
 static struct fb_var_screeninfo vi;
 static struct fb_fix_screeninfo fi;
 static int fb=-1;
+static uint32_t logical_pixels[320*240];
+#include "display.h"
+/* Explicit wire layout for this kernel's measured 16-byte ARM32 evdev ABI. */
+struct update_input_event {int32_t sec,usec;uint16_t type,code;int32_t value;};
+_Static_assert(sizeof(struct update_input_event)==16,"ARM32 evdev ABI");
 
 /* SHA-256, FIPS 180-4, streaming implementation. */
 typedef struct {uint32_t h[8];uint64_t n;unsigned char b[64];unsigned used;} SHA;
@@ -69,23 +74,26 @@ static void screen(const char *a,const char *b,const char *c){
  printf("%s | %s | %s\n",a,b,c);fflush(stdout);
  if(journal){fprintf(journal,"%s | %s | %s\n",a,b,c);fflush(journal);fsync(fileno(journal));}
  if(!pixels)return;
- /* Draw both framebuffer pages so the stopped GUI cannot leave a stale page. */
- for(unsigned y=0;y<vi.yres_virtual;y++)for(unsigned x=0;x<vi.xres;x++)pixels[y*(fi.line_length/4)+x]=0xff102030;
+ for(unsigned i=0;i<320*240;i++)logical_pixels[i]=0xff102030;
  const char *lines[]={"V316 FIRMWARE UPDATE",a,b,c};
- for(unsigned page=0;page<vi.yres_virtual;page+=vi.yres){
+ {
   for(int l=0;l<4;l++)for(int i=0;lines[l][i]&&i<33;i++){
    unsigned ch=(unsigned char)lines[l][i];if(ch<32||ch>126)ch='?';
    for(int y=0;y<18;y++)for(int x=0;x<9;x++)if(font[ch-32][y]&(1u<<x)){
-    unsigned py=page+32+l*42+y,px=10+i*9+x;
-    if(py<vi.yres_virtual&&px<vi.xres)pixels[py*(fi.line_length/4)+px]=0xffffffff;
+    unsigned py=32+l*42+y,px=10+i*9+x;
+    if(py<240&&px<320)logical_pixels[py*320+px]=0xffffffff;
    }
   }
  }
+ /* Landscape UI -> portrait LCD, matching the camera's native rotation. */
+ for(unsigned y=0;y<240;y++)for(unsigned x=0;x<320;x++)pixels[x*240+239-y]=logical_pixels[y*320+x];
+ if(update_display_present()<0){pixels=NULL;fprintf(stderr,"DISPLAY OVERLAY COMMIT FEHLER\n");}
 }
 static void fb_open(void){
  fb=open("/dev/fb0",O_RDWR|O_CLOEXEC);if(fb<0)return;
  if(ioctl(fb,FBIOGET_VSCREENINFO,&vi)||ioctl(fb,FBIOGET_FSCREENINFO,&fi)||vi.bits_per_pixel!=32||vi.xres!=320||vi.yres!=240||fi.line_length<1280||fi.smem_len<fi.line_length*vi.yres_virtual)return;
- void*p=mmap(NULL,fi.smem_len,PROT_READ|PROT_WRITE,MAP_SHARED,fb,0);if(p!=MAP_FAILED)pixels=p;
+ void*p=mmap(NULL,fi.smem_len,PROT_READ|PROT_WRITE,MAP_SHARED,fb,0);
+ if(p!=MAP_FAILED&&update_display_open(p,fi.smem_len)==0)pixels=p;
 }
 static void fail(const char *s){
  screen(committed?"UPDATE FEHLGESCHLAGEN":"UPDATE ABGEBROCHEN",s,committed?"FEL-RETTUNG ERFORDERLICH":"FLASH UNVERAENDERT");
@@ -136,23 +144,33 @@ static void preflight(void){
 }
 static int offer(void){
  fb_open();if(!pixels)fail("DISPLAY NICHT VERFUEGBAR");
- int fd=open("/dev/input/event0",O_RDONLY|O_NONBLOCK|O_CLOEXEC);char name[80]={0};
- if(fd<0||ioctl(fd,EVIOCGNAME(sizeof name),name)<0||strcmp(name,"sunxi-gpadc0"))fail("TASTATUR UNBEKANNT");
- if(ioctl(fd,EVIOCGRAB,1))fail("TASTATUR BELEGT");
- struct input_event ev;while(read(fd,&ev,sizeof ev)==sizeof ev){}
- unsigned char keys[(KEY_MAX+8)/8]={0};if(ioctl(fd,EVIOCGKEY(sizeof keys),keys)<0)fail("TASTENSTATUS FEHLT");
- int released=!(keys[KEY_ENTER/8]&(1<<(KEY_ENTER%8)));struct timespec clock;clock_gettime(CLOCK_MONOTONIC,&clock);double start=clock.tv_sec+clock.tv_nsec/1e9,pressed=0;
- screen("NEUE FIRMWARE AUF SD","OK 2 SEKUNDEN HALTEN","ANDERE TASTE: ABBRUCH");
+ struct pollfd inputs[3];
+ const char*names[]={"sunxi-gpadc0","axp22x-powerkey","gpiokey"};
+ for(int i=0;i<3;i++){
+  char path[48],name[80]={0};snprintf(path,sizeof path,"/dev/input/event%d",i);
+  inputs[i]=(struct pollfd){open(path,O_RDONLY|O_NONBLOCK|O_CLOEXEC),POLLIN,0};
+  if(inputs[i].fd<0||ioctl(inputs[i].fd,EVIOCGNAME(sizeof name),name)<0||strcmp(name,names[i]))fail("TASTATUR UNBEKANNT");
+  if(ioctl(inputs[i].fd,EVIOCGRAB,1))fail("TASTATUR BELEGT");
+  struct update_input_event ev;while(read(inputs[i].fd,&ev,sizeof ev)==sizeof ev){}
+ }
+ unsigned char keys[(KEY_MAX+8)/8]={0};if(ioctl(inputs[2].fd,EVIOCGKEY(sizeof keys),keys)<0)fail("TASTENSTATUS FEHLT");
+ /* Measured on this board: physical OK/shutter = gpiokey KEY_MENU (139). */
+ int released=!(keys[KEY_MENU/8]&(1<<(KEY_MENU%8)));struct timespec clock;clock_gettime(CLOCK_MONOTONIC,&clock);double start=clock.tv_sec+clock.tv_nsec/1e9,pressed=0;
+ screen("NEUE FIRMWARE AUF SD","OK / AUSLOESER 2 S HALTEN","ANDERE TASTE: ABBRUCH");
+ if(!pixels)fail("DISPLAYAUSGABE FEHLGESCHLAGEN");
  for(;;){
   clock_gettime(CLOCK_MONOTONIC,&clock);double now=clock.tv_sec+clock.tv_nsec/1e9;if(now-start>=30)break;
-  struct pollfd p={fd,POLLIN,0};poll(&p,1,100);
-  while(read(fd,&ev,sizeof ev)==sizeof ev){if(ev.type!=EV_KEY)continue;
-   if(ev.code==KEY_ENTER){if(!ev.value){released=1;pressed=0;}else if(ev.value==1&&released)pressed=now;}
-   else if(ev.value==1){close(fd);return 0;}
+  poll(inputs,3,100);
+  for(int i=0;i<3;i++){
+   struct update_input_event ev;
+   while(read(inputs[i].fd,&ev,sizeof ev)==sizeof ev){if(ev.type!=EV_KEY)continue;
+    if(i==2&&ev.code==KEY_MENU){if(!ev.value){released=1;pressed=0;}else if(ev.value==1&&released)pressed=now;}
+    else if(ev.value==1){for(int j=0;j<3;j++)close(inputs[j].fd);return 0;}
+   }
   }
-  if(pressed&&now-pressed>=2){if(!powered())fail("USB-STROM ERFORDERLICH");close(fd);return 10;}
+  if(pressed&&now-pressed>=2){if(!powered())fail("USB-STROM ERFORDERLICH");for(int i=0;i<3;i++)close(inputs[i].fd);return 10;}
  }
- close(fd);screen("UPDATE UEBERSPRUNGEN","KEINE BESTAETIGUNG","NORMALER START");return 0;
+ for(int i=0;i<3;i++)close(inputs[i].fd);screen("UPDATE UEBERSPRUNGEN","KEINE BESTAETIGUNG","NORMALER START");return 0;
 }
 static void move_mount(const char*from,const char*to){mkdir(to,0755);if(mount(from,to,NULL,MS_MOVE,NULL))fail("MOUNT-VERSCHIEBUNG FEHLER");}
 static void busy_report(void){

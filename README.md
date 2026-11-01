@@ -7,13 +7,16 @@
 | ![Fotoeinstellungen mit einheitlichen Karten und goldener Auswahl](pictures/setup-photo.png) | ![Untermenü Automatisch aus mit markiertem aktivem Wert](pictures/setup-submenu.png) |
 | **Welcome-Bild** | **Abschaltbild** |
 | ![Neues Welcome-Startbild](pictures/welcome-screen.png) | ![Neues Abschaltbild mit Landschaftsmotiv](pictures/byebye-screen.png) |
+| **Firmwareupdate von SD** | **Updateablauf** |
+| <img src="pictures/Upload_SD_Firmware.jpg" width="320" alt="Kameradisplay beim echten SD-Firmwareupdate: Rootfs wird geschrieben, 28 Prozent"> | Paket auf FAT32-SD kopieren, per USB starten und **OK/Auslöser zwei Sekunden halten**. Die Kamera schreibt aus dem RAM, prüft durch vollständiges Rücklesen und startet neu. [Vollständige Anleitung und Testergebnis](docs/SD_UPDATE.md). |
 
 Das Hauptmenü und das Streamingbild wurden am 31.10.2026 direkt von der Kamera
 aufgenommen. Das Livebild zeigt den Lötarbeitsplatz.
+Das Foto des laufenden SD-Updates stammt vom erfolgreichen Gerätetest am 01.11.2026.
 Die Setup-/Untermenü-Screenshots dokumentieren die Menüüberarbeitung vom
 28.10.2026. Start- und Abschaltbild sind PNG-Vorschauen der installierten BMPs.
 
-Stand: **31.10.2026**. Dokumentation und Werkzeuge für das reparierte Board
+Stand: **01.11.2026**. Dokumentation und Werkzeuge für das reparierte Board
 mit 16-MiB-Fudan-SPI-Flash (`a1 40 18`). Die ausgelesene SoC-Kennung wird
 von **sunxi-fel als Allwinner V536 interpretiert**. Das ist die Zuordnung
 des Werkzeugs und keine Feststellung einer Umlabelung des SoC.
@@ -143,6 +146,10 @@ den tatsächlich geprüften Umfang, nicht nur geplante Funktionen.
 - Foto und kurzes Video auf leerer Medien-SD aufgenommen und vollständig
   dekodiert; anschließend wieder funktionierendes Livebild.
 - Betrieb während dieser Prüfung über externe Versorgung ohne Akku.
+- **SD-Firmwareupdate:** Paket auf SD, beim Start OK/Auslöser zwei Sekunden
+  halten. Schreiben aus dem RAM, vollständige Rückleseprüfung und Neustart
+  am 01.11.2026 erfolgreich getestet; Einstellungen und WLAN bleiben erhalten.
+  [Anleitung und Grenzen](docs/SD_UPDATE.md). FEL bleibt der Rettungsweg.
 
 Der Stream zeigt die Display-Vorschau mit 320 × 240 Pixeln. **Das Display
 muss angeschlossen sein:** Ohne Display lieferte der getestete Aufnahmeweg
@@ -162,7 +169,7 @@ Neue Hardwarefotos: [UART-/FEL-Anschlüsse](pictures/zus%C3%A4tzliche-anschl%C3%
 | `tools/ui_theme/` | Aktueller Renderer, Übersetzungen, Ressourcen-Builder |
 | `tools/streaming/` | Streaming-/Webquellen; Legacy-SD-Installer |
 | `tools/build_internal_image.py` | Internes 16-MiB-Image bauen |
-| `tools/sd_update/` | Experimenteller SD-Updater; RAM-Neustart getestet, echter Flash-Test noch offen: [Stand und Anleitung](docs/SD_UPDATE.md) |
+| `tools/sd_update/` | Auf diesem Board geprüfter SD-Updater mit Bestätigung und Rückleseprüfung: [Stand und Anleitung](docs/SD_UPDATE.md) |
 | `tools/verify_internal_image.py` | Dateisystem, Bibliotheken und XZ prüfen |
 | `tools/camera_uart.py`, `tools/sh.py`, `tools/logger.py` | UART-Zugang |
 | `tools/capture_runtime.py`, `tools/backup_internal.py` | Private Sicherungen |

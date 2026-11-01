@@ -85,6 +85,7 @@ def assemble():
         raise RuntimeError('Build tools/sd_update/build.py into WORK/sd-update/updater first')
     put(updater,'opt/cam/update/updater')
     put(ROOT/'tools/sd_update/sd_update.sh','opt/cam/update/sd_update.sh')
+    put(ROOT/'tools/sd_update/init.sh','etc/init.d/S99sdupdate')
     for folder in ('bin','lib','www'):
         tree(runtime/folder,'opt/cam/'+folder)
     for name in ('start_streaming.sh','stop_streaming.sh','network_mode.sh'):
@@ -120,7 +121,6 @@ def assemble():
     head=head.replace('/mnt/extsd/core.%e.%p','/tmp/core.%e.%p')
     body='''    mkdir -p /tmp/v316-data /tmp/event
     /usr/bin/sdvcam >/tmp/sdvcam.log 2>&1 </dev/null &
-    /opt/cam/update/sd_update.sh start
     hwclock --hctosys
 }
 stop() {
@@ -160,6 +160,7 @@ exit 0
         pseudo.append(f'{path} m {mode} 0 0')
     if not any(line.startswith('opt m ') for line in pseudo):pseudo.append('opt m 755 0 0')
     pseudo.append('data/wlan.conf m 600 0 0')
+    pseudo.append('etc/init.d/S99sdupdate m 755 0 0')
     pf=WORK/'modes.pseudo'
     pf.write_text('\n'.join(pseudo)+'\n')
     sq=WORK/'standalone.squashfs'

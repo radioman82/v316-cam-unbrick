@@ -4,9 +4,9 @@ Das getestete Komplettimage enthält private WLAN-Daten und bleibt lokal.
 Die öffentliche 16-MiB-Datei ist die ältere Rettungsbasis. Für einen eigenen
 Build wird eine eigene gesicherte Laufzeitinstallation benötigt.
 
-Der aktuelle Builder nimmt auch den **experimentellen SD-Updater** auf.
-Dessen echter Flash-Test ist noch offen; [Teststand und Grenzen](SD_UPDATE.md)
-vor dem Einsatz beachten. Die laufende Kamera wurde damit noch nicht neu geflasht.
+Der aktuelle Builder enthält den **auf diesem Board geprüften SD-Updater**.
+Am 01.11.2026 wurden Schreiben, Rücklesen, Neustart und Funktion geprüft;
+[Teststand und Grenzen](SD_UPDATE.md) vor dem Einsatz beachten.
 
 ## Voraussetzungen
 
@@ -56,7 +56,8 @@ Extraktion, Inhalte, Symlink-Ziele, ELF-Bibliotheksnamen und interne
 Startpfade. Ein kleiner XZ-Mount auf der erreichbaren Kamera prüft die
 Kernel-Unterstützung im RAM, ohne den Flash zu ändern.
 
-Installation weiterhin per FEL und vollständiger Rücklesung. Der eingebaute
-[SD-Updater](SD_UPDATE.md) wird noch erprobt. Anschließend Kaltstart ohne SD,
+Erstinstallation und Rettung per FEL mit vollständiger Rücklesung. Auf der
+entsprechend vorbereiteten Kamera sind weitere Updates über den eingebauten
+[SD-Updater](SD_UPDATE.md) möglich. Anschließend Kaltstart ohne SD,
 Menüs/STREAM sowie Aufnahmeprüfung mit leerer Medienkarte. Zeitstempel
 können die SHA-256 eines Neubaus ändern; sein eigenes Manifest ist maßgeblich.

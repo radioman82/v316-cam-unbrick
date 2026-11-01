@@ -5,16 +5,22 @@ UP=/opt/cam/update/updater
 PKG=/mnt/extsd/firmware-update.bin
 LOCK=/tmp/v316-sd-update.lock
 case "$1" in
-  start) "$BB" setsid "$0" watch >/tmp/sd-update.log 2>&1 </dev/null & exit 0 ;;
+  start)
+    # Ignore HUP before forking, closing the race with init's parent exit.
+    trap '' HUP
+    "$BB" setsid "$0" watch >/tmp/sd-update.log 2>&1 </dev/null &
+    exit 0 ;;
   watch) ;;
   prepare-test) ;;
   *) exit 2 ;;
 esac
 mkdir "$LOCK" 2>/dev/null || exit 0
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+echo "SD_UPDATE watcher started pid=$$"
 if [ "$1" = watch ]; then
     # Let the native app finish display/USB/card initialization first.
     sleep 8
+    echo 'SD_UPDATE checking media'
     # Do not flash after a late card insertion while recording.
     n=0
     while [ "$n" -lt 20 ]; do
@@ -22,8 +28,9 @@ if [ "$1" = watch ]; then
         sleep 1
         n=$((n+1))
     done
-    [ -f "$PKG" ] || exit 0
+    [ -f "$PKG" ] || { echo 'SD_UPDATE no package'; exit 0; }
 fi
+echo 'SD_UPDATE validating package'
 "$UP" --preflight "$PKG" || exit 1
 mkdir -p /tmp/v316-update
 mount -t tmpfs -o size=1m tmpfs /tmp/v316-update || exit 1

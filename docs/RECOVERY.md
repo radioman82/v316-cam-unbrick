@@ -53,9 +53,10 @@ das neue SD-unabhängige Komplettimage.
 Versorgung und USB während Schreiben/Prüfen nicht trennen. Erst bei
 identischen Prüfsummen FEL-Kontakt lösen und normal starten. Eine Image-
 Datei auf SD installiert sich nicht allein durch Umbenennen. Der neue
-[experimentelle SD-Updater](SD_UPDATE.md) benötigt ein verpacktes Image und eine
-Tastenbestätigung. Sein tatsächlicher Flash-Test steht noch aus; FEL bleibt
-der vollständig geprüfte Installations- und Rettungsweg.
+[SD-Updater](SD_UPDATE.md) benötigt ein verpacktes Image und eine
+Tastenbestätigung. Schreiben, Rücklesen und Neustart wurden am 01.11.2026
+auf diesem Board geprüft. FEL bleibt für die Erstinstallation sowie bei
+nicht mehr startender Firmware nötig.
 
 Zuerst ohne SD starten und Menüs/Streaming prüfen, dann mit leerer
 Medienkarte Aufnahme testen. Display für den getesteten Stream anschließen.

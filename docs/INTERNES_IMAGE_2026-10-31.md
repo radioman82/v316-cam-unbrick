@@ -67,16 +67,23 @@ keine Zusage für beliebige Netzteile oder Spannungsausfälle.
 Sicherungen und privates Image bleiben außerhalb von GitHub.
 [Build-Anleitung](BUILD.md) · [Recovery](RECOVERY.md).
 
-## Ergänzung: SD-Updater in Entwicklung
+## Ergänzung am 01.11.2026: SD-Update erfolgreich installiert
 
-Paket-, Hardware- und Fehlertests sowie der echte Init-/RAM-Wechsel mit
-vollständig ausgehängten Flash-Dateisystemen und Neustart sind bestanden.
-Ein tatsächliches Schreiben von rootfs/Kernel/Bootlogo über SD wurde noch
-nicht begonnen. Die Tastenabfrage und der verzögerte Start müssen nach den
-letzten Korrekturen erneut auf der Kamera geprüft werden; danach folgen
-Flashen, Rücklesen und Funktionstest. Details: [SD_UPDATE.md](SD_UPDATE.md).
+Nach den RAM- und Fehlertests vom Vortag wurde das Rootfs tatsächlich über
+SD aktualisiert, vollständig zurückgelesen und nach dem Neustart erneut
+geprüft. SHA-256 der installierten Rootfs-Partition:
+`68bbb40c17e839772db1648082825a4e932903bd126df590a7023277f4cfe2b4`.
+Kernel und Bootlogo waren identisch und wurden übersprungen; die übrigen
+geschützten Systempartitionen blieben unverändert.
 
-Zum Sitzungsende wurden der vorläufige Start-Hook und die Testprogramme aus
-dem Overlay entfernt. Auf SD liegen wieder ausschließlich die Medienstruktur
-und das Windows-Verzeichnis. Die bisherige Systemfirmware bleibt installiert;
-es gibt keinen aktiven automatischen SD-Update-Start.
+Der Updater startet jetzt spät über `S99sdupdate`. Die sichtbare Abfrage
+verwendet eine eigene Displayebene und stellt den ursprünglichen Bildpuffer
+wieder her. Die physische OK-/Auslösetaste wurde am Board gemessen und geprüft.
+WLAN-Datei und alle 128 Einstellungswerte sind erhalten geblieben. Das normale
+Vier-Kachel-Menü wurde vom Nutzer bestätigt. Danach wurden eine neue
+3264 × 2448-Aufnahme und fünf unterschiedliche Stream-Bilder geprüft.
+
+Die Installationsbrücke wurde automatisch entfernt. Der Updater selbst liegt
+jetzt im internen Image; auf SD liegen nach der Testbereinigung wieder nur
+Medien und das Windows-Verzeichnis. Das neue private Paket und die
+Testnachweise bleiben außerhalb von GitHub. [Anleitung und Grenzen](SD_UPDATE.md).

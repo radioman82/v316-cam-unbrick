@@ -7,7 +7,7 @@ if [ -x /squashfs/opt/cam/update/updater ]; then
     rm -f /overlay/upperdir/opt/cam/update/updater
     rm -f /overlay/upperdir/opt/cam/update/sd_update.sh
     rm -f /overlay/upperdir/etc/init.d/S02sdupdate
+    rm -f /overlay/upperdir/etc/init.d/S99sdupdate
     sync
-else
-    /opt/cam/update/sd_update.sh start
 fi
+/opt/cam/update/sd_update.sh start

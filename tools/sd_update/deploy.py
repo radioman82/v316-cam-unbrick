@@ -41,7 +41,8 @@ def main():
             (args.backup/name).write_bytes(c.read('/data/'+name))
         for remote, local in (('/opt/cam/update/updater', 'updater'),
                               ('/opt/cam/update/sd_update.sh', 'sd_update.sh'),
-                              ('/etc/init.d/S02sdupdate', 'S02sdupdate')):
+                              ('/etc/init.d/S02sdupdate', 'S02sdupdate'),
+                              ('/etc/init.d/S99sdupdate', 'S99sdupdate')):
             if c.run(f'if [ -f {remote} ]; then echo yes; fi') == 'yes':
                 (args.backup/local).write_bytes(c.read(remote))
         c.run('mkdir -p /tmp/v316-update-stage /opt/cam/update')
@@ -61,8 +62,8 @@ def main():
                 c.run(f'rm -f {target}.new; sync')
                 raise
         if args.install_bootstrap:
-            upload(c, (HERE/'bootstrap.sh').read_bytes(), '/tmp/v316-update-stage/S02sdupdate')
-            c.run('cp /tmp/v316-update-stage/S02sdupdate /etc/init.d/S02sdupdate.new && chmod 755 /etc/init.d/S02sdupdate.new && mv /etc/init.d/S02sdupdate.new /etc/init.d/S02sdupdate')
+            upload(c, (HERE/'bootstrap.sh').read_bytes(), '/tmp/v316-update-stage/S99sdupdate')
+            c.run('cp /tmp/v316-update-stage/S99sdupdate /etc/init.d/S99sdupdate.new && chmod 755 /etc/init.d/S99sdupdate.new && mv /etc/init.d/S99sdupdate.new /etc/init.d/S99sdupdate && rm -f /overlay/upperdir/etc/init.d/S02sdupdate')
         c.run('sync')
         print('BRIDGE_INSTALLED_NO_FLASH_STARTED', flush=True)
     finally:

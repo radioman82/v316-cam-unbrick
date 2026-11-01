@@ -186,3 +186,11 @@ Unabhängig davon fehlte beim Aufruf des nativen SETUP-Menüwechsels ein
 fünfter Parameter. Der Renderer übergibt nun ausdrücklich den Übergangstyp
 2 und reicht ihn auch durch den Vorschau-Nachrichtenhook weiter.
 Die Framerate-Vergleichsmessung bleibt bis zur erneuten Geräteprüfung offen.
+
+Die Reparatur erfolgte anschließend über FEL: Systempartition mit korrigiertem
+Renderer ersetzt, gesichertes Overlay neu angelegt und alle anderen Partitionen
+erhalten. Die vollständige 16-MiB-Rücklesung war bytegleich zum Reparaturimage.
+Nach normalem Start stimmten App- und Systemprüfsumme; WLAN und HTTP liefen,
+ein 320 × 240-JPEG wurde vollständig dekodiert. Der Nutzer bestätigte, dass
+SETUP mit den Kameratasten wieder öffnet. Im kurzen Nachtest erschienen keine
+neuen Dateisystemfehler; eine Langzeitprüfung steht weiterhin aus.

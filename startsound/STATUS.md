@@ -1,4 +1,77 @@
-# Startsound — Stand 02.11.2026 (Bootloop nach Live-Tausch, Rettung vorbereitet)
+# Startsound — Stand 02.11.2026
+
+## Neuer, nachgeprüfter Stand (ersetzt die damaligen Vermutungen unten)
+
+- Neuester Stand ersetzt den verzögerten Menü-Helfer:
+  `docs/GUI_STARTUP_2026-11-02.md`. Hintergrund-Löschen respektiert jetzt den
+  HDC/Zeichenbereich; automatisches Öffnen erfolgt auf dem GUI-Thread.
+  Helfer und künstliche Start-Tastendrücke entfernt. RAM-Test und installierter
+  Neustart geprüft; 40-Bild-Folge ohne schwarzen Rückfall nach erstem Menübild.
+  Aktuelle App MD5 `c06e035bc0262bc55de95849c5110297`, Rootfs MD5
+  `8e132c1f4f931fdb903c016326bb6c49`. Startsound unverändert.
+  Bevorzugtes aktuelles Rettungsimage:
+  `D:\ct9000\gui-startup-fix-20261102\V316CM_GUI_STARTUP_PRIVATE_16MiB.bin`.
+  Abschaltton funktioniert; Abschaltbild beim letzten Test weiterhin nicht
+  sichtbar und ausdrücklich noch nicht als repariert bestätigt.
+- Menü-Startfehler anschließend behoben (siehe `docs/BOOT_MENU_2026-11-02.md`):
+  Menü wurde automatisch geöffnet, danach aber durch späte Startzeichnungen
+  übermalt. LCD blieb an, Fensterstatus blieb sichtbar, Bildpuffer war dunkel.
+  Ein einmaliger Starthelfer ruft das Menü nach der Initialisierung erneut auf.
+  Alte Overlay-Version von S01app reversibel nach
+  `/overlay/recovery-S01app-before-boot-menu` verschoben.
+  Zwei Neustartprüfungen: alle vier Kacheln im Bildpuffer sichtbar, App stabil,
+  Rootfs und unveränderter lauterer Startsound per MD5 bestätigt.
+  Neues bevorzugtes Rettungsimage mit bereinigtem Overlay:
+  `D:\ct9000\boot-menu-fix-20261102\V316CM_BOOT_MENU_RESCUE_PRIVATE_16MiB.bin`.
+- Aktuell installiert: `neu1_gain2_limited.wav` aus `neu1.wav` mit Faktor 2
+  (+6,02 dB) vor einem Lookahead-Limiter (Limit 0,98, Attack 5 ms,
+  Release 50 ms, kein Auto-Level). Original unverändert erhalten.
+  Gemessener mittlerer Pegel +2,1395 dB; Spitzen müssen begrenzt werden,
+  weil bereits das Original 0 dBFS erreicht. Länge und Format unverändert.
+  Image/Paket/Prüfsummen/Geräteprüfung:
+  `D:\ct9000\startup-neu1-gain2-limited-20261102\`.
+  Nach Installation und Neustart geprüft: aktive WAV MD5
+  `d7fd94bb2a8b9c392a37d66e6c8515e9`; Rootfs MD5
+  `81a5eca850d4bde605e9a6772b88d63a`; beide identisch zur Build-Ausgabe.
+  `sdvcam` PID 758 stabil, Updater meldet vollständige Rückleseprüfung.
+  Voriges SD-Paket erhalten als `/mnt/extsd/firmware-update-neu1.done`.
+  Software-Tastenbestätigung im Update-Dialog wirkungslos; Installation
+  mit ausdrücklicher Benutzerfreigabe über den vorhandenen RAM-/PID1-
+  Updater gestartet. Hörprobe durch Benutzer noch offen.
+- Linux und UART waren erreichbar. `sdvcam` lief beim Welcome-Hänger nicht.
+- Der aktive `startup.wav` war eine 20-Byte-Overlay-Datei mit dem Text
+  `gzip: invalid magic\n`. Die intakte SquashFS-Datei darunter blieb erhalten
+  (158804 Byte, MD5 `18b0542c4ff38064e9e8667dd61326b4`).
+- Defekte Datei reversibel nach `/overlay/recovery-startup.wav.corrupt-20b`
+  verschoben. Nach Neustart lief `sdvcam` wieder. Overlay: 71 %, 148 KiB frei.
+- Neues privates Rettungsimage des reparierten Kamerastands:
+  `D:\ct9000\rescue-rebuilt-20261102-verified\V316CM_RESCUE_PRIVATE_16MiB.bin`.
+  SHA256 `cc0345e6bf861099fea8e706ff570ab21c3627abc8758c4ca819988b5e2f0071`.
+  Alle Partitionen per Kamera-MD5 geprüft, unveränderliche Flashbereiche
+  zweimal erneut verglichen, alle 671 regulären Rootfs-Dateien lokal gelesen.
+  Dies ist noch keine FEL-Rückleseprüfung nach einer Wiederherstellung.
+- SD-Rettungspaket, Manifest und SHA256SUMS liegen im gleichen Ordner.
+- Gewünschter neuer Startsound: `startsound/neu1.wav`, unverändert PCM Mono,
+  16 Bit, 44100 Hz, 6,752925 s. SHA256
+  `c773447c15b6aed9f81bb45ff763f2bf838e109ac5729a0a2d2cb4812eade69d`.
+- Neues Sound-Image und Paket: `D:\ct9000\startup-neu1-20261102\`.
+  Nur `usr/share/minigui/res/audio/startup.wav` geändert; 1114 Tar-Einträge
+  einschließlich Metadaten verglichen. Rootfs 10346496 / 11010048 Byte.
+  Paket auf SD hochgeladen, Kamera-Prüfsumme und Updater-Preflight erfolgreich.
+  Installation über den bestehenden SD-Updater bestätigt und erfolgreich:
+  Rootfs geschrieben und vollständig zurückgelesen, Kernel/Bootlogo identisch.
+  Nach Neustart: aktive WAV 595652 Byte, MD5
+  `b27d58a1bff1ccdec95e00974af7224f`, identisch zu `neu1.wav`.
+  Rootfs auf Flash: MD5 `03a3b59fdf9b209a6f4d175677f1afc7`, identisch
+  zum neuen Image. `sdvcam` PID 758 läuft über zwei Prüfzeitpunkte stabil,
+  GUI verarbeitet Tasteneingaben. Hörprobe durch den Benutzer noch offen.
+  Abgeschlossenes Paket auf Kamera: `/mnt/extsd/firmware-update.done`.
+
+Die unten genannten früheren privaten Rettungsdateien waren am 02.11.2026
+nicht mehr vorhanden. Die folgende Rekonstruktion bleibt als Historie erhalten;
+ein voller Overlay oder zwei App-Prozesse sind nicht als aktuelle Ursache belegt.
+
+## Historische Notiz vor der UART-Diagnose
 
 ## Was passiert ist (Rekonstruktion)
 

@@ -208,6 +208,8 @@ def build(internal=False):
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--internal',action='store_true')
+    parser.add_argument('--output-dir',type=Path)
     args=parser.parse_args()
     if args.internal:OUT=ROOT/'firmware/ui_internal'
+    if args.output_dir:OUT=args.output_dir.resolve()
     build(internal=args.internal)

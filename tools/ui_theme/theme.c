@@ -332,9 +332,19 @@ int theme_window_proc(O hwnd,int msg,O wp,O lp) {
     if(msg==0xb0){
         O self=FN(0x1be28,O(*)(O))(hwnd);
         if(menu_window(self)){
-            O dc=FN(0x1cb5c,O(*)(O))(hwnd);Rect r;RECT(hwnd,&r);
-            box(dc,0,0,r.r,r.b,BG);
-            FN(0x1cf00,void(*)(O))(dc);return 0;
+            /* MSG_ERASEBKGND supplies a clipped HDC and optional screen-space
+             * rectangle. A new full-window DC here erased already drawn child
+             * controls (tiles and shutdown artwork) after their paint messages. */
+            O dc=wp?wp:FN(0x1cb5c,O(*)(O))(hwnd);Rect r;RECT(hwnd,&r);
+            if(lp){
+                Rect clip=*(Rect*)(uintptr_t)lp;
+                FN(0x1c294,void(*)(O,int*,int*))(hwnd,&clip.l,&clip.t);
+                FN(0x1c294,void(*)(O,int*,int*))(hwnd,&clip.r,&clip.b);
+                if(clip.l>r.l)r.l=clip.l;if(clip.t>r.t)r.t=clip.t;
+                if(clip.r<r.r)r.r=clip.r;if(clip.b<r.b)r.b=clip.b;
+            }
+            if(r.r>r.l&&r.b>r.t)box(dc,r.l,r.t,r.r-r.l,r.b-r.t,BG);
+            if(!wp)FN(0x1cf00,void(*)(O))(dc);return 0;
         }
     }
     return original_window_proc(hwnd,msg,wp,lp);
@@ -348,10 +358,10 @@ static O window(int id) {
     }return 0;
 }
 
-/* OnWindowLoaded runs twice during boot. The first call precedes tile resource
- * loading; the second follows it. Complete the native preview initialization,
- * then open the existing tile window in the same GUI call. A per-process marker
- * avoids adding writable globals to this renderer's RX-only ELF segment. */
+/* Resource callbacks also run on a worker thread. Preserve the original manager
+ * notification here, but defer all window operations to completed GUI dispatch.
+ * The second callback follows tile resource loading. Markers avoid writable
+ * globals in this renderer's RX-only ELF segment. */
 void theme_startup_window_loaded(O presenter) {
     O manager=GET(presenter,0x90);
     if(manager)FN(GET(GET(manager,0),0x78),void(*)(O,int,int))(manager,11,0);
@@ -365,12 +375,26 @@ void theme_startup_window_loaded(O presenter) {
         if(f)FN(0x1d0c8,int(*)(void*))(f);
         return;
     }
-    O preview=window(2),tiles=preview?GET(preview,0x114):0;
-    if(!tiles||!GET(tiles,0xec))return;
+    char ready[64];
+    FN(0x1c73c,int(*)(char*,unsigned,const char*,...))(ready,sizeof ready,"/tmp/v316cm-tiles-ready-%d",pid);
+    void*f=FN(0x1c7d0,void*(*)(const char*,const char*))(ready,"w");
+    if(f)FN(0x1d0c8,int(*)(void*))(f);
+}
+
+static void startup_menu_after_dispatch(void) {
+    int pid=FN(0x1bfa8,int(*)(void))();char ready[64],done[64];
+    FN(0x1c73c,int(*)(char*,unsigned,const char*,...))(ready,sizeof ready,"/tmp/v316cm-tiles-ready-%d",pid);
+    FN(0x1c73c,int(*)(char*,unsigned,const char*,...))(done,sizeof done,"/tmp/v316cm-tiles-done-%d",pid);
+    if(!FN(0x1cc3c,int(*)(const char*,int))(done,0)||FN(0x1cc3c,int(*)(const char*,int))(ready,0))return;
+    O manager=*(O*)0x35f9e0,preview=window(2);
+    if(!manager||GET(manager,0x60)!=2||!preview||!BYTE(preview,12))return;
+    O tiles=GET(preview,0x114),view=tiles?GET(tiles,0xec):0;
+    if(!tiles||!view||!GET(tiles,0x2c)||!GET(view,0x2c))return;
+    /* Disarm before Show(): it can synchronously dispatch nested messages. */
     void*f=FN(0x1c7d0,void*(*)(const char*,const char*))(done,"w");
-    if(!f)return;
-    FN(0x1d0c8,int(*)(void*))(f);
+    if(!f)return;FN(0x1d0c8,int(*)(void*))(f);
     FN(GET(GET(tiles,0),0x6c),void(*)(O))(tiles);
+    INV(GET(tiles,0x2c),0,1);INV(GET(view,0x2c),0,1);
 }
 
 /* Refuse a mode transition while the recorder owns a writable media file.
@@ -536,5 +560,7 @@ int theme_dispatch(void*msg) {
             }
         }
     }
-    return FN(0x1cd1c,int(*)(void*))(msg);
+    int result=FN(0x1cd1c,int(*)(void*))(msg);
+    startup_menu_after_dispatch();
+    return result;
 }

@@ -1,3 +1,29 @@
+# Defaults: text files are stored with LF in the repository, checked out native.
+* text=auto
+
+# Source and scripts: LF everywhere, no CR in the repo.
+*.c    text eol=lf
+*.h    text eol=lf
+*.py   text eol=lf
+*.sh   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.txt  text eol=lf
+
+# Binary assets: never touch, never diff as text.
+*.png  -text
+*.jpg  -text
+*.bmp  -text
+*.wav  -text
+*.FCStd -text
+*.stl  -text
+*.3mf  -text
+*.bin  -text
+*.uImage -text
+
+# Raw UART captures: control bytes and \r\r\n are the content, never normalize.
+docs/bootlog_com11.txt -text
+
 tools/streaming/www/cgi-bin/* text eol=lf
 tools/streaming/*.c text eol=lf
 tools/streaming/vendor/*.h text eol=lf

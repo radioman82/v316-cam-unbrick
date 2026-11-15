@@ -18,9 +18,14 @@ ehthumbs.db
 *.tmp
 *.bak
 *.swp
+*.FCBak
+
+# Workspace scratch (empty by convention, never committed)
+/tmp/
 
 # Private camera data and generated diagnostics
 /pictures/welcome images/
+/pictures/Geh*/
 /firmware/splash/backup-*/
 /firmware/ui_internal/
 **/wlan.conf
@@ -30,3 +35,18 @@ ehthumbs.db
 **/firmware-update*.bin
 **/firmware-update*.installing
 **/firmware-update*.done
+
+# Enclosure CAD history: keep only the final revision and the views the README
+# links to. Earlier revisions stay on disk but out of the repository.
+/hardware/gehaeuse/CT9000_Gehaeuse_V[0-9].FCStd
+/hardware/gehaeuse/CT9000_Gehaeuse_V1[01].FCStd
+/hardware/gehaeuse/STL_V11/
+/hardware/gehaeuse/OK_Button_Oben/*_V2_0_5mm.*
+/hardware/gehaeuse/OK_Button_Oben/*_V3_9x9_13x13.*
+/hardware/gehaeuse/CT9000_V0_*.png
+/hardware/gehaeuse/CT9000_V1_*.png
+/hardware/gehaeuse/CT9000_V2_*.png
+/hardware/gehaeuse/CT9000_V6_*.png
+/hardware/gehaeuse/CT9000_V7_*.png
+/hardware/gehaeuse/CT9000_V8_*.png
+/hardware/gehaeuse/CT9000_V9_*.png
